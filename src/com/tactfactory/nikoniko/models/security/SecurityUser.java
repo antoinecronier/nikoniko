@@ -29,6 +29,15 @@ public class SecurityUser extends DatabaseItem {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
+	public SecurityUser(String table, String[] fields, String login,
+			String password) {
+		super(table, fields);
+		this.login = login;
+		this.password = password;
+	}
+
+	public SecurityUser(String table, String[] fields) {
+		super(table, fields);
+	}
 }

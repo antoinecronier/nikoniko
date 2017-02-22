@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 public class MySQLAccess {
 	private Connection connect = null;
+	public static final String database = "nikoniko";
 
 	/** Constructeur privé */
 	private MySQLAccess() {
@@ -31,7 +32,7 @@ public class MySQLAccess {
 		Class.forName("com.mysql.jdbc.Driver");
 		// Setup the connection with the DB
 		connect = DriverManager
-				.getConnection("jdbc:mysql://localhost/jockeyponey?"
+				.getConnection("jdbc:mysql://localhost/"+database+"?"
 						+ "user=root&password=");
 
 	}

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 
 public class Team extends DatabaseItem {
+	public static final String TABLE = "team";
+	public static final String[] FIELDS = { "id", "name", "serial"};
+
 	private String name;
 	private String serial;
 	private ArrayList<Project> projects;
@@ -59,7 +62,16 @@ public class Team extends DatabaseItem {
 		this.users = users;
 	}
 
+	public Team(String name, String serial) {
+		super(Team.TABLE,Team.FIELDS);
+		this.name = name;
+		this.serial = serial;
+		this.projects = new ArrayList<Project>();
+		this.users = new ArrayList<User>();
+	}
+
 	public Team(){
+		super(Team.TABLE,Team.FIELDS);
 		this.projects = new ArrayList<Project>();
 		this.users = new ArrayList<User>();
 	}

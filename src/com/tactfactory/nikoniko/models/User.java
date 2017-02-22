@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import com.tactfactory.nikoniko.models.security.SecurityUser;
 
 public class User extends SecurityUser {
+	public static final String TABLE = "user";
+	public static final String[] FIELDS = { "id", "login", "password",
+			"lastname","firstname","registration_cgi"};
+
 	private String lastname;
 	private String firstname;
 	private String registration_cgi;
@@ -72,7 +76,17 @@ public class User extends SecurityUser {
 		this.teams = teams;
 	}
 
+	public User(String login, String password, String lastname, String firstname, String registration_cgi) {
+		super(User.TABLE,User.FIELDS,login,password);
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.registration_cgi = registration_cgi;
+		this.nikoNikos = new ArrayList<NikoNiko>();
+		this.teams = new ArrayList<Team>();
+	}
+
 	public User(){
+		super(User.TABLE,User.FIELDS);
 		this.nikoNikos = new ArrayList<NikoNiko>();
 		this.teams = new ArrayList<Team>();
 	}
