@@ -131,12 +131,11 @@ public class NikoNiko extends DatabaseItem {
 	}
 
 	public NikoNiko(User user, Project project, int satisfaction) {
-		super(NikoNiko.TABLE,NikoNiko.FIELDS);
+		this();
 		this.user = user;
 		this.project = project;
 		this.setSatisfaction(satisfaction);
 		this.log_date = new Date();
-
 		this.user.getNikoNikos().add(this);
 		this.project.getNikoNikos().add(this);
 	}

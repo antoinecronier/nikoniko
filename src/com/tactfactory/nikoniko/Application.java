@@ -1,5 +1,6 @@
 package com.tactfactory.nikoniko;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.tactfactory.nikoniko.manager.NikoNikoManager;
@@ -25,24 +26,24 @@ public class Application {
 
 		DatabasePurjer.purjeDatabase();
 
-		 NikoNiko niko = new NikoNiko();
-		 niko.setSatisfaction(1);
+		NikoNiko niko = new NikoNiko();
+		niko.setSatisfaction(1);
 
-		 NikoNikoDBManager nikonikoManager = new NikoNikoDBManager();
-		 nikonikoManager.insert(niko);
+		NikoNikoDBManager nikonikoManager = new NikoNikoDBManager();
+		nikonikoManager.insert(niko);
 
-		 User user = new
-		 User("login","password","lastname","firstname","test");
-		 UserDBManager userManager = new UserDBManager();
-		 userManager.insert(user);
+		User user = new User("login", "password", "lastname", "firstname",
+				"test");
+		UserDBManager userManager = new UserDBManager();
+		userManager.insert(user);
 
-		 Team team = new Team("team1","serial1");
-		 TeamDBManager teamManager = new TeamDBManager();
-		 teamManager.insert(team);
+		Team team = new Team("team1", "serial1");
+		TeamDBManager teamManager = new TeamDBManager();
+		teamManager.insert(team);
 
-		 Project project = new Project("project1",new Date());
-		 ProjectDBManager projectManager = new ProjectDBManager();
-		 projectManager.insert(project);
+		Project project = new Project("project1", new Date());
+		ProjectDBManager projectManager = new ProjectDBManager();
+		projectManager.insert(project);
 
 		// Team to project
 		for (int i = 0; i < 10; i++) {
@@ -60,8 +61,8 @@ public class Application {
 
 		// Team user linking
 		for (int i = 0; i < 10; i++) {
-			User userTmp = new User("login" + i, "password" + i, "lastname" + i,
-					"firstname" + i, "registration" + i);
+			User userTmp = new User("login" + i, "password" + i,
+					"lastname" + i, "firstname" + i, "registration" + i);
 			userManager.insert(userTmp);
 			teamManager.insertRelationUser(userTmp, team);
 		}
@@ -73,12 +74,35 @@ public class Application {
 			userManager.insertRelationTeam(user, tmpTeam);
 		}
 
+		User newUser = userManager.getUserById(user.getId());
+		ArrayList<User> users = userManager.getAllUser();
+
+		for (int i = 0; i < 10; i++) {
+			nikonikoManager.insert(new NikoNiko(user,project,i%3+1));
+		}
+
+		User userSelect = new User();
+		userSelect.setId(user.getId());
+		userManager.getAssociatedNikoNiko(userSelect);
+		userManager.getAssociatedTeam(userSelect);
+
+		Project projectSelect = new Project();
+		projectSelect.setId(project.getId());
+		projectManager.getAssociatedNikoNiko(projectSelect);
+		projectManager.getAssociatedTeam(projectSelect);
+
+		Team teamSelect = new Team();
+		teamSelect.setId(team.getId());
+		teamManager.getAssociatedUser(teamSelect);
+		teamManager.getAssociatedProject(teamSelect);
+
+
 		int a = 0;
 		a++;
 
-//		NikoNikoManager.createNikoNikoConsole(u1, p1);
-//
-//		NikoNikoManager.showAllNikoNikoForProject(p1);
-//		NikoNikoManager.showTeamStateForProject(p1);
+		// NikoNikoManager.createNikoNikoConsole(u1, p1);
+		//
+		// NikoNikoManager.showAllNikoNikoForProject(p1);
+		// NikoNikoManager.showTeamStateForProject(p1);
 	}
 }
