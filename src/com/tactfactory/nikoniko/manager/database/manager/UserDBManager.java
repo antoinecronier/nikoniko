@@ -2,6 +2,7 @@ package com.tactfactory.nikoniko.manager.database.manager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.models.NikoNiko;
@@ -27,6 +28,14 @@ public class UserDBManager {
 		return query;
 	}
 
+	public User getUserById(long id){
+		return null;
+	}
+
+	public ArrayList<User> getAllUser(){
+		return null;
+	}
+
 	public void insert(User user) {
 		String query = "";
 
@@ -46,6 +55,21 @@ public class UserDBManager {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+		}
+	}
+
+	public void insertRelationTeam(User user, Team team){
+		String query = "";
+
+		query += "INSERT INTO " + "user_team" + " VALUES (";
+		query += user.getId() +",";
+		query += team.getId();
+		query += ")";
+
+		MySQLAccess.getInstance().updateQuery(query);
+
+		if (!user.getTeams().contains(team)) {
+			user.getTeams().add(team);
 		}
 	}
 }

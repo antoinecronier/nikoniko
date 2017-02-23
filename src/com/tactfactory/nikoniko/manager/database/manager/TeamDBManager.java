@@ -7,6 +7,7 @@ import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.Team;
+import com.tactfactory.nikoniko.models.User;
 
 public class TeamDBManager {
 	public String getTeamValues(Team team) {
@@ -68,5 +69,20 @@ public class TeamDBManager {
 		query += ")";
 
 		MySQLAccess.getInstance().updateQuery(query);
+	}
+
+	public void insertRelationUser(User user, Team team){
+		String query = "";
+
+		query += "INSERT INTO " + "user_team" + " VALUES (";
+		query += user.getId() +",";
+		query += team.getId();
+		query += ")";
+
+		MySQLAccess.getInstance().updateQuery(query);
+
+		if (!team.getUsers().contains(user)) {
+			team.getUsers().add(user);
+		}
 	}
 }
