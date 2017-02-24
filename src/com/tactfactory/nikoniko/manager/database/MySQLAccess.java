@@ -9,7 +9,7 @@ public class MySQLAccess {
 	private Connection connect = null;
 	public static final String DATABASE = "nikoniko";
 
-	/** Constructeur privé */
+	/** Constructeur privï¿½ */
 	private MySQLAccess() {
 		try {
 			connectDataBase();
@@ -19,10 +19,10 @@ public class MySQLAccess {
 		}
 	}
 
-	/** Instance unique pré-initialisée */
+	/** Instance unique prï¿½-initialisï¿½e */
 	private static MySQLAccess INSTANCE = new MySQLAccess();
 
-	/** Point d'accès pour l'instance unique du singleton */
+	/** Point d'accï¿½s pour l'instance unique du singleton */
 	public static MySQLAccess getInstance() {
 		return INSTANCE;
 	}
@@ -33,7 +33,7 @@ public class MySQLAccess {
 		// Setup the connection with the DB
 		connect = DriverManager
 				.getConnection("jdbc:mysql://localhost/"+DATABASE+"?"
-						+ "user=root&password=");
+						+ "user=root&password=toor");
 
 	}
 
