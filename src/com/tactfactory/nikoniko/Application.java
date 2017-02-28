@@ -3,11 +3,13 @@ package com.tactfactory.nikoniko;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.tactfactory.nikoniko.manager.NikoNikoManager;
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.ProjectDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
 import com.tactfactory.nikoniko.models.*;
+import com.tactfactory.nikoniko.utils.DatabasePurjer;
 
 public class Application {
 
@@ -99,11 +101,12 @@ public class Application {
 //		int a = 0;
 //		a++;
 
+
 		// NikoNikoManager.createNikoNikoConsole(u1, p1);
 		//
 		// NikoNikoManager.showAllNikoNikoForProject(p1);
 		// NikoNikoManager.showTeamStateForProject(p1);
-		
+
 		
 		
 		
@@ -116,5 +119,6 @@ public class Application {
 		NikoNiko niko1 = nikonikoDBManager.getById(10, new NikoNiko());
 		
 		System.out.println(niko1.getComment());
+
 	}
 }

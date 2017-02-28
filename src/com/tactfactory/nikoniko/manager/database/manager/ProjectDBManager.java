@@ -172,4 +172,5 @@ public class ProjectDBManager {
 //
 //		MySQLAccess.getInstance().updateQuery(query);
 //	}
+
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 public interface IDBManagerBase<T, M> {
+
 	// Utilities
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
@@ -26,6 +27,7 @@ public interface IDBManagerBase<T, M> {
 	 * @return
 	 */
 	public ArrayList<M> findGettersSetters(Class<?> c);
+
 
 	// Database management
 	/**

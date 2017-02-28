@@ -8,6 +8,7 @@ import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Team;
+import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.utils.DateConverter;
 
 public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
