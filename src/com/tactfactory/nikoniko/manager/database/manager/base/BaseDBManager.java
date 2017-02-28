@@ -75,7 +75,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 				String name = "set"+element.getKey().substring(0, 1).toUpperCase() + element.getKey().substring(1);
 				Method setter = null;
 				for (Method method : methods) {
-					if (method.getName()==name){
+					if (method.getName().equals(name)){
 						setter=method;
 					}
 				}
