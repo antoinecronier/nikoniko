@@ -32,7 +32,7 @@ public interface IDBManagerBase<T> {
 	 * @param id
 	 * @return
 	 */
-	public T getById(long id);
+	public T getById(long id, T item);
 
 	/**
 	 * Return object as java item to be used. And all its relations.
