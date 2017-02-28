@@ -1,8 +1,8 @@
 package com.tactfactory.nikoniko.models.modelbase;
 
 public abstract class DatabaseItem {
-	public static String TABLE;
-	public static String[] FIELDS;
+	public  String table;
+	public  String[] fields;
 
 	private long id;
 
@@ -21,8 +21,8 @@ public abstract class DatabaseItem {
 	}
 
 	public DatabaseItem(String table, String[] fields) {
-		DatabaseItem.TABLE = table;
-		DatabaseItem.FIELDS = fields;
+		this.table = table;
+		this.fields = fields;
 	}
 
 	public DatabaseItem() {
