@@ -12,155 +12,109 @@ import com.tactfactory.nikoniko.models.*;
 public class Application {
 
 	public static void main(String[] args) {
-		/*User u1 = new User();
-		User u2 = new User();
 
-		Team t1 = new Team();
-		u1.getTeams().add(t1);
-		u2.getTeams().add(t1);
-		t1.getUsers().add(u1);
-		t1.getUsers().add(u2);
-
-		Project p1 = new Project();
-		p1.getTeams().add(t1);
-		t1.getProjects().add(p1);*/
-
-
+//		/*
+//		 * User u1 = new User(); User u2 = new User();
+//		 *
+//		 * Team t1 = new Team(); u1.getTeams().add(t1); u2.getTeams().add(t1);
+//		 * t1.getUsers().add(u1); t1.getUsers().add(u2);
+//		 *
+//		 * Project p1 = new Project(); p1.getTeams().add(t1);
+//		 * t1.getProjects().add(p1);
+//		 */
+//
+//		DatabasePurjer.purjeDatabase();
+//
 //		NikoNiko niko = new NikoNiko();
 //		niko.setSatisfaction(1);
 //
-		NikoNikoDBManager nikonikoManager = new NikoNikoDBManager();
+//		NikoNikoDBManager nikonikoManager = new NikoNikoDBManager();
 //		nikonikoManager.insert(niko);
 //
-//		User user = new User("login","password","lastname","firstname","test");
+//		User user = new User("login", "password", "lastname", "firstname",
+//				"test");
 //		UserDBManager userManager = new UserDBManager();
 //		userManager.insert(user);
 //
-//		Team team = new Team("team1","serial1");
+//		Team team = new Team("team1", "serial1");
 //		TeamDBManager teamManager = new TeamDBManager();
 //		teamManager.insert(team);
 //
-//		Project project = new Project("project1",new Date());
+//		Project project = new Project("project1", new Date());
 //		ProjectDBManager projectManager = new ProjectDBManager();
 //		projectManager.insert(project);
 //
-//		//Team to project
-//		Team team = new Team("team1", "serial1");
+//		// Team to project
 //		for (int i = 0; i < 10; i++) {
-//			team.getProjects().add(new Project("project"+i,new Date()));
+//			team.getProjects().add(new Project("project" + i, new Date()));
 //		}
 //
-		TeamDBManager teamManager = new TeamDBManager();
-//		teamManager.insert(team);
 //		teamManager.insertProjects(team);
 //
-//		//Project to team
-//		Project project = new Project("projectX",new Date());
+//		// Project to team
 //		for (int i = 0; i < 10; i++) {
-//			project.getTeams().add(new Team("teamX"+i, "teamXSerial"));
+//			project.getTeams().add(new Team("teamX" + i, "teamXSerial"));
 //		}
 //
-		ProjectDBManager projectManager = new ProjectDBManager();
-//		projectManager.insertWithChild(project);
-//		
-//		//Team user linking
-		UserDBManager userManager = new UserDBManager();
-////		TeamDBManager teamManager = new TeamDBManager();
-//		
-//		User user1 = new User("loginM","passwordM","lastnameM","firstnameM","registrationM");
-//		userManager.insert(user1);
-//		
-//		
-//		
+//		projectManager.insertTeams(project);
+//
+//		// Team user linking
 //		for (int i = 0; i < 10; i++) {
-//			Team tmpTeam = new Team("teamV"+i,"SerialV"+i);
+//			User userTmp = new User("login" + i, "password" + i,
+//					"lastname" + i, "firstname" + i, "registration" + i);
+//			userManager.insert(userTmp);
+//			teamManager.insertRelationUser(userTmp, team);
+//		}
+//
+//		// User team linking
+//		for (int i = 0; i < 10; i++) {
+//			Team tmpTeam = new Team("teamV" + i, "serialV" + i);
 //			teamManager.insert(tmpTeam);
-//			userManager.insertRelationTeam(user1, tmpTeam);
+//			userManager.insertRelationTeam(user, tmpTeam);
 //		}
-//		
-//		//User team linking
-////		UserDBManager userManager = new UserDBManager();
-////		TeamDBManager teamManager = new TeamDBManager();
-//		
-//		Team team1 = new Team("teamV","SerialV");
-//		teamManager.insert(team1);
-//		
-//		
-//		
+//
+//		User newUser = userManager.getUserById(user.getId());
+//		ArrayList<User> users = userManager.getAllUser();
+//
 //		for (int i = 0; i < 10; i++) {
-//			User tmpUser = new User("loginM"+i,"passwordM"+i,"lastnameM"+i,
-//									"firstnameM"+i,"registrationM"+i);
-//			userManager.insert(tmpUser);
-//			teamManager.insertRelationUser(tmpUser, team1);
+//			nikonikoManager.insert(new NikoNiko(user,project,i%3+1));
 //		}
-		
-		
-//		//create new niko
-//		User user2 = new User("loginMMM","passwordMMM","lastnameMMM","firstnameMMM","registrationMMM");
-//		userManager.insert(user2);
 //
-//		Project project2 = new Project("projectMMM",new Date());
-//		projectManager.insert(project2);
+//		User userSelect = new User();
+//		userSelect.setId(user.getId());
+//		userManager.getAssociatedNikoNiko(userSelect);
+//		userManager.getAssociatedTeam(userSelect);
 //
-//		
-//		for (int i = 0; i < 10; i++) {
-//			NikoNiko niko = new NikoNiko(user2,project2,1,"commentaire"+i);
-//			nikonikoManager.insert(niko);
-//		}
-		
-		
-//		//verif que getUserById fonctionne
-//		User user = userManager.getUserById(5);
-//		System.out.println(user.getLastname());
-//		System.out.println(user.getFirstname());
-//		System.out.println(user.getId());
-//		
-//		//verif que getAllUser fonctionne
-//		ArrayList<User> userS = userManager.getAllUser();
-//		System.out.println(userS.get(4).getLastname());
+//		Project projectSelect = new Project();
+//		projectSelect.setId(project.getId());
+//		projectManager.getAssociatedNikoNiko(projectSelect);
+//		projectManager.getAssociatedTeam(projectSelect);
 //
-//		
-//		
-//		
-//		//verif que getTeamById fonctionne
-//		Team team = teamManager.getTeamById(5);
-//		System.out.println(team.getSerial());
-//		System.out.println(team.getProjects());
-//		System.out.println(team.getId());
-//		
-//		//verif que getAllTeam fonctionne
-//		ArrayList<Team> teamS = teamManager.getAllTeam();
-//		System.out.println(teamS.get(4).getSerial());
+//		Team teamSelect = new Team();
+//		teamSelect.setId(team.getId());
+//		teamManager.getAssociatedUser(teamSelect);
+//		teamManager.getAssociatedProject(teamSelect);
 //
-//		
-//		
-//		
-//		//verif que getProjectById fonctionne
-//		Project project = projectManager.getProjectById(5);
-//		System.out.println(project.getName());
-//		System.out.println(project.getStart_date());
-//		System.out.println(project.getId());
-//		
-//		//verif que getAllUser fonctionne
-//		ArrayList<Project> projectS = projectManager.getAllProject();
-//		System.out.println(projectS.get(4).getName());
+//
+//		int a = 0;
+//		a++;
 
+		// NikoNikoManager.createNikoNikoConsole(u1, p1);
+		//
+		// NikoNikoManager.showAllNikoNikoForProject(p1);
+		// NikoNikoManager.showTeamStateForProject(p1);
 		
 		
-		//verif que getNikoNikoById fonctionne
-		NikoNiko niko = nikonikoManager.getNikoNikoById(4);
-		System.out.println(niko.getComment());
-		System.out.println(niko.getSatisfaction());
-		System.out.println(niko.getId());
-		System.out.println(niko.getUser().getId());
 		
-//		//verif que getAllUser fonctionne
-//		ArrayList<NikoNiko> nikoS = nikonikoManager.getAllNikoNiko();
-//		System.out.println(nikoS.get(4).getComment());
-
-		/*NikoNikoManager.createNikoNikoConsole(u1, p1);
-
-		NikoNikoManager.showAllNikoNikoForProject(p1);
-		NikoNikoManager.showTeamStateForProject(p1);*/
+		
+		
+		 
+		
+		NikoNikoDBManager nikonikoDBManager = new NikoNikoDBManager();
+		nikonikoDBManager.insert(new NikoNiko(new User(), new Project(), 1));
+		
+		NikoNiko niko1 = nikonikoDBManager.getById(10, new NikoNiko());
+		
+		System.out.println(niko1.getComment());
 	}
 }
