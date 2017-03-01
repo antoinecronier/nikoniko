@@ -167,7 +167,4 @@ public class NikoNiko extends DatabaseItem {
 		return "NikoNiko [log_date=" + log_date + ", change_date=" + change_date + ", satisfaction=" + satisfaction
 				+ ", comment=" + comment + ", isAnonymous=" + isAnonymous + "]";
 	}
-	
-	
-
 }

@@ -1,4 +1,3 @@
-
 package com.tactfactory.nikoniko.utils;
 
 import java.beans.IntrospectionException;
@@ -52,7 +51,7 @@ public class DumpFields {
 				result.add(propertyDescriptor.getReadMethod().getName());
 			}
 		} catch (IntrospectionException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return result;
@@ -68,7 +67,7 @@ public class DumpFields {
 				result.add(propertyDescriptor.getWriteMethod().getName());
 			}
 		} catch (IntrospectionException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return result;
@@ -84,7 +83,7 @@ public class DumpFields {
 				result.add(propertyDescriptor.getReadMethod());
 			}
 		} catch (IntrospectionException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return result;
@@ -100,7 +99,7 @@ public class DumpFields {
 				result.add(propertyDescriptor.getWriteMethod());
 			}
 		} catch (IntrospectionException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return result;
@@ -216,22 +215,16 @@ public class DumpFields {
 		try {
 			return clazz.getConstructor(Integer.class).newInstance(id);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -241,24 +234,51 @@ public class DumpFields {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+	public static boolean isSetter(Method method) {
+		   return Modifier.isPublic(method.getModifiers()) &&
+				 method.getReturnType().equals(void.class) &&
+		         method.getParameterTypes().length == 1 && 
+		         method.getName().matches("^set[A-Z].*");
+		}
+	
+	public static boolean isGetter(Method method) {
+		if (Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length == 0) {
+			if (method.getName().matches("^get[A-Z].*") && !method.getReturnType().equals(void.class))
+				return true;
+			if (method.getName().matches("^is[A-Z].*") && method.getReturnType().equals(boolean.class))
+				return true;
+		   }
+		return false;
+	}
+	
+	/**
+	 * scinder find getter et find setters pourrait etre plus interessant pour la suite
+	 * @param c
+	 * @return
+	 */
+	public static ArrayList<Method> findGettersSetters(Class<?> c) {
+		   ArrayList<Method> list = new ArrayList<Method>();
+		   Method[] methods = c.getDeclaredMethods();
+		   for (Method method : methods)
+		      if (isGetter(method) || isSetter(method))
+		         list.add(method);
+		   return list;
+		}
+	
 }
+

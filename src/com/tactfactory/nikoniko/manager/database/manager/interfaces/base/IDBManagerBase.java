@@ -26,14 +26,6 @@ public interface IDBManagerBase<T> {
 	 */
 	public T setObjectFromResultSet(ResultSet resultSet,T item);
 
-	/**
-	 * Find getter and setters from the class object put in parameter 
-	 * @param c
-	 * @return
-	 */
-	public ArrayList<Method> findGettersSetters(Class<?> c);
-
-
 	// Database management
 	/**
 	 * Delete all record from table.
@@ -44,11 +36,9 @@ public interface IDBManagerBase<T> {
 	/**
 	 * Return object as java item to be used.
 	 * @param id
+	 * @param item
 	 * @return
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
 	 */
-
 	public T getById(long id, T item);
 
 	/**
@@ -120,7 +110,4 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 */
 	public <O> void deleteChildren(T item);
-
-
-
 }

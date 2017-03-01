@@ -2,9 +2,8 @@ package com.tactfactory.nikoniko.models.modelbase;
 
 public abstract class DatabaseItem {
 
-	public  String table;
-	public  String[] fields;
-
+	public String table;
+	public String[] fields;
 
 	private long id;
 
