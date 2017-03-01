@@ -152,7 +152,7 @@ public class NikoNiko extends DatabaseItem {
 	}
 
 	public NikoNiko(User user, Project project, int satisfaction,
-			String comment, Boolean isAnonymous) {
+		String comment, Boolean isAnonymous) {
 		this(user, project, satisfaction);
 		this.comment = comment;
 		this.isAnonymous = isAnonymous;
@@ -169,4 +169,5 @@ public class NikoNiko extends DatabaseItem {
 	}
 	
 	
+
 }

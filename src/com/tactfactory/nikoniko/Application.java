@@ -1,7 +1,11 @@
 package com.tactfactory.nikoniko;
 
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -33,7 +37,6 @@ public class Application {
 		 * Project p1 = new Project(); p1.getTeams().add(t1);
 		 * t1.getProjects().add(p1);
 		 */
-
 
 
 //		DatabasePurjer.purjeDatabase();
@@ -137,5 +140,38 @@ public class Application {
 
 	
 	System.out.println(nikoNikoDBManager.getById(35).toString());
+	
+		
+		// creer un objet de type T  -> DumpFields.createContentsEmpty()
+	// .<T> inspectedBAseAttribute
+	//  utilisation de Map
+		//NikoNiko newNiko1 = new NikoNiko();
+		//Project proj1 = DumpFields.createContentsEmpty(Class <Project> );
+		
+		/* Test on inspectBaseAttribut */
+		/* --------------------------- */
+		ArrayList<String> attributs = new ArrayList<String>();
+		attributs = DumpFields.inspectBaseAttribut(NikoNiko.class);
+		
+		System.out.println("NbAttr " + attributs.size());
+		for (String attribut : attributs) {
+			System.out.println("attribut " + attribut);
+		}
+		
+		/* Test on getClassesNames */
+		/*  ---------------------  */
+		ArrayList<String> classNames = new ArrayList<>();
+		try {
+			classNames = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("NbClass " + classNames.size());
+		for (String className : classNames) {
+			System.out.println("Class " + className);
+		}
+		
 	}
+
 }

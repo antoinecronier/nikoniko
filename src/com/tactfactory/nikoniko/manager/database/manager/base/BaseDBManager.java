@@ -15,6 +15,7 @@ import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBMana
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 
+
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
 //iDBManAgerbASE > T = boisson , BaseDBManger > T extends DatabaseItem = ma boisson est une boisosn chaude, NikoNikoDBManger > nikoniko = cafe 
@@ -44,8 +45,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 				e1.printStackTrace();
 			}
 		}
-
-
+		
 		
 	}
 	
@@ -67,7 +67,6 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		return item;
 	}
 
-	
 	public static boolean isSetter(Method method) {
 		   return Modifier.isPublic(method.getModifiers()) &&
 				 method.getReturnType().equals(void.class) &&
@@ -181,6 +180,28 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		}
 		return item;
 	}
+
+	
+	//public T setObjectFromResult(ResultSet resulset, T item) {
+		/*item = Object.class.getClass().getFields();
+		try {
+			nikoNiko.setId(resulset.getLong("id"));
+			nikoNiko.setLog_date(resulset.getDate("log_Date"));
+			nikoNiko.setChange_date(resulset.getDate("change_Date"));
+			nikoNiko.setSatisfaction(resulset.getInt("satisfaction"));
+			nikoNiko.setComment(resulset.getString("nikoniko_comment"));
+			nikoNiko.setIsAnonymous(resulset.getBoolean("isanonymous"));
+
+			//UserDBManager userDBManager = new UserDBManager();
+			//nikoNiko.setUser(userDBManager.getUserById(resulset.getLong("id_User")));
+
+			//ProjectDBManager projectDBManager = new ProjectDBManager();
+			//nikoNiko.setProject(projectDBManager.getProjectById(resulset.getLong("id_Project")));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nikoNiko;*/
+	//}
 
 	
 	

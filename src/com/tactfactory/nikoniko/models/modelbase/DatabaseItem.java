@@ -5,6 +5,7 @@ public abstract class DatabaseItem {
 	public  String table;
 	public  String[] fields;
 
+
 	private long id;
 
 	/**

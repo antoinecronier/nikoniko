@@ -12,8 +12,6 @@ import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.utils.DateConverter;
 
 
-
-
 public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 
 	@Override
@@ -71,12 +69,12 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 		// incorrecte
 
 
+
 		if (item.getComment() != null) {
 			query += "'" + item.getComment() + "',";
 		} else {
 			query += "null,";
 		}
-
 
 
 		query += item.getIsAnonymous() + ",";
@@ -107,44 +105,43 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 		// On retourne la query remplit des différents paramètres
 
 		return query;
+
 	}
 
-//	@Override
-//	public NikoNiko setObjectFromResultSet(ResultSet resultSet,NikoNiko niko) {
-//	
-//	// Fonction permettant de récupérer les données de la table niko niko dans la BDD
-//	// à partir d'une requète SQL et de gérer les relations entre user (id_user) et 
-//	// le projet (id_project) (foreign key)
-//	}
+	@Override
+	public NikoNiko setObjectFromResult(ResultSet resulset) {
 
-	
-//	@Override
-//	public NikoNiko setObjectFromResultSet(ResultSet resultSet) {
-	// On créé un nikoniko tampon qui va stocker les données récupérées
-	
-	//NikoNiko nikoNiko = new NikoNiko();
-	
-	// On ajoute au nikoniko les différents champs par rapport au retour de la
-	// requète SQL. result.getLong("id") se positionne sur le champ "id" 
-	// result.getLong("id") = result.getLong(1). "1" position de l'id dans 
-	// ligne retourner par la requète.
-//		try {
-//			nikoNiko.setId(resultSet.getLong("id"));
-//			nikoNiko.setLog_date(resultSet.getDate("log_Date"));
-//			nikoNiko.setChange_date(resultSet.getDate("change_Date"));
-//			nikoNiko.setSatisfaction(resultSet.getInt("satisfaction"));
-//			nikoNiko.setComment(resultSet.getString("nikoniko_comment"));
-//			nikoNiko.setIsAnonymous(resultSet.getBoolean("isanonymous"));
-//
-	// Création d'une instance userDBManager pour récupérer l'id d'un 
-	// utilisateur (foreign key : id_user).
+		NikoNiko nikoNiko = new NikoNiko();
+		
+		// On ajoute au nikoniko les différents champs par rapport au retour de la
+		// requète SQL. result.getLong("id") se positionne sur le champ "id" 
+		// result.getLong("id") = result.getLong(1). "1" position de l'id dans 
+		// ligne retourner par la requète.
+		
+		try {
 
-	//UserDBManager userDBManager = new UserDBManager();
-	
-	// A partir de la requète SQL on va créer la relation entre la table nikoniko
-	// et la table user (foreign key : id_user). 1) on récupère l'user par 
-	// l'id_user (renseigné par la requète SQL) puis on l'ajoute dans l'instance
-	// tampon nikoNiko pour créer la relation
+			nikoNiko.setId(resulset.getLong("id"));
+			nikoNiko.setLog_date(resulset.getDate("log_Date"));
+			nikoNiko.setChange_date(resulset.getDate("change_Date"));
+			nikoNiko.setSatisfaction(resulset.getInt("satisfaction"));
+			nikoNiko.setComment(resulset.getString("nikoniko_comment"));
+			nikoNiko.setIsAnonymous(resulset.getBoolean("isanonymous"));
+
+			//UserDBManager userDBManager = new UserDBManager();
+			//nikoNiko.setUser(userDBManager.getUserById(resulset.getLong("id_User")));
+
+			//ProjectDBManager projectDBManager = new ProjectDBManager();
+			//nikoNiko.setProject(projectDBManager.getProjectById(resulset.getLong("id_Project")));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// On retourne l'objet nikoNiko avec toutes les informations de la base
+		// (renseignées par la requète SQL)
+		
+		return nikoNiko;
+	}
 
 	
 	//nikoNiko.setUser(userDBManager.getUserById(result.getLong("id_User")));
@@ -170,23 +167,41 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 		return super.getById(id, new NikoNiko());
 	}
 	
-	@Override
-	public NikoNiko getByIdFull(long id) {
-		// TODO Auto-generated method stub
-		return null;
-
-	}
 	
 	// Fonction qui permet d'obtenir tous les nikoniko de la table 
 	// niko niko dans la BDD
 
 
 
+
 	@Override
 	public void purgeTable(String table) {
 	// TODO Auto-generated method stub	
-
 	}
+//	@Override
+//	public NikoNiko getById(long id) {
+//		ResultSet query = MySQLAccess.getInstance().resultQuery(
+//		"SELECT * FROM " + NikoNiko.TABLE + " WHERE " + NikoNiko.TABLE
+//				+ ".id = " + id);
+//		
+//		NikoNiko nikoNiko = new NikoNiko();
+//		try {
+//			if (query.next()) {
+//				nikoNiko = setObjectFromResultSet(query);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return nikoNiko;
+//		return null;
+//	}
+
+	@Override
+	public NikoNiko getByIdFull(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	// Fonction qui permet l'ajout des attributs d'un nikoniko dans la BDD
 	// en utilisant la fonction getNikoNikoValues().
@@ -199,7 +214,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 	return null;
 	}
 
-	
 	@Override
 	public ArrayList<NikoNiko> getAll() {
 		// TODO Auto-generated method stub
@@ -209,6 +223,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 	@Override
 	public void getAssociateObject(NikoNiko item) {
 		// TODO Auto-generated method stub
+
 
 	}
 	
@@ -226,22 +241,15 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 
 	@Override
 	public <O> void mapRelation(NikoNiko item, O relation) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	}
+	
 	@Override
 	public void updateWithChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public <O> void updateChildren(NikoNiko item) {
-
-		// TODO Auto-generated method stub
-		
 	}
+	
+
 
 	@Override
 	public void deleteWithChildren(NikoNiko item) {
@@ -255,6 +263,14 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 		
 	}
 
+
+	@Override
+	public <O> void updateChildren(NikoNiko item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 //	public String getNikoNikoValues(NikoNiko nikoniko) {
 //		String query = "";
@@ -300,7 +316,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 //
 //		return query;
 //	}
-
 //
 //	public NikoNiko setObjectFromResultSet(ResultSet query) {
 //		NikoNiko nikoNiko = new NikoNiko();
@@ -358,18 +373,21 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 //		e.printStackTrace();
 //	}
 //	return nikoNiko;
+
 //	}
 //
 //	public void insert(NikoNiko nikoniko) {
 //		String query = "";
-//		
+
 //		// On créé notre requète SQL
 //		// NikoNiko.TABLE fait référence à une variable global non modifiable (final)
 //		// correspondant au nom de la table associé
+
 //
 //		query += "INSERT INTO " + NikoNiko.TABLE + " VALUES (";
 //		query += this.getNikoNikoValues(nikoniko);
 //		query += ")";
+
 //		
 //		// On insére la requète SQL dans la base de donnée
 //
@@ -377,10 +395,12 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 //		
 //		// Si l'id de nikoniko est égal à 0 (ou NULL ?) on va chercher son id dans la base
 //		// de données grâce à un resultQuery(select ... from ...)
+
 //
 //		if (nikoniko.getId() == 0) {
 //			ResultSet result = MySQLAccess.getInstance().resultQuery(
 //					"SELECT MAX(id) AS id FROM " + NikoNiko.TABLE);
+
 //			
 //			// Création d'une exception. result est renvoyé sous forme de liste
 //			// et est composé d'un curseur qui est à 0 par défaut (curseur sur  
@@ -388,6 +408,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 //			// ne renvoit rien alors le retour de requète est faux et on indique une erreur.      
 //			// Si le result.next() est bon, alors on va lire la première ligne de la table
 //			// renvoyée par la requète et on va lire l'id avec "result.getLong(1)";
+
 //
 //			try {
 //				if (result.next()) {
@@ -398,4 +419,5 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 //			}
 //		}
 //	}
+
 }

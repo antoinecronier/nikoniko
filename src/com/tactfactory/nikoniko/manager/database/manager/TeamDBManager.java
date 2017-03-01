@@ -12,7 +12,6 @@ import com.tactfactory.nikoniko.models.User;
 
 public class TeamDBManager {
 
-
 //	public static final String USER_TEAM = "user_team";
 //	public static final String TEAM_PROJECT = "team_project";
 //
