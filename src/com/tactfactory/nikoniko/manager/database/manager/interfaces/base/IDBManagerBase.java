@@ -1,11 +1,12 @@
 package com.tactfactory.nikoniko.manager.database.manager.interfaces.base;
 
 
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
 
-public interface IDBManagerBase<T, M> {
+public interface IDBManagerBase<T> {
 
 	// Utilities
 	/**
@@ -20,14 +21,14 @@ public interface IDBManagerBase<T, M> {
 	 * @param resultSet
 	 * @return
 	 */
-	public T setObjectFromResult(ResultSet resultSet);
+	public T setObjectFromResultSet(ResultSet resultSet,T item);
 
 	/**
 	 * Find getter and setters from the class object put in parameter 
 	 * @param c
 	 * @return
 	 */
-	public ArrayList<M> findGettersSetters(Class<?> c);
+	public ArrayList<Method> findGettersSetters(Class<?> c);
 
 
 	// Database management
@@ -42,7 +43,9 @@ public interface IDBManagerBase<T, M> {
 	 * @param id
 	 * @return
 	 */
+
 	public T getById(long id, T item);
+
 
 	/**
 	 * Return object as java item to be used. And all its relations.

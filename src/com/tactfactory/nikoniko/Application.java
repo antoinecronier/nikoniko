@@ -1,8 +1,12 @@
 package com.tactfactory.nikoniko;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
+import com.mysql.jdbc.StringUtils;
 import com.tactfactory.nikoniko.manager.NikoNikoManager;
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.ProjectDBManager;
@@ -12,20 +16,26 @@ import com.tactfactory.nikoniko.models.*;
 import com.tactfactory.nikoniko.utils.DatabasePurjer;
 import com.tactfactory.nikoniko.utils.DumpFields;
 
+import com.tactfactory.nikoniko.utils.DateConverter;
+
+import com.tactfactory.nikoniko.utils.DumpFields;
+
 public class Application {
 
 	public static void main(String[] args) {
 
-//		/*
-//		 * User u1 = new User(); User u2 = new User();
-//		 *
-//		 * Team t1 = new Team(); u1.getTeams().add(t1); u2.getTeams().add(t1);
-//		 * t1.getUsers().add(u1); t1.getUsers().add(u2);
-//		 *
-//		 * Project p1 = new Project(); p1.getTeams().add(t1);
-//		 * t1.getProjects().add(p1);
-//		 */
-//
+		/*
+		 * User u1 = new User(); User u2 = new User();
+		 *
+		 * Team t1 = new Team(); u1.getTeams().add(t1); u2.getTeams().add(t1);
+		 * t1.getUsers().add(u1); t1.getUsers().add(u2);
+		 *
+		 * Project p1 = new Project(); p1.getTeams().add(t1);
+		 * t1.getProjects().add(p1);
+		 */
+
+
+
 //		DatabasePurjer.purjeDatabase();
 //
 //		NikoNiko niko = new NikoNiko();
@@ -101,6 +111,7 @@ public class Application {
 //
 //		int a = 0;
 //		a++;
+
 //
 //		// NikoNikoManager.createNikoNikoConsole(u1, p1);
 //		//
@@ -115,7 +126,16 @@ public class Application {
 	
 	System.out.println(nikoniko.getLog_date());
 	
-	//T item = DumpFields.createContentsEmpty(klazz);
-	//DumpFields.getGetter(klazz);
-	}	
+			
+	//nikonikoDBManager.getById(1,new NikoNiko());
+	
+	ArrayList<String> result = DumpFields.inspectGetter (Project.class);
+	System.out.println(result);
+	
+	ArrayList<String> result1 =  DumpFields.inspectBaseAttribut(User.class);
+	System.out.println(result1);
+
+	
+	System.out.println(nikoNikoDBManager.getById(35).toString());
+	}
 }

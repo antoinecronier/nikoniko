@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
 import com.tactfactory.nikoniko.models.User;
 
-public interface IUserDBManager extends IDBManagerBase<User, Method> {
+public interface IUserDBManager extends IDBManagerBase<User> {
 
 
 	/**

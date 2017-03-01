@@ -13,9 +13,7 @@ import com.tactfactory.nikoniko.utils.DateConverter;
 
 public class ProjectDBManager {
 
-	
-	
-	
+
 //	private static final String TEAM_PROJECT = "team_project";
 //
 //	public String getProjectValues(Project project) {

@@ -1,26 +1,29 @@
 package com.tactfactory.nikoniko.manager.database.manager.base;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
+
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
+import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
-import com.tactfactory.nikoniko.utils.DumpFields;
 
-public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T,Method> {
-	/**
-	 * Example function coded with teacher
-	 */
-	
-	
-	
+import com.tactfactory.nikoniko.utils.DateConverter;
+import com.tactfactory.nikoniko.utils.DumpFields;
+//iDBManAgerbASE > T = boisson , BaseDBManger > T extends DatabaseItem = ma boisson est une boisosn chaude, NikoNikoDBManger > nikoniko = cafe 
+public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
+
 	@Override
 	public void insert(T item) {
+
+
 		String query = "";
 
 		query += "INSERT INTO " + item.table + " VALUES (";
@@ -41,18 +44,22 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 				e1.printStackTrace();
 			}
 		}
+
+
 		
 	}
-
 	
 	@Override
-	public T getById(long id, T item) {
+	public T getById(long id,T item) {
+		
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
-		"SELECT * FROM " + item.table + " WHERE " + item.table
-				+ ".id = " + id);
+				"SELECT * FROM " + item.table + " WHERE " + item.table
+						+ ".id = " + id);
 		try {
 			if (query.next()) {
-				item = setObjectFromResult(query);
+				item = this.setObjectFromResultSet(query,item);
+				//item = setObjectFromResult(query);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,26 +67,6 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		return item;
 	}
 
-
-
-	
-	@Override
-	public T setObjectFromResult(ResultSet resultSet) {
-		//methode generique
-		
-		
-		//T item = DumpFields.createContentsEmpty(klazz);
-		
-		return null;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public static boolean isSetter(Method method) {
 		   return Modifier.isPublic(method.getModifiers()) &&
@@ -106,6 +93,96 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		         list.add(method);
 		   return list;
 		}
+
+	@Override
+	public T setObjectFromResultSet(ResultSet resultSet,T item) {
+		
+		try {
+			item.setId(resultSet.getLong("id"));
+			
+			
+			Map<String,Object> map=DumpFields.fielder(item);
+			ArrayList<Method> methods= DumpFields.getSetter(item.getClass());
+			
+			for (Map.Entry<String, Object> element : map.entrySet()) {
+				
+				String name = "set"+element.getKey().substring(0, 1).toUpperCase() + element.getKey().substring(1);
+				Method setter = null;
+				for (Method method : methods) {
+					if (method.getName().equals(name)){
+						setter=method;
+					}
+				}
+				
+				if (element.getValue().getClass().getName()=="Integer"){
+					try {
+						setter.invoke(item, resultSet.getInt(element.getKey()));
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else if (element.getValue().getClass().getName()=="Boolean"){
+					try {
+						setter.invoke(item, resultSet.getBoolean(element.getKey()));
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else if (element.getValue().getClass().getName()=="String"){
+					try {
+						setter.invoke(item, resultSet.getString(element.getKey()));
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else if (element.getValue().getClass().getName()=="Date"){
+					try {
+						setter.invoke(item, resultSet.getDate(element.getKey()));
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				
+			}
+
+	
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return item;
+	}
+
 	
 	
 }
+//iDBManAgerbASE > T = boisson , BaseDBManger > T extends DatabaseItem = ma boisson est une boisosn chaude, NikoNikoDBManger > nikoniko = cafe 
