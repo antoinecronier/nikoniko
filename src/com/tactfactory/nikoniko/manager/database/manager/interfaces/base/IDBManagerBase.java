@@ -1,17 +1,11 @@
 package com.tactfactory.nikoniko.manager.database.manager.interfaces.base;
 
-
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
 
 public interface IDBManagerBase<T> {
 
 	// Utilities
-	
-	//public T getDBManagerClass();
-	
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
 	 * @param item
@@ -39,7 +33,7 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @return
 	 */
-	public T getById(long id, T item);
+	public T getById(T item);
 
 	/**
 	 * Return object as java item to be used. And all its relations.
@@ -52,7 +46,7 @@ public interface IDBManagerBase<T> {
 	 * Return all objects from selected table. Without relations.
 	 * @return
 	 */
-	public ArrayList<T> getAll();
+	public ArrayList<T> getAll(Class<T> clazz);
 
 	/**
 	 * Get all related objects even if they are arrays or single object.

@@ -3,6 +3,7 @@ package com.tactfactory.nikoniko.manager.database.manager;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
+import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 
 public class ProjectDBManager extends BaseDBManager<Project> {
@@ -26,7 +27,7 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 	}
 
 	@Override
-	public ArrayList<Project> getAll() {
+	public ArrayList<Project> getAll(Class<Project> clazz) {
 		// TODO Auto-generated method stub
 		return null;
 	}
