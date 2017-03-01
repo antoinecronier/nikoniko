@@ -9,58 +9,58 @@ CREATE DATABASE nikoniko;
 USE nikoniko;
 
 #------------------------------------------------------------
-# Table: User
+# Table: user
 #------------------------------------------------------------
 
-CREATE TABLE User(
-        id               int (11) Auto_increment  NOT NULL ,
-        login            Varchar (25) NOT NULL ,
-        password         Varchar (25) NOT NULL ,
-        lastname         Varchar (25) NOT NULL ,
-        firstname        Varchar (25) NOT NULL ,
-        registration_cgi Varchar (25) NOT NULL ,
+CREATE TABLE user(
+        id        int (11) Auto_increment  NOT NULL ,
+        firstname Varchar (25) NOT NULL ,
+        lastname  Varchar (25) NOT NULL ,
+        login     Varchar (25) ,
+        password  Varchar (25) ,
+        sex       Char (25) NOT NULL ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: Team
+# Table: team
 #------------------------------------------------------------
 
-CREATE TABLE Team(
+CREATE TABLE team(
         id     int (11) Auto_increment  NOT NULL ,
-        name   Varchar (25) NOT NULL ,
-        serial Varchar (25) ,
+        name   Varchar (25) ,
+        serial Int ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: NikoNiko
+# Table: nikoniko
 #------------------------------------------------------------
 
-CREATE TABLE NikoNiko(
+CREATE TABLE nikoniko(
         id               int (11) Auto_increment  NOT NULL ,
-        log_Date     Datetime NOT NULL ,
-        change_Date      Datetime ,
+        log_date         Date NOT NULL ,
+        change_date      Date ,
         satisfaction     Int NOT NULL ,
         nikoniko_comment Text ,
-        isanonymous      Bool NOT NULL ,
-        id_User          Int ,
-        id_Project       Int ,
+        is_annonymous    Bool ,
+        id_project       Int NOT NULL ,
+        id_user          Int NOT NULL ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: Project
+# Table: project
 #------------------------------------------------------------
 
-CREATE TABLE Project(
+CREATE TABLE project(
         id         int (11) Auto_increment  NOT NULL ,
         name       Varchar (25) NOT NULL ,
-        start_Date Datetime ,
-        end_Date   Datetime ,
+        start_date Date ,
+        end_date   Date ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
@@ -70,9 +70,9 @@ CREATE TABLE Project(
 #------------------------------------------------------------
 
 CREATE TABLE user_team(
-        id_User Int NOT NULL ,
-        id_Team Int NOT NULL ,
-        PRIMARY KEY (id_User ,id_Team )
+        id      Int NOT NULL ,
+        id_team Int NOT NULL ,
+        PRIMARY KEY (id ,id_team )
 )ENGINE=InnoDB;
 
 
@@ -81,14 +81,14 @@ CREATE TABLE user_team(
 #------------------------------------------------------------
 
 CREATE TABLE team_project(
-        id_Team    Int NOT NULL ,
-        id_Project Int NOT NULL ,
-        PRIMARY KEY (id_Team ,id_Project )
+        id         Int NOT NULL ,
+        id_project Int NOT NULL ,
+        PRIMARY KEY (id ,id_project )
 )ENGINE=InnoDB;
 
-ALTER TABLE NikoNiko ADD CONSTRAINT FK_NikoNiko_id_User FOREIGN KEY (id_User) REFERENCES User(id);
-ALTER TABLE NikoNiko ADD CONSTRAINT FK_NikoNiko_id_Project FOREIGN KEY (id_Project) REFERENCES Project(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id_User) REFERENCES User(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES Team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id_Team) REFERENCES Team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Project FOREIGN KEY (id_Project) REFERENCES Project(id);
+ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_project FOREIGN KEY (id_project) REFERENCES project(id);
+ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_user FOREIGN KEY (id_user) REFERENCES user(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id) REFERENCES user(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_team FOREIGN KEY (id_team) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_project FOREIGN KEY (id_project) REFERENCES project(id);

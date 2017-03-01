@@ -1,19 +1,14 @@
 package com.tactfactory.nikoniko.manager.database.manager.interfaces.base;
 
-
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
 
 public interface IDBManagerBase<T> {
 
 	// Utilities
-	
-	//public T getDBManagerClass();
-	
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
+	 * 
 	 * @param item
 	 * @return
 	 */
@@ -21,28 +16,32 @@ public interface IDBManagerBase<T> {
 
 	/**
 	 * Fill java object with DB ResultSet.
+	 * 
 	 * @param resultSet
 	 * @return
 	 */
-	public T setObjectFromResultSet(ResultSet resultSet,T item);
+	public T setObjectFromResultSet(ResultSet resultSet, T item);
 
 	// Database management
 	/**
 	 * Delete all record from table.
+	 * 
 	 * @param table
 	 */
 	public void purgeTable(String table);
 
 	/**
 	 * Return object as java item to be used.
+	 * 
 	 * @param id
 	 * @param item
 	 * @return
 	 */
-	public T getById(long id, T item);
+	public T getById(T item);
 
 	/**
 	 * Return object as java item to be used. And all its relations.
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -50,63 +49,73 @@ public interface IDBManagerBase<T> {
 
 	/**
 	 * Return all objects from selected table. Without relations.
+	 * 
 	 * @return
 	 */
 	public ArrayList<T> getAll();
 
 	/**
 	 * Get all related objects even if they are arrays or single object.
+	 * 
 	 * @param item
 	 */
 	public void getAssociateObject(T item);
 
 	/**
 	 * Insert current java object to DB. Without children.
+	 * 
 	 * @param item
 	 */
 	public void insert(T item);
 
 	/**
 	 * Update current java object to DB. Without children.
+	 * 
 	 * @param item
 	 */
 	public void update(T item);
 
 	/**
 	 * Delete current java object to DB. Without children.
+	 * 
 	 * @param item
 	 */
 	public void delete(T item);
 
 	/**
 	 * Use T and O object to get their ids and map the relation.
+	 * 
 	 * @param item
 	 * @param relation
 	 */
 	public <O> void mapRelation(T item, O relation);
 
 	/**
-	 * Update all items extract from current item.
-	 * Calling "public <O> void updateChildren(T item)" for all kind of children.
+	 * Update all items extract from current item. Calling "public <O> void
+	 * updateChildren(T item)" for all kind of children.
+	 * 
 	 * @param item
 	 */
 	public void updateWithChildren(T item);
 
 	/**
-	 * Update only one relation of current item named O.
-	 * Call "public <O> void mapRelation(T item, O relation)" for each foreign key.
+	 * Update only one relation of current item named O. Call "public <O> void
+	 * mapRelation(T item, O relation)" for each foreign key.
+	 * 
 	 * @param item
 	 */
 	public <O> void updateChildren(T item);
 
 	/**
 	 * Delete current java object to DB. With children.
+	 * 
 	 * @param item
 	 */
 	public void deleteWithChildren(T item);
 
 	/**
 	 * Delete only children of type O from current item.
+	 * 
 	 * @param item
 	 */
 	public <O> void deleteChildren(T item);

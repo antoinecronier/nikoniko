@@ -9,6 +9,9 @@ import java.util.Map;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
+import com.tactfactory.nikoniko.models.NikoNiko;
+import com.tactfactory.nikoniko.models.Project;
+import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DumpFields;
 
@@ -40,11 +43,11 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 	
 	@Override
-	public T getById(long id,T item) {
+	public T getById(T item) {
 		
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
 				"SELECT * FROM " + item.table + " WHERE " + item.table
-						+ ".id = " + id);
+						+ ".id = " + item.getId());
 		try {
 			if (query.next()) {
 				item = this.setObjectFromResultSet(query,item);
@@ -122,5 +125,62 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			e.printStackTrace();
 		}
 		return item;
+	}
+
+	public void purgeTable(String table) {
+		
+		MySQLAccess.getInstance().updateQuery("DELETE FROM " + table);
+	}
+
+	
+	//String query = "SELECT * FROM " + "user_team" + " WHERE id = " + user.getId() + " AND id_team = " + item.getId();
+	//String query = "SELECT * FROM " + "team_project" + " WHERE id = " + team.getId() + " AND id_project = " + item.getId();
+	public void delete(T item) {
+		
+		//for User, Find if relation table content element which have to be delete
+		if(item.getClass().getSimpleName().equals("User")) {
+			// In user_team
+			//-------------
+			String query = "DELETE FROM " + "user_team" + " WHERE id = " + item.getId();
+			MySQLAccess.getInstance().updateQuery(query);
+			
+			// In NikoNiko
+			//------------
+			query = "DELETE FROM " + NikoNiko.TABLE + " WHERE id_user = " + item.getId();
+			MySQLAccess.getInstance().updateQuery(query);
+		}
+		
+		//for Project, Find if relation table content element which have to be delete
+		if(item.getClass().getSimpleName().equals("Project")) {
+			// In team_project
+			//----------------
+			String query = "DELETE FROM " + "team_project" + " WHERE id_project = " + item.getId();
+			MySQLAccess.getInstance().updateQuery(query);
+			
+			// In NikoNiko
+			//------------
+			query = "DELETE FROM " + NikoNiko.TABLE + " WHERE id_project = " + item.getId();
+			MySQLAccess.getInstance().updateQuery(query);
+		}
+		
+		
+		//for Team, Find if relation table content element which have to be delete
+		if(item.getClass().getSimpleName().equals("Team")) {
+			// In team_project
+			//----------------
+			String query = "DELETE FROM " + "team_project" + " WHERE id = " + item.getId();
+			MySQLAccess.getInstance().updateQuery(query);
+			
+			// In user_team
+			//-------------
+			query = "DELETE FROM " + "user_team" + " WHERE id_team = " + item.getId();
+			MySQLAccess.getInstance().updateQuery(query);
+		}
+
+		
+		//Delete Item in table
+		//--------------------
+		String query = "DELETE FROM " + item.table + " WHERE id = " + item.getId();
+		MySQLAccess.getInstance().updateQuery(query);
 	}
 }
