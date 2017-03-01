@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
+import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.Team;

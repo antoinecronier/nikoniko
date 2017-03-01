@@ -12,6 +12,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	
 
 	public void insert(T item) {
+
 		String query = "";
 
 		query += "INSERT INTO " + item.table + " VALUES (";
@@ -69,7 +70,5 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		}
 		return nikoNiko;*/
 	//}
-
-	
 
 }

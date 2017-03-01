@@ -14,6 +14,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 
 	@Override
 	public String getValues(NikoNiko item) {
+
 		String query = "";
 
 		if (item.getId() != 0) {
@@ -56,6 +57,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 		}
 
 		return query;
+	
 	}
 
 	@Override
@@ -136,12 +138,14 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 
 	@Override
 	public void delete(NikoNiko item) {
+
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public <O> void mapRelation(NikoNiko item, O relation) {
+
 		// TODO Auto-generated method stub
 		
 	}
@@ -169,6 +173,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 //	public String getNikoNikoValues(NikoNiko nikoniko) {
 //		String query = "";
@@ -287,4 +292,5 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
 //			}
 //		}
 //	}
+
 }

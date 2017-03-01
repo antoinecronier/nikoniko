@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public interface IDBManagerBase<T> {
 	// Utilities
+	
+	//public T getDBManagerClass();
+	
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
 	 * @param item
@@ -31,6 +34,8 @@ public interface IDBManagerBase<T> {
 	 * Return object as java item to be used.
 	 * @param id
 	 * @return
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
 	public T getById(long id, T item);
 

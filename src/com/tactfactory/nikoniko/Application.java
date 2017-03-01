@@ -107,7 +107,6 @@ public class Application {
 		// NikoNikoManager.showAllNikoNikoForProject(p1);
 		// NikoNikoManager.showTeamStateForProject(p1);
 		
-		
 		/*NikoNikoDBManager nikonikoDbManager = new NikoNikoDBManager();
 		nikonikoDbManager.insert(new NikoNiko(new User(), new Project(), 1));
 		
