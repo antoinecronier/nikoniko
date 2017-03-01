@@ -15,16 +15,6 @@ import com.tactfactory.nikoniko.utils.DateConverter;
 
 public interface IProjectDBManager<O,L> extends IDBManagerBase {
 	
-	public String getProjectValues(O o);
-	public Project setObjectFromResultSet(O o); 
-	public Project getProjectByIdFull(L l);
-	public Project getProjectById(L l) ;
-	public ArrayList<O> getAllProject();
-	public void getAssociatedNikoNiko(O o) ;
-	public void getAssociatedTeam(O o);
-	public void insert(O o);
-	public void insertWithChild(O o);
-	public void insertTeams(O o);
-	public void insertRelationTeam(O o, O e);
+	
 
 }
