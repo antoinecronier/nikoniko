@@ -2,15 +2,18 @@ package com.tactfactory.nikoniko.manager.database.manager.base;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DumpFields;
+import com.tactfactory.nikoniko.utils.MySQLAnnotation;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
 
@@ -38,13 +41,13 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			}
 		}
 	}
-	
+
 	@Override
-	public T getById(long id,T item) {
-		
+	public T getById(T item) {
+
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
 				"SELECT * FROM " + item.table + " WHERE " + item.table
-						+ ".id = " + id);
+						+ ".id = " + item.getId());
 		try {
 			if (query.next()) {
 				item = this.setObjectFromResultSet(query,item);
@@ -56,71 +59,62 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 
 	public T setObjectFromResultSet(ResultSet resultSet,T item) {
-		
-		try {
-			item.setId(resultSet.getLong("id"));
-			
-			Map<String,Object> map=DumpFields.fielder(item);
-			ArrayList<Method> methods= DumpFields.getSetter(item.getClass());
-			
-			for (Map.Entry<String, Object> element : map.entrySet()) {
-				
-				String name = "set"+element.getKey().substring(0, 1).toUpperCase() + element.getKey().substring(1);
-				Method setter = null;
-				for (Method method : methods) {
-					if (method.getName().equals(name)){
-						setter=method;
-					}
+
+		for (Method method : DumpFields.getSetter(item.getClass())) {
+			if (method.getParameterTypes()[0] == int.class) {
+				try {
+					method.invoke(item, resultSet.getInt(method.getAnnotation(MySQLAnnotation.class).mySQLFieldName()));
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				if (element.getValue().getClass().getName()=="Integer"){
-					try {
-						setter.invoke(item, resultSet.getInt(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="Boolean"){
-					try {
-						setter.invoke(item, resultSet.getBoolean(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="String"){
-					try {
-						setter.invoke(item, resultSet.getString(element.getKey()));
-					} catch (IllegalAccessException e) {			
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {		
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {			
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="Date"){
-					try {
-						setter.invoke(item, resultSet.getDate(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
+			}else if (method.getParameterTypes()[0] == Date.class) {
+
+			}else if (method.getParameterTypes()[0] == Integer.class) {
+
+			}else if (method.getParameterTypes()[0] == String.class) {
+
+			}else if (method.getParameterTypes()[0] == Boolean.class) {
+
+			}else if (method.getParameterTypes()[0] == boolean.class) {
+
+			}else if (method.getParameterTypes()[0] == long.class) {
+
+			}else if (method.getParameterTypes()[0] == Long.class) {
+
+			}else if (method.getParameterTypes()[0] == double.class) {
+
+			}else if (method.getParameterTypes()[0] == Double.class) {
+
+			}else if (method.getParameterTypes()[0] == BigDecimal.class) {
+
+			}else if (method.getParameterTypes()[0] == float.class) {
+
+			}else if (method.getParameterTypes()[0] == Float.class) {
+
+			}else if (method.getParameterTypes()[0] == char.class) {
+
+			}else if (method.getParameterTypes()[0] == byte.class) {
+
+			}else if (method.getParameterTypes()[0] == Byte.class) {
+
+			}else if (method.getParameterTypes()[0] == short.class) {
+
+			}else if (method.getParameterTypes()[0] == Short.class) {
+
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+
 		}
+
 		return item;
 	}
 }
