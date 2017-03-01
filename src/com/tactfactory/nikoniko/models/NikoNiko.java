@@ -13,7 +13,7 @@ public class NikoNiko extends DatabaseItem {
 
 	private Date log_date;
 	private Date change_date;
-	private int satisfaction;
+	private Integer satisfaction;
 	private String comment;
 	private Boolean isAnonymous;
 	private User user;
@@ -146,9 +146,9 @@ public class NikoNiko extends DatabaseItem {
 	}
 
 	public NikoNiko(User user, Project project, int satisfaction,
-			Boolean isAnonimous) {
+			Boolean isAnonymous) {
 		this(user, project, satisfaction);
-		this.isAnonymous = isAnonimous;
+		this.isAnonymous = isAnonymous;
 	}
 
 	public NikoNiko(User user, Project project, int satisfaction,
@@ -161,8 +161,12 @@ public class NikoNiko extends DatabaseItem {
 	public NikoNiko() {
 		super(NikoNiko.TABLE,NikoNiko.FIELDS);
 	}
-	
+
+	@Override
 	public String toString() {
-		return "<"+this.getId()+">";
+		return "NikoNiko [log_date=" + log_date + ", change_date=" + change_date + ", satisfaction=" + satisfaction
+				+ ", comment=" + comment + ", isAnonymous=" + isAnonymous + "]";
 	}
+	
+	
 }
