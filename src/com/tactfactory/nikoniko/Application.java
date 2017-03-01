@@ -1,5 +1,6 @@
 package com.tactfactory.nikoniko;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,16 +16,17 @@ import com.tactfactory.nikoniko.utils.DumpFields;
 public class Application {
 
 	public static void main(String[] args) {
-//		/*
-//		 * User u1 = new User(); User u2 = new User();
-//		 *
-//		 * Team t1 = new Team(); u1.getTeams().add(t1); u2.getTeams().add(t1);
-//		 * t1.getUsers().add(u1); t1.getUsers().add(u2);
-//		 *
-//		 * Project p1 = new Project(); p1.getTeams().add(t1);
-//		 * t1.getProjects().add(p1);
-//		 */
-//
+
+		/*
+		 * User u1 = new User(); User u2 = new User();
+		 *
+		 * Team t1 = new Team(); u1.getTeams().add(t1); u2.getTeams().add(t1);
+		 * t1.getUsers().add(u1); t1.getUsers().add(u2);
+		 *
+		 * Project p1 = new Project(); p1.getTeams().add(t1);
+		 * t1.getProjects().add(p1);
+		 */
+
 //		DatabasePurjer.purjeDatabase();
 //
 //		NikoNiko niko = new NikoNiko();
@@ -100,21 +102,51 @@ public class Application {
 //
 //		int a = 0;
 //		a++;
-//
-//		// NikoNikoManager.createNikoNikoConsole(u1, p1);
-//		//
-//		// NikoNikoManager.showAllNikoNikoForProject(p1);
-//		// NikoNikoManager.showTeamStateForProject(p1);
-	
-	NikoNikoDBManager nikoNikoDBManager = new NikoNikoDBManager();
-	
-	nikoNikoDBManager.insert(new NikoNiko(new User(), new Project(), 1));
-	
-	NikoNiko nikoniko = new NikoNiko();
-	
-	System.out.println(nikoniko.getLog_date());
-	
-	//T item = DumpFields.createContentsEmpty(klazz);
-	//DumpFields.getGetter(klazz);
-	}	
+
+
+		// NikoNikoManager.createNikoNikoConsole(u1, p1);
+		//
+		// NikoNikoManager.showAllNikoNikoForProject(p1);
+		// NikoNikoManager.showTeamStateForProject(p1);
+		
+		/*NikoNikoDBManager nikonikoDbManager = new NikoNikoDBManager();
+		nikonikoDbManager.insert(new NikoNiko(new User(), new Project(), 1));
+		
+		NikoNiko newNiko = new NikoNiko();
+		newNiko = nikonikoDbManager.getById((int)2, newNiko);
+		System.out.println(newNiko.getId() + " " + newNiko.getSatisfaction());*/
+		
+		
+		// creer un objet de type T  -> DumpFields.createContentsEmpty()
+	// .<T> inspectedBAseAttribute
+	//  utilisation de Map
+		//NikoNiko newNiko1 = new NikoNiko();
+		//Project proj1 = DumpFields.createContentsEmpty(Class <Project> );
+		
+		/* Test on inspectBaseAttribut */
+		/* --------------------------- */
+		ArrayList<String> attributs = new ArrayList<String>();
+		attributs = DumpFields.inspectBaseAttribut(NikoNiko.class);
+		
+		System.out.println("NbAttr " + attributs.size());
+		for (String attribut : attributs) {
+			System.out.println("attribut " + attribut);
+		}
+		
+		/* Test on getClassesNames */
+		/*  ---------------------  */
+		ArrayList<String> classNames = new ArrayList<>();
+		try {
+			classNames = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("NbClass " + classNames.size());
+		for (String className : classNames) {
+			System.out.println("Class " + className);
+		}
+		
+	}
+
 }

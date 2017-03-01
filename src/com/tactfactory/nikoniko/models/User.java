@@ -14,12 +14,25 @@ public class User extends SecurityUser {
 	private String registration_cgi;
 	private ArrayList<NikoNiko> nikoNikos;
 	private ArrayList<Team> teams;
+	private char sex;
 
 	/**
 	 * @return the lastname
 	 */
 	public String getLastname() {
 		return lastname;
+	}
+	/**
+	 * @return the sex
+	 */
+	public char getSex() {
+		return sex;
+	}
+	/**
+	 * @param sex the sex to set
+	 */
+	public void setSex(char sex) {
+		this.sex = sex;
 	}
 	/**
 	 * @param lastname the lastname to set
@@ -87,6 +100,19 @@ public class User extends SecurityUser {
 
 	public User(){
 		super(User.TABLE,User.FIELDS);
+		this.nikoNikos = new ArrayList<NikoNiko>();
+		this.teams = new ArrayList<Team>();
+	}
+
+	public User( String firstname, String lastname){
+		this(firstname,lastname,'I');
+	}
+	
+	public User( String firstname, String lastname, char sex){
+		super(User.TABLE,User.FIELDS);
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.sex = sex;
 		this.nikoNikos = new ArrayList<NikoNiko>();
 		this.teams = new ArrayList<Team>();
 	}
