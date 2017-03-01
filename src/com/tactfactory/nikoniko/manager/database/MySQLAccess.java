@@ -37,6 +37,7 @@ public class MySQLAccess {
 						+ "user=root&password=");
 
 
+
 	}
 
 	public ResultSet resultQuery(String query) {

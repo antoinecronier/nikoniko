@@ -14,6 +14,7 @@ import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
 import com.tactfactory.nikoniko.models.*;
 import com.tactfactory.nikoniko.utils.DatabasePurjer;
+import com.tactfactory.nikoniko.utils.DumpFields;
 
 import com.tactfactory.nikoniko.utils.DateConverter;
 
@@ -22,6 +23,7 @@ import com.tactfactory.nikoniko.utils.DumpFields;
 public class Application {
 
 	public static void main(String[] args) {
+
 		/*
 		 * User u1 = new User(); User u2 = new User();
 		 *
@@ -31,6 +33,7 @@ public class Application {
 		 * Project p1 = new Project(); p1.getTeams().add(t1);
 		 * t1.getProjects().add(p1);
 		 */
+
 
 
 //		DatabasePurjer.purjeDatabase();
@@ -109,32 +112,30 @@ public class Application {
 //		int a = 0;
 //		a++;
 
+//
+//		// NikoNikoManager.createNikoNikoConsole(u1, p1);
+//		//
+//		// NikoNikoManager.showAllNikoNikoForProject(p1);
+//		// NikoNikoManager.showTeamStateForProject(p1);
+	
+	NikoNikoDBManager nikoNikoDBManager = new NikoNikoDBManager();
+	
+	nikoNikoDBManager.insert(new NikoNiko(new User(), new Project(), 1));
+	
+	NikoNiko nikoniko = new NikoNiko();
+	
+	System.out.println(nikoniko.getLog_date());
+	
+			
+	//nikonikoDBManager.getById(1,new NikoNiko());
+	
+	ArrayList<String> result = DumpFields.inspectGetter (Project.class);
+	System.out.println(result);
+	
+	ArrayList<String> result1 =  DumpFields.inspectBaseAttribut(User.class);
+	System.out.println(result1);
 
-		// NikoNikoManager.createNikoNikoConsole(u1, p1);
-		//
-		// NikoNikoManager.showAllNikoNikoForProject(p1);
-		// NikoNikoManager.showTeamStateForProject(p1);
-		
-
-		NikoNikoDBManager nikonikoDBManager = new NikoNikoDBManager();
-		nikonikoDBManager.insert(new NikoNiko(new User(), new Project(), 1));
-		
-		//NikoNiko niko1 nikonikoDBManager2 = new NikoNikoDBManager();
-		//nikonikoDBManager2.getById(1,new NikoNiko());
-		
-		ArrayList<String> result = DumpFields.inspectGetter (Project.class);
-		System.out.println(result);
-		
-		ArrayList<String> result1 =  DumpFields.inspectBaseAttribut(User.class);
-		System.out.println(result1);
-
-
-		
-		
-		NikoNikoDBManager nikoNikoDBManager = new NikoNikoDBManager();
-		//nikoNikoDBManager.insert(new NikoNiko(new User(), new Project(), 1));
-		
-		System.out.println(nikoNikoDBManager.getById(35).toString());
-		
+	
+	System.out.println(nikoNikoDBManager.getById(35).toString());
 	}
 }

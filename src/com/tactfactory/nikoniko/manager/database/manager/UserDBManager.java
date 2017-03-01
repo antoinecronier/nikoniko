@@ -14,6 +14,8 @@ public class UserDBManager {
 
 
 //	public static final String USER_TEAM = "user_team";
+//	
+//	// Fonction qui permet de créer la requète SQL pour récupérer les valeurs de user
 //
 //	public String getUserValues(User user) {
 //		String query = "";
@@ -32,9 +34,21 @@ public class UserDBManager {
 //
 //		return query;
 //	}
+//	
+//	// Fonction qui permet de récupérer les données d'un user depuis la BDD
+//	// Fonction qui permet aux données d'être utilisé par un user du programme
 //
 //	public User setObjectFromResultSet(ResultSet query) {
+//		
+//		// On créé un user tampon qui va stocker les données récupérées
+//		
 //		User user = new User();
+//		
+//		// On ajoute à l'user les différents champs par rapport au retour de la
+//		// requète SQL. result.getLong("id") se positionne sur le champ "id" 
+//		// result.getLong("id") = result.getLong(1). "1" position de l'id dans 
+//		// ligne retourner par la requète.
+//		
 //		try {
 //			user.setId(query.getLong("id"));
 //			user.setLogin(query.getString("login"));
@@ -48,6 +62,10 @@ public class UserDBManager {
 //		}
 //		return user;
 //	}
+//	
+//	// Fonction qui permet de récupérer un utilisateur dans la BDD en fonction 
+//	// de l'id renseigné et ensuite de créer directement les relations entre 
+//	// la team et le niko niko
 //
 //	public User getUserByIdFull(long id) {
 //		User user = this.getUserById(id);
@@ -57,11 +75,18 @@ public class UserDBManager {
 //
 //		return user;
 //	}
+//	
+//	// Fonction permettant de récupérer un utilisateur en fonction de l'id
+//	// renseigné en paramètre
 //
 //	public User getUserById(long id) {
 //		ResultSet query = MySQLAccess.getInstance().resultQuery(
 //				"SELECT * FROM " + User.TABLE + " WHERE " + User.TABLE
 //						+ ".id = " + id);
+//		
+//		// On créé un nouvel user qui va récupérer les informations 
+//		// rendus par la requète SQL
+//		
 //		User user = new User();
 //		try {
 //			if (query.next()) {
@@ -71,16 +96,31 @@ public class UserDBManager {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+//		
+//		// On retourne l'user trouvé
+//		
 //		return user;
 //	}
-//
+//	
+//	// Fonction qui récupère dans une liste tous les utilisateurs de la table user
+//	
 //	public ArrayList<User> getAllUser() {
-//		ResultSet query = MySQLAccess.getInstance().resultQuery(
+//		
+//		// Requète SQL pour avoir tous les users
+//		
+//		ResultSet result = MySQLAccess.getInstance().resultQuery(
 //				"SELECT * FROM " + User.TABLE + "");
+//		
+//		// On va insérer dans cette liste le résultat de la requète SQL
+//		
 //		ArrayList<User> users = new ArrayList<User>();
+//		
+//		// On insére dans la liste tous les users avec leurs attributs récupérés
+//		// depuis la table (setObjectFromResultSet(result))
+//		
 //		try {
-//			while (query.next()) {
-//				users.add(setObjectFromResultSet(query));
+//			while (result.next()) {
+//				users.add(setObjectFromResultSet(result));
 //			}
 //		} catch (SQLException e) {
 //			// TODO Auto-generated catch block
@@ -88,12 +128,18 @@ public class UserDBManager {
 //		}
 //		return users;
 //	}
+//	
+//	// Fonction qui permet de récupérer les niko niko en fonction de l'user
+//	// foreign key dans la table niko niko
 //
 //	public void getAssociatedNikoNiko(User user) {
+//		
 //		ResultSet query = MySQLAccess.getInstance().resultQuery(
 //				"SELECT * FROM " + NikoNiko.TABLE + " WHERE " + NikoNiko.TABLE
 //						+ ".id_User = " + user.getId());
+//		
 //		NikoNikoDBManager nikoNikoDBManager = new NikoNikoDBManager();
+//		
 //		try {
 //			while (query.next()) {
 //				user.getNikoNikos().add(
@@ -103,6 +149,8 @@ public class UserDBManager {
 //			e.printStackTrace();
 //		}
 //	}
+//	
+//	// Fonction qui permet de récupérer la/les teams en fonction de l'user
 //
 //	public void getAssociatedTeam(User user) {
 //		ResultSet query = MySQLAccess.getInstance().resultQuery(
@@ -121,6 +169,8 @@ public class UserDBManager {
 //			e.printStackTrace();
 //		}
 //	}
+//	
+//	// Fonction permettant d'insérer un user dans la table user de la BDD
 //
 //	public void insert(User user) {
 //		String query = "";
@@ -130,6 +180,9 @@ public class UserDBManager {
 //		query += ")";
 //
 //		MySQLAccess.getInstance().updateQuery(query);
+//		
+//		// Si son id est égal à 0 alors on va récupérer l'id de l'utilisateur
+//		// récemment inséré
 //
 //		if (user.getId() == 0) {
 //			ResultSet result = MySQLAccess.getInstance().resultQuery(
@@ -144,6 +197,8 @@ public class UserDBManager {
 //			}
 //		}
 //	}
+//	
+//	// Création de l'association entre la table user et team (user -> team)
 //
 //	public void insertRelationTeam(User user, Team team) {
 //		String query = "";
@@ -159,4 +214,5 @@ public class UserDBManager {
 //			user.getTeams().add(team);
 //		}
 //	}
+//
 }
