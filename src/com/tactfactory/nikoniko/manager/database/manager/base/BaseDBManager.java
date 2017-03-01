@@ -13,7 +13,7 @@ import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DumpFields;
-import com.tactfactory.nikoniko.utils.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
 
@@ -62,21 +62,21 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 		for (Method method : DumpFields.getSetter(item.getClass())) {
 			if (method.getParameterTypes()[0] == int.class) {
-				try {
-					method.invoke(item, resultSet.getInt(method.getAnnotation(MySQLAnnotation.class).mySQLFieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					//method.invoke(item, resultSet.getInt(method.getAnnotation(MySQLAnnotation.class).mySQLFieldName()));
+//				} catch (IllegalAccessException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (IllegalArgumentException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (InvocationTargetException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}else if (method.getParameterTypes()[0] == Date.class) {
 
 			}else if (method.getParameterTypes()[0] == Integer.class) {

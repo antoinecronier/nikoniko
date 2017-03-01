@@ -4,7 +4,8 @@ import java.util.Date;
 
 import com.tactfactory.nikoniko.manager.NikoNikoManager;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
-import com.tactfactory.nikoniko.utils.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class NikoNiko extends DatabaseItem {
 	public static final String TABLE = "nikoniko";
@@ -12,12 +13,25 @@ public class NikoNiko extends DatabaseItem {
 			"satisfaction", "nikoniko_comment", "isanonymous", "id_User",
 			"id_Project" };
 
+	@MySQLAnnotation(fieldName = "log_date",mysqlType = MySQLTypes.DATETIME)
 	private Date log_date;
+
+	@MySQLAnnotation(fieldName = "change_date",mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date change_date;
+
+	@MySQLAnnotation(fieldName = "satisfaction",mysqlType = MySQLTypes.INT)
 	private Integer satisfaction;
+
+	@MySQLAnnotation(fieldName = "nikoniko_comment",mysqlType = MySQLTypes.TEXT, nullable = true)
 	private String comment;
+
+	@MySQLAnnotation(fieldName = "isAnonymous",mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
+
+	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.INT, nullable = true)
 	private User user;
+
+	@MySQLAnnotation(fieldName = "id_Project",mysqlType = MySQLTypes.INT, nullable = true)
 	private Project project;
 
 	/**
@@ -34,7 +48,6 @@ public class NikoNiko extends DatabaseItem {
 	 * @param log_date
 	 *            the log_date to set
 	 */
-	@MySQLAnnotation(mySQLFieldName = "log_date")
 	public void setLog_date(Date log_date) {
 		this.log_date = log_date;
 	}
@@ -50,7 +63,6 @@ public class NikoNiko extends DatabaseItem {
 	 * @param change_date
 	 *            the change_date to set
 	 */
-	@MySQLAnnotation(mySQLFieldName = "change_date")
 	public void setChange_date(Date change_date) {
 		this.change_date = change_date;
 	}
@@ -66,7 +78,6 @@ public class NikoNiko extends DatabaseItem {
 	 * @param satisfaction
 	 *            the satisfaction to set
 	 */
-	@MySQLAnnotation(mySQLFieldName = "satisfaction")
 	public void setSatisfaction(int satisfaction) {
 		this.satisfaction = NikoNikoManager.satisfactionRule(satisfaction);
 	}
@@ -82,7 +93,6 @@ public class NikoNiko extends DatabaseItem {
 	 * @param comment
 	 *            the comment to set
 	 */
-	@MySQLAnnotation(mySQLFieldName = "nikoniko_comment")
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
@@ -101,7 +111,6 @@ public class NikoNiko extends DatabaseItem {
 	 * @param isAnonymous
 	 *            the isAnonymous to set
 	 */
-	@MySQLAnnotation(mySQLFieldName = "isanonymous")
 	public void setIsAnonymous(Boolean isAnonymous) {
 		this.isAnonymous = isAnonymous;
 	}
@@ -117,7 +126,6 @@ public class NikoNiko extends DatabaseItem {
 	 * @param user
 	 *            the user to set
 	 */
-	@MySQLAnnotation(mySQLFieldName = "id_User")
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -133,7 +141,6 @@ public class NikoNiko extends DatabaseItem {
 	 * @param project
 	 *            the project to set
 	 */
-	@MySQLAnnotation(mySQLFieldName = "id_Project")
 	public void setProject(Project project) {
 		this.project = project;
 	}
