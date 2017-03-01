@@ -10,10 +10,9 @@ import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.utils.DateConverter;
 
-public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
-	
-	
+public class NikoNikoDBManager extends BaseDBManager<NikoNiko>{
+
 	@Override
 	public String getValues(NikoNiko item) {
 
@@ -25,13 +24,12 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 			query += "null,";
 		}
 
-		query += "'" + DateConverter.getMySqlDatetime(item.getLog_date())
-				+ "',";
+
+		query += "'" + DateConverter.getMySqlDatetime(item.getLog_date()) + "',";
 
 		if (item.getChange_date() != null) {
-			query += "'"
-					+ DateConverter.getMySqlDatetime(item.getChange_date())
-					+ "',";
+			query += "'" + DateConverter.getMySqlDatetime(item.getChange_date()) + "',";
+
 		} else {
 			query += "null,";
 		}
@@ -57,51 +55,51 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		} else {
 			query += "null";
 		}
-
 		return query;
-
 	}
 	
-	public NikoNiko setObjectFromResultSet(ResultSet query) {
-		NikoNiko item = new NikoNiko();
-		try {
-			item.setId(query.getLong("id"));
-			item.setLog_date(query.getDate("log_Date"));
-			item.setChange_date(query.getDate("change_Date"));
-			item.setSatisfaction(query.getInt("satisfaction"));
-			item.setComment(query.getString("nikoniko_comment"));
-			item.setIsAnonymous(query.getBoolean("isanonymous"));
+//	@Override
+//	public NikoNiko setObjectFromResultSet(ResultSet resultSet) {
+//		NikoNiko nikoNiko = new NikoNiko();
+//		try {
+//			nikoNiko.setId(resultSet.getLong("id"));
+//			nikoNiko.setLog_date(resultSet.getDate("log_Date"));
+//			nikoNiko.setChange_date(resultSet.getDate("change_Date"));
+//			nikoNiko.setSatisfaction(resultSet.getInt("satisfaction"));
+//			nikoNiko.setComment(resultSet.getString("nikoniko_comment"));
+//			nikoNiko.setIsAnonymous(resultSet.getBoolean("isanonymous"));
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return nikoNiko;
+//	}
 
 
-			} catch (SQLException e) {
-			e.printStackTrace();
-			}
-			return item;
-			}
-
+	
+	public NikoNiko getById(long id){
+		return super.getById(id, new NikoNiko());
+	}
+	
 	@Override
-	public NikoNiko setObjectFromResult(ResultSet resultSet) {
+	public NikoNiko getByIdFull(long id) {
+
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void purgeTable(String table) {
-		// TODO Auto-generated method stub	
+	// TODO Auto-generated method stub	
 	}
 
 	@Override
 	public NikoNiko getById(long id, NikoNiko item) {
-		// TODO Auto-generated method stub
-		return null;
+	// TODO Auto-generated method stub
+	return null;
 	}
 
-	@Override
-	public NikoNiko getByIdFull(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public ArrayList<NikoNiko> getAll() {
 		// TODO Auto-generated method stub
@@ -111,11 +109,8 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	@Override
 	public void getAssociateObject(NikoNiko item) {
 		// TODO Auto-generated method stub
-		
 	}
-
-
-
+	
 	@Override
 	public void update(NikoNiko item) {
 		// TODO Auto-generated method stub
@@ -142,6 +137,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
 	@Override
 	public <O> void updateChildren(NikoNiko item) {
+
 		// TODO Auto-generated method stub
 		
 	}
@@ -157,7 +153,52 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+//	public String getNikoNikoValues(NikoNiko nikoniko) {
+//		String query = "";
 //
+//		if (nikoniko.getId() != 0) {
+//			query += nikoniko.getId() + ",";
+//		} else {
+//			query += "null,";
+//		}
+//
+//		query += "'" + DateConverter.getMySqlDatetime(nikoniko.getLog_date())
+//				+ "',";
+//
+//		if (nikoniko.getChange_date() != null) {
+//			query += "'"
+//					+ DateConverter.getMySqlDatetime(nikoniko.getChange_date())
+//					+ "',";
+//		} else {
+//			query += "null,";
+//		}
+//
+//		query += nikoniko.getSatisfaction() + ",";
+//
+//		if (nikoniko.getComment() != null) {
+//			query += "'" + nikoniko.getComment() + "',";
+//		} else {
+//			query += "null,";
+//		}
+//
+//		query += nikoniko.getIsAnonymous() + ",";
+//
+//		if (nikoniko.getUser() != null && nikoniko.getUser().getId() != 0) {
+//			query += nikoniko.getUser().getId() + ",";
+//		} else {
+//			query += "null,";
+//		}
+//
+//		if (nikoniko.getProject() != null && nikoniko.getProject().getId() != 0) {
+//			query += nikoniko.getProject().getId();
+//		} else {
+//			query += "null";
+//		}
+//
+//		return query;
+//	}
 
 //
 //	public NikoNiko setObjectFromResultSet(ResultSet query) {
@@ -210,6 +251,26 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 //		return nikoNiko;
 //	}
 //
-//	
+//	public void insert(NikoNiko nikoniko) {
+//		String query = "";
+//
+//		query += "INSERT INTO " + NikoNiko.TABLE + " VALUES (";
+//		query += this.getNikoNikoValues(nikoniko);
+//		query += ")";
+//
+//		MySQLAccess.getInstance().updateQuery(query);
+//
+//		if (nikoniko.getId() == 0) {
+//			ResultSet result = MySQLAccess.getInstance().resultQuery(
+//					"SELECT MAX(id) AS id FROM " + NikoNiko.TABLE);
+//
+//			try {
+//				if (result.next()) {
+//					nikoniko.setId(result.getLong(1));
+//				}
+//			} catch (SQLException e1) {
+//				e1.printStackTrace();
+//			}
+//		}
 //	}
 }

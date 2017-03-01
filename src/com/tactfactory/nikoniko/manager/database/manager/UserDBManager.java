@@ -11,15 +11,6 @@ import com.tactfactory.nikoniko.models.Team;
 import com.tactfactory.nikoniko.models.User;
 
 public class UserDBManager {
-	
-//	public User getUserByIdFull(long id) {
-//	User item = this.getUserById(id);
-//
-//	this.getAssociatedNikoNiko(item);
-//	this.getAssociatedTeam(item);
-//
-//	return user;
-//}
 
 
 //	public static final String USER_TEAM = "user_team";

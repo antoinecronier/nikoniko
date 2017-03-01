@@ -17,7 +17,7 @@ public interface IDBManagerBase<T> {
 	 * @param resultSet
 	 * @return
 	 */
-	public T setObjectFromResult(ResultSet resultSet);
+	public T setObjectFromResultSet(ResultSet resultSet,T item);
 
 
 	// Database management
@@ -32,7 +32,9 @@ public interface IDBManagerBase<T> {
 	 * @param id
 	 * @return
 	 */
-	public T getById(long id, T item);
+
+	public T getById(long id,T item);
+
 
 	/**
 	 * Return object as java item to be used. And all its relations.
