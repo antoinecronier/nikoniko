@@ -1,10 +1,13 @@
 package com.tactfactory.nikoniko.manager.database.manager.base;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
@@ -12,6 +15,7 @@ import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBMana
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
 
@@ -110,10 +114,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			}
 		}
 	}
-	
+
 	@Override
-	public T getById(T item) {
-		
+	public T getById(T item) {		
+
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
 				"SELECT * FROM " + item.table + " WHERE " + item.table
 						+ ".id = " + item.getId());
@@ -128,71 +132,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 
 	public T setObjectFromResultSet(ResultSet resultSet,T item) {
-		
-		try {
-			item.setId(resultSet.getLong("id"));
-			
-			Map<String,Object> map=DumpFields.fielder(item);
-			ArrayList<Method> methods= DumpFields.getSetter(item.getClass());
-			
-			for (Map.Entry<String, Object> element : map.entrySet()) {
-				
-				String name = "set"+element.getKey().substring(0, 1).toUpperCase() + element.getKey().substring(1);
-				Method setter = null;
-				for (Method method : methods) {
-					if (method.getName().equals(name)){
-						setter=method;
-					}
-				}
-				
-				if (element.getValue().getClass().getName()=="Integer"){
-					try {
-						setter.invoke(item, resultSet.getInt(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="Boolean"){
-					try {
-						setter.invoke(item, resultSet.getBoolean(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="String"){
-					try {
-						setter.invoke(item, resultSet.getString(element.getKey()));
-					} catch (IllegalAccessException e) {			
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {		
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {			
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="Date"){
-					try {
-						setter.invoke(item, resultSet.getDate(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return item;
+
+		return null;
 	}
 }

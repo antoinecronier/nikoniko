@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public class DumpFields {
 	public static <T> ArrayList<String> inspectBaseAttribut(Class<T> klazz) {
@@ -35,6 +36,30 @@ public class DumpFields {
 			fields = superClass.getDeclaredFields();
 			for (int i = fields.length - 1; i >= 0; i--) {
 				attributs.add(0, fields[i].getName());
+			}
+		}
+
+		return attributs;
+	}
+
+	public static <T> ArrayList<Field> getFields(Class<T> klazz) {
+		ArrayList<Field> attributs = new ArrayList<Field>();
+		Field[] fields;
+		Class superClass = klazz;
+
+		fields = superClass.getDeclaredFields();
+		for (Field field : fields) {
+			if (field.getAnnotation(MySQLAnnotation.class) != null) {
+				attributs.add(field);
+			}
+		}
+
+		while (superClass.getSuperclass() != DatabaseItem.class
+				&& superClass.getSuperclass() != Object.class) {
+			superClass = superClass.getSuperclass();
+			fields = superClass.getDeclaredFields();
+			for (int i = fields.length - 1; i >= 0; i--) {
+				attributs.add(0, fields[i]);
 			}
 		}
 
@@ -248,14 +273,14 @@ public class DumpFields {
 		}
 		return null;
 	}
-	
+
 	public static boolean isSetter(Method method) {
 		   return Modifier.isPublic(method.getModifiers()) &&
 				 method.getReturnType().equals(void.class) &&
-		         method.getParameterTypes().length == 1 && 
+		         method.getParameterTypes().length == 1 &&
 		         method.getName().matches("^set[A-Z].*");
 		}
-	
+
 	public static boolean isGetter(Method method) {
 		if (Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length == 0) {
 			if (method.getName().matches("^get[A-Z].*") && !method.getReturnType().equals(void.class))
@@ -265,7 +290,7 @@ public class DumpFields {
 		   }
 		return false;
 	}
-	
+
 	/**
 	 * scinder find getter et find setters pourrait etre plus interessant pour la suite
 	 * @param c
@@ -279,6 +304,6 @@ public class DumpFields {
 		         list.add(method);
 		   return list;
 		}
-	
+
 }
 
