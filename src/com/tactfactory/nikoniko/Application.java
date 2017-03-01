@@ -112,11 +112,9 @@ public class Application {
 	
 	NikoNiko nikoniko = new NikoNiko();
 	
-	nikoniko = nikoNikoDBManager.getById(13, nikoniko);
-	
 	System.out.println(nikoniko.getLog_date());
 	
-	T item = DumpFields.createContentsEmpty(klazz);
-	DumpFields.getGetter(klazz);
+	//T item = DumpFields.createContentsEmpty(klazz);
+	//DumpFields.getGetter(klazz);
 	}	
 }
