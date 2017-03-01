@@ -10,6 +10,7 @@ import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
 import com.tactfactory.nikoniko.models.*;
 import com.tactfactory.nikoniko.utils.DatabasePurjer;
+import com.tactfactory.nikoniko.utils.DumpFields;
 
 public class Application {
 
@@ -100,25 +101,21 @@ public class Application {
 //
 //		int a = 0;
 //		a++;
-
-
-		// NikoNikoManager.createNikoNikoConsole(u1, p1);
-		//
-		// NikoNikoManager.showAllNikoNikoForProject(p1);
-		// NikoNikoManager.showTeamStateForProject(p1);
-
-		
-		
-		
-		
-		 
-		
-		NikoNikoDBManager nikonikoDBManager = new NikoNikoDBManager();
-		nikonikoDBManager.insert(new NikoNiko(new User(), new Project(), 1));
-		
-		NikoNiko niko1 = nikonikoDBManager.getById(10, new NikoNiko());
-		
-		System.out.println(niko1.getComment());
-
-	}
+//
+//		// NikoNikoManager.createNikoNikoConsole(u1, p1);
+//		//
+//		// NikoNikoManager.showAllNikoNikoForProject(p1);
+//		// NikoNikoManager.showTeamStateForProject(p1);
+	
+	NikoNikoDBManager nikoNikoDBManager = new NikoNikoDBManager();
+	
+	nikoNikoDBManager.insert(new NikoNiko(new User(), new Project(), 1));
+	
+	NikoNiko nikoniko = new NikoNiko();
+	
+	System.out.println(nikoniko.getLog_date());
+	
+	//T item = DumpFields.createContentsEmpty(klazz);
+	//DumpFields.getGetter(klazz);
+	}	
 }
