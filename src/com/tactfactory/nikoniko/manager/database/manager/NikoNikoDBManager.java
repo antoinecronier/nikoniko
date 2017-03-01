@@ -87,16 +87,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		return query;
 	}
 
-	/**
-	 * Fonction qui permet d'obtenir toutes les informations d'un nikoniko en
-	 * fonction de l'id renseigné
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public NikoNiko getById(long id) {
-		return super.getById(id, new NikoNiko());
-	}
 
 	@Override
 	public NikoNiko getByIdFull(long id) {
@@ -109,8 +99,15 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * Fonction qui permet d'obtenir toutes les informations d'un nikoniko en
+	 * fonction de l'id renseigné
+	 * 
+	 * @param item
+	 * @return item
+	 */
 	@Override
-	public NikoNiko getById(long id, NikoNiko item) {
+	public NikoNiko getById(NikoNiko item) {
 		// TODO Auto-generated method stub
 		return null;
 	}
