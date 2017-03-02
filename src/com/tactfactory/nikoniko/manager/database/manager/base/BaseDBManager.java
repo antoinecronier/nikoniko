@@ -1,20 +1,24 @@
 package com.tactfactory.nikoniko.manager.database.manager.base;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
-import com.mysql.jdbc.Field;
+//import com.mysql.jdbc.Field;
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DumpFields;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
 
@@ -30,8 +34,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		MySQLAccess.getInstance().updateQuery(query);
 
 		if (item.getId() == 0) {
-			ResultSet result = MySQLAccess.getInstance().resultQuery(
-					"SELECT MAX(id) AS id FROM " + item.table);
+			ResultSet result = MySQLAccess.getInstance().resultQuery("SELECT MAX(id) AS id FROM " + item.table);
 
 			try {
 				if (result.next()) {
@@ -42,16 +45,15 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			}
 		}
 	}
-	
+
 	@Override
 	public T getById(T item) {
-		
-		ResultSet query = MySQLAccess.getInstance().resultQuery(
-				"SELECT * FROM " + item.table + " WHERE " + item.table
-						+ ".id = " + item.getId());
+
+		ResultSet query = MySQLAccess.getInstance()
+				.resultQuery("SELECT * FROM " + item.table + " WHERE " + item.table + ".id = " + item.getId());
 		try {
 			if (query.next()) {
-				item = this.setObjectFromResultSet(query,item);
+				item = this.setObjectFromResultSet(query, item);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -59,156 +61,126 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		return item;
 	}
 
-	public T setObjectFromResultSet(ResultSet resultSet,T item) {
-		
-		try {
-			item.setId(resultSet.getLong("id"));
-			
-			Map<String,Object> map=DumpFields.fielder(item);
-			ArrayList<Method> methods= DumpFields.getSetter(item.getClass());
-			
-			for (Map.Entry<String, Object> element : map.entrySet()) {
-				
-				String name = "set"+element.getKey().substring(0, 1).toUpperCase() + element.getKey().substring(1);
-				Method setter = null;
-				for (Method method : methods) {
-					if (method.getName().equals(name)){
-						setter=method;
-					}
-				}
-				
-				if (element.getValue().getClass().getName()=="Integer"){
-					try {
-						setter.invoke(item, resultSet.getInt(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="Boolean"){
-					try {
-						setter.invoke(item, resultSet.getBoolean(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="String"){
-					try {
-						setter.invoke(item, resultSet.getString(element.getKey()));
-					} catch (IllegalAccessException e) {			
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {		
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {			
-						e.printStackTrace();
-					}
-				}
-				else if (element.getValue().getClass().getName()=="Date"){
-					try {
-						setter.invoke(item, resultSet.getDate(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public T setObjectFromResultSet(ResultSet resultSet, T item) {
+
+		// for (Field field : DumpFields.getFields(item.getClass())) {
+		// if (field.getType() == int.class) {
+		// try {
+		// DumpFields.getSetter(field).invoke(item,
+		// resultSet.getInt(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+		// } catch (IllegalAccessException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IllegalArgumentException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (InvocationTargetException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (SQLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }else if (method.getParameterTypes()[0] == Date.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == Integer.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == String.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == Boolean.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == boolean.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == long.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == Long.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == double.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == Double.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == BigDecimal.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == float.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == Float.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == char.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == byte.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == Byte.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == short.class) {
+		//
+		// }else if (method.getParameterTypes()[0] == Short.class) {
+		//
+		// }
+		//
+		// }
+
 		return item;
 	}
-	
-	public void getAssociatedObject(T item) {
-		
-		String query = "";
-		
-		query += "SELECT * FROM nikoniko WHERE id_User = " + item.getId();
-		ResultSet result = MySQLAccess.getInstance().resultQuery(query);
-		
-		// Définition des listes pour récupérer le nom des classes et les attributs
-		ArrayList<String> className = new ArrayList<>(); 
-		ArrayList<String> classAtrributs = new ArrayList<>(); 
-		
-		// Récupération du nom de la classe correspondant à l'objet
+
+	public void getAssociatedObject(T item)
+			throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException {
+
+		// On affiche le nom de la classe correspondant à l'objet
 		System.out.println(item.getClass().getSimpleName());
-		
-		// On récupère le nom de toutes les classes contenues dans le package models
-		try {
-				className = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		// On fait une boucle sur la liste "classeName" pour savoir si le nom de la
-		// classe correspond bien à celui de son objet
-		for (int i = 0; i < className.size(); i++) {
-			
-			if (item.getClass().getName().toLowerCase().equals("com.tactfactory.nikoniko.models." + className.get(i).toString())){
+
+		// On récupère tous les fields correspondant à l'objet
+		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+
+		// On récupère toutes les classes du package models
+		ArrayList<Class> classes = DumpFields.getClasses("com.tactfactory.nikoniko.models");
+
+		// Pour tous les fields récupérés de la classe correspondante on test
+		// les types
+		// des fields pour pouvoir faire les relations (si l'objet correspond à la classe)
+		for (Field field : fields) {
+
+			Class klazz = field.getType();
+
+			if (classes.contains(klazz)) {
+
+				// Instanciation de la classe klazz
+				DatabaseItem object = (DatabaseItem) klazz.newInstance();
+								
+				// Création de la requète pour recupérer les informations
+				String query = "";
+				query += "SELECT * FROM " + item.table + " WHERE "
+						+ field.getAnnotation(MySQLAnnotation.class).fieldName() + " = " + DumpFields.;
+
+				ResultSet result = MySQLAccess.getInstance().resultQuery(query);
 				
-				// Si c'est bon on print qu'on a trouvé la bonne classe
-				System.out.println("Classe trouvée");
+				Object tampon = new Object();
 				
-				// On ajoute ensuite tous les attributs de la classe concernée dans une liste
-				classAtrributs = DumpFields.inspectBaseAttribut(item.getClass());
+				System.out.println(query);
+				System.out.println(setObjectFromResultSet(result, item));
 				
-				// On boucle sur tous les attributs et on chercher si un des attributs (liste)
-				// correspond au nom d'une classe
-				for (int j = 0; j < classAtrributs.size(); j++) {
-					
-					// Si c'est bon alors alors on récupère ce qu'il y a dans la relation
-					if (classAtrributs.get(j) == className.get(i).toLowerCase()) {
-						
-						try {
-							while (result.next()) {
-							//item.get(classAtrributs.get(j)).add(ObjectManager.getObjectById(result.getLong("id")));
-								}
-							} 
-						
-						catch (Exception e) {
-								// TODO: handle exception
-								e.printStackTrace();
-							}
-						
-					
-					}
-				}
-			}
-			
-			else {
-				// Pas de classe trouvée pour l'objet correspondant
-				System.out.println("Pas de classe correspondante trouvée");
+				
+				
+				DumpFields.createContentsEmpty(field.getType());
+				
+
+				
+			} else if (klazz == ArrayList.class) {
+				System.out.println("ok");
 			}
 		}
-	} 
-		
-			
-//				String query = "";
-//				query += "SELECT * FROM object_item WHERE id = " +  item.getId();
-//				ResultSet result = MySQLAccess.getInstance().resultQuery(query);
-//				
-//				try {
-//					while (result.next()) {
-//						//on ajoute à l'arraylist Object l'item trouvee pas son id
-//						item.getObject().add(Manager.getItemById(result.getLong("id_"+ object)));				
-//					}				
-//				} catch (Exception e) {
-//					// TODO: handle exception
-//				}	
-	
+	}
+
+	// String query = "";
+	// query += "SELECT * FROM object_item WHERE id = " + item.getId();
+	// ResultSet result = MySQLAccess.getInstance().resultQuery(query);
+	//
+	// try {
+	// while (result.next()) {
+	// //on ajoute à l'arraylist Object l'item trouvee pas son id
+	// item.getObject().add(Manager.getItemById(result.getLong("id_"+ object)));
+	// }
+	// } catch (Exception e) {
+	// // TODO: handle exception
+	// }
 
 }
-

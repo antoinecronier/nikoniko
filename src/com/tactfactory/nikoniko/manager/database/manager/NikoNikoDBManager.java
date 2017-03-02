@@ -87,8 +87,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		return query;
 	}
 
-	
-
 	@Override
 	public NikoNiko getByIdFull(long id) {
 		// TODO Auto-generated method stub
@@ -108,11 +106,20 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	 * @return
 	 */
 
-	@Override
-	public NikoNiko getById(NikoNiko item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+//	/**
+//	 * Fonction qui permet d'obtenir toutes les informations d'un nikoniko en
+//	 * fonction de l'id renseigné
+//	 *
+//	 * @param item
+//	 * @return
+//	 */
+//	@Override
+//	public NikoNiko getById(NikoNiko item) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 
 	// Fonction qui permet d'obtenir tous les nikoniko de la table
 	// niko niko dans la BDD
