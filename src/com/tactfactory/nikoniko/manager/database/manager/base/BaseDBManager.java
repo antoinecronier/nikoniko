@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
-import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
@@ -21,13 +20,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
-<<<<<<< HEAD
-	 * 
-=======
-	 *
->>>>>>> antoine
 	 * @param item
-	 * @return query 
+	 * @return query
 	 */
 	public String getValues(T item) {
 
@@ -44,17 +38,17 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 		} else {
 			query += "null,";
 		}
-		
+
 		//Use item.field to have the good order of arguments to fill DTB
 		for (String fieldItem : item.fields) {
-			
+
 			// For each attributes of item with a MySQLAnnotation
 			for (Field field : DumpFields.getFields(item.getClass())) {
-				
+
 				// Name of the current found attribute and current element
 				// of item.field are equal
 				if (fieldItem.equals(field.getAnnotation(MySQLAnnotation.class).fieldName())) {
-					
+
 					//For each SQL known type, do the appropriate action to fill the query
 					switch (field.getAnnotation(MySQLAnnotation.class).mysqlType()) {
 					case DATETIME:
@@ -129,13 +123,13 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 						// if the selected attribute is an ArrayList of object, do nothing (case of association table)
 						break;
 					default:
-						//In case of the selected attribute is an unknown sql type 
+						//In case of the selected attribute is an unknown sql type
 						if (DumpFields.runGetter(field, item) != null) {
 							//This attribute is already set in item (even if his SQL type is unknown)
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else {
 							//Set it to null in other cases
-							//WARNING : It may create errors when try to fill DTB with this item if 
+							//WARNING : It may create errors when try to fill DTB with this item if
 							//set to not nullable in DTB
 							query += ",null";
 						}
@@ -351,7 +345,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 			while (query.next()) {
 				// cr�ation d'un objet vide � partir d'une classe
 				T temp = DumpFields.createContentsEmpty(clazz);
-				
+
 				// remplir la liste d'objets avec les r�sultats
 				malistedobjets.add(setObjectFromResultSet(query, temp));
 			}
