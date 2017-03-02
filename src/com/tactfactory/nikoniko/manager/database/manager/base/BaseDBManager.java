@@ -13,7 +13,41 @@ import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DumpFields;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
-
+	public boolean insertVerbose=false;
+	public boolean updateVerbose=false;
+	
+	public void setInsertVerbose(boolean value) {
+		this.insertVerbose = true;
+	}
+	
+	public void setUpdateVerbose(boolean value) {
+		this.insertVerbose = true;
+	}
+	
+    @Override
+	public String getValues(T item) {
+    	
+		Map<String, Object> map;
+		map = DumpFields.fielder(item);
+		System.out.println("getValues("+item.getClass().getName());
+		
+		String values = "";
+		String string = "";
+		for(String field : item.fields) {
+			//if(field.equals("id")) continue;
+			for (String key : map.keySet()) {
+					if(key.equals(field)) {
+					string += key + "(OK)=" + map.get(key) + ", ";
+					values += "\"" + map.get(key) + "\",";
+				}
+			}
+		}
+		values=values.substring(0, values.length()-1);
+		System.out.println(string);
+		System.out.println(item.table);
+		return values;
+	}
+	
 	@Override
 	public void insert(T item) {
 
@@ -21,7 +55,11 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 		query += "INSERT INTO " + item.table + " VALUES (";
 		query += this.getValues(item);
-		query += ")";
+		query += ");";
+
+		if(this.insertVerbose) {
+			System.out.println(query);
+		}
 
 		MySQLAccess.getInstance().updateQuery(query);
 
@@ -38,13 +76,13 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			}
 		}
 	}
-	
+		
 	@Override
-	public T getById(long id,T item) {
+	public T getById(T item) {
 		
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
 				"SELECT * FROM " + item.table + " WHERE " + item.table
-						+ ".id = " + id);
+						+ ".id = " + item.getId());
 		try {
 			if (query.next()) {
 				item = this.setObjectFromResultSet(query,item);
@@ -123,4 +161,52 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		}
 		return item;
 	}
+	
+	@Override
+	public void update(T item)
+	{
+		Map<String, Object> map;
+		map = DumpFields.fielder(item);
+		
+		String query;
+		
+		String fieldsValues = getValues(item);
+		String[] list = fieldsValues.split(",");
+		
+		query = "UPDATE " + item.table + " SET " ;
+		int index=0;
+		for(String elem : list) {
+			
+			query += elem + ",";
+		}
+		query = query.substring(0, query.length()-1);
+		query += " WHERE id=";
+		query += item.getId();
+		query += ";";
+		
+		if(this.updateVerbose) {
+			System.out.println(query);
+		}
+		
+		MySQLAccess.getInstance().updateQuery(query);
+	}
+	
+	/**
+	 * Update all items extract from current item.
+	 * Calling "public <O> void updateChildren(T item)" for all kind of children.
+	 * @param item
+	 */
+	public void updateWithChildren(T item){
+		Map<String, Object> map;
+		map = DumpFields.fielder(item);
+		
+		String string = "";
+		for (String key : map.keySet()) {
+			string += key + ", ";
+		}
+		System.out.println(string);
+
+	}
+
+
 }
