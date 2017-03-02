@@ -15,11 +15,11 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public class TeamDBManager extends BaseDBManager<Team> {
 
-	@Override
-	public String getValues(Team item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public String getValues(Team item) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void purgeTable(String table) {

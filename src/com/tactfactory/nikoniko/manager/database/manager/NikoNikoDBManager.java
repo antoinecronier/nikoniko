@@ -18,7 +18,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	// et de la sauvegarder dans une "query" pour par la suite, insérer les
 	// données in BDD
 
-	@Override
+	/*@Override
 	public String getValues(NikoNiko item) {
 		String query = "";
 
@@ -88,7 +88,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// On retourne la query remplit des différents paramètres
 
 		return query;
-	}
+	}*/
 
 	@Override
 	public NikoNiko getByIdFull(long id) {

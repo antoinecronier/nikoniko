@@ -33,15 +33,14 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 		// Set empty string
 		String query = "";
-
 		// Verify if id already exists. If not, return null (in this case DTB
 		// auto_increment will be used). Due to getFields definition, it is
 		// impossible
 		// to get the item id more efficiently than above
 		if (item.getId() != 0) {
-			query += item.getId() + ",";
+			query += item.getId();
 		} else {
-			query += "null,";
+			query += "null";
 		}
 
 		for (String fieldItem : item.fields) {
@@ -549,6 +548,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 	public <O extends DatabaseItem> void mapRelation(T item, O relation) {
 		for (Field field : DumpFields.getFields(item.getClass())) {
+System.out.println(item.getClass().getSimpleName());
 			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
 				if (field.getType() == relation.getClass()) {
 
@@ -560,7 +560,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					String query = "SELECT * FROM " + annotationTable + " WHERE " + fieldName + " = " + relation.getId()
 							+ " AND id = " + item.getId();
 					ResultSet res = MySQLAccess.getInstance().resultQuery(query);
-
+//System.out.println(query);
 					// insert relation
 					// ---------------
 					try {

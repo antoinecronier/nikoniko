@@ -7,6 +7,7 @@ import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.*;
+import com.tactfactory.nikoniko.utils.DatabasePurjer;
 
 public class Application {
 
@@ -21,8 +22,8 @@ public class Application {
 		 * Project p1 = new Project(); p1.getTeams().add(t1);
 		 * t1.getProjects().add(p1);
 		 */
+		DatabasePurjer.purjeDatabase();
 		/*
-		 * DatabasePurjer.purjeDatabase();
 		 * 
 		 * NikoNiko niko = new NikoNiko(); niko.setSatisfaction(1);
 		 * 
@@ -137,21 +138,21 @@ public class Application {
 		// System.out.println("Class " + className);
 		// }
 
-		// //Tests for mapRelation Denis
-		// NikoNiko newNiko1 = new NikoNiko();
-		// newNiko1.setId(1);
-		// BaseDBManager<NikoNiko> nikodbmanager = new NikoNikoDBManager();
-		// nikodbmanager.delete(newNiko1);
-		//
-		// Project prj = new Project();
-		// prj.setId(1);
-		// BaseDBManager<Project> prjdbmanager = new ProjectDBManager();
-		// prjdbmanager.delete(prj);
-		//
-		User user = new User();
-		user.setId(4);
-		BaseDBManager<User> usrdbmanager = new UserDBManager();
-		usrdbmanager.delete(user);
+//		 //Tests for mapRelation Denis
+//		 NikoNiko newNiko1 = new NikoNiko();
+//		 newNiko1.setId(1);
+//		 BaseDBManager<NikoNiko> nikodbmanager = new NikoNikoDBManager();
+//		 nikodbmanager.delete(newNiko1);
+//		
+//		 Project prj = new Project();
+//		 prj.setId(1);
+//		 BaseDBManager<Project> prjdbmanager = new ProjectDBManager();
+//		 prjdbmanager.delete(prj);
+//		
+//		User user = new User();
+//		user.setId(4);
+//		BaseDBManager<User> usrdbmanager = new UserDBManager();
+//		usrdbmanager.delete(user);
 		//
 		// Team tm = new Team();
 		// tm.setId(1);
@@ -159,13 +160,59 @@ public class Application {
 		// teamdbmanager.delete(tm);
 		//
 		MySQLAccess.getInstance().updateQuery("ALTER TABLE USER AUTO_INCREMENT=0");
-		// MySQLAccess.getInstance().updateQuery("ALTER TABLE PROJECT
-		// AUTO_INCREMENT=0");
-		// MySQLAccess.getInstance().updateQuery("ALTER TABLE TEAM
-		// AUTO_INCREMENT=0");
-		// MySQLAccess.getInstance().updateQuery("ALTER TABLE NIKONIKO
-		// AUTO_INCREMENT=0");
+		MySQLAccess.getInstance().updateQuery("ALTER TABLE PROJECT AUTO_INCREMENT=0");
+		MySQLAccess.getInstance().updateQuery("ALTER TABLE TEAM AUTO_INCREMENT=0");
+		MySQLAccess.getInstance().updateQuery("ALTER TABLE NIKONIKO AUTO_INCREMENT=0");
 
+		/*for(int i=0; i<10; i++) {
+			int satisfaction = 1;
+			NikoNiko niko = new NikoNiko();
+			niko.setSatisfaction(satisfaction);
+			satisfaction ++;
+			if (satisfaction==3) 
+				satisfaction = 1;
+			BaseDBManager<NikoNiko> dbmanager = new NikoNikoDBManager();
+			dbmanager.insert(niko);
+		}*/
+		
+		for(int i=0; i<1; i++) {
+			User usr = new User();
+			usr.setFirstname("prenom"+(i+1));
+			usr.setLastname("nom"+(i+1));
+			usr.setSex('F');
+			
+			BaseDBManager<User> dbmanager = new UserDBManager();
+			dbmanager.insert(usr);
+			
+			
+//			String query = "INSERT INTO user (firstname,lastname,sex) VALUES ('" 
+//							+ usr.getFirstname() + "','"+ usr.getLastname() + "','"+ usr.getSex() + "')";
+//			MySQLAccess.getInstance().updateQuery(query);
+		}	
+		
+		for(int i=0; i<4; i++) {
+			Project prj = new Project();
+			prj.setName("projet"+(i+1));
+			BaseDBManager<Project> dbmanager = new ProjectDBManager();
+			//dbmanager.insert(prj);
+			
+//			String query = "INSERT INTO project (name) VALUES ('" 
+//					+ prj.getName() +"')";
+//			MySQLAccess.getInstance().updateQuery(query);
+		}
+		
+		for(int i=0; i<2; i++) {
+			Team team = new Team();
+			team.setName("projet"+(i+1));
+			BaseDBManager<Team> dbmanager = new TeamDBManager();
+			//dbmanager.insert(team);
+			
+//			String query = "INSERT INTO team (name) VALUES ('" 
+//					+ team.getName() +"')";
+//			MySQLAccess.getInstance().updateQuery(query);
+		}
+
+		
 		// Tests for mapRelation Denis
 		NikoNiko newNiko1 = new NikoNiko();
 		newNiko1.setId(1);
@@ -179,17 +226,20 @@ public class Application {
 		Project prj = new Project();
 		prj.setId(1);
 
-		BaseDBManager<NikoNiko> nikodbmanager = new NikoNikoDBManager();
+		//BaseDBManager<NikoNiko> nikodbmanager = new NikoNikoDBManager();
 		// nikodbmanager.mapRelation(newNiko1, prj);
 
-		BaseDBManager<Project> projectdbmanager = new ProjectDBManager();
-		// projectdbmanager.mapRelation(prj, tm);
+//		BaseDBManager<Project> projectdbmanager = new ProjectDBManager();
+//		 projectdbmanager.mapRelation(prj, tm);
 
-		BaseDBManager<User> userdbmanager = new UserDBManager();
-		// userdbmanager.mapRelation(usr, tm);
+		 /*BaseDBManager<User> userdbmanager = new UserDBManager();
+		 userdbmanager.mapRelation(usr, tm);
 
 		BaseDBManager<Team> teamdbmanager = new TeamDBManager();
-		// teamdbmanager.mapRelation(tm, usr);
-		// teamdbmanager.mapRelation(tm, prj);
+		 teamdbmanager.mapRelation(tm, usr);
+		 teamdbmanager.mapRelation(tm, prj);
+		*/
+		
+		
 	}
 }

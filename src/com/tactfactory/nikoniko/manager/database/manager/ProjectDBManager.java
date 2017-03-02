@@ -16,11 +16,11 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public class ProjectDBManager extends BaseDBManager<Project> {
 
-	@Override
-	public String getValues(Project item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public String getValues(Project item) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void purgeTable(String table) {
