@@ -1,10 +1,14 @@
 package com.tactfactory.nikoniko.models.modelbase;
 
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
+
 public abstract class DatabaseItem {
 
 	public String table;
 	public String[] fields;
 
+	@MySQLAnnotation(fieldName = "id", mysqlType = MySQLTypes.INT)
 	private long id;
 
 	/**

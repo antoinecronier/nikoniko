@@ -18,7 +18,7 @@ CREATE TABLE user(
         lastname  Varchar (25) NOT NULL ,
         login     Varchar (25) ,
         password  Varchar (25) ,
-        sex       Char (25) NOT NULL ,
+        sex				 Varchar (1)  NOT NULL ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
@@ -70,9 +70,9 @@ CREATE TABLE project(
 #------------------------------------------------------------
 
 CREATE TABLE user_team(
-        id      Int NOT NULL ,
+        id_user Int NOT NULL ,
         id_team Int NOT NULL ,
-        PRIMARY KEY (id ,id_team )
+        PRIMARY KEY (id_user ,id_team )
 )ENGINE=InnoDB;
 
 
@@ -81,14 +81,14 @@ CREATE TABLE user_team(
 #------------------------------------------------------------
 
 CREATE TABLE team_project(
-        id         Int NOT NULL ,
+        id_team    Int NOT NULL ,
         id_project Int NOT NULL ,
-        PRIMARY KEY (id ,id_project )
+        PRIMARY KEY (id_team ,id_project )
 )ENGINE=InnoDB;
 
 ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_project FOREIGN KEY (id_project) REFERENCES project(id);
 ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_user FOREIGN KEY (id_user) REFERENCES user(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id) REFERENCES user(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_user FOREIGN KEY (id_user) REFERENCES user(id);
 ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_team FOREIGN KEY (id_team) REFERENCES team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_team FOREIGN KEY (id_team) REFERENCES team(id);
 ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_project FOREIGN KEY (id_project) REFERENCES project(id);

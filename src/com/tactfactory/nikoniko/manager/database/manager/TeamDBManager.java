@@ -1,5 +1,6 @@
 package com.tactfactory.nikoniko.manager.database.manager;
 
+import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.Team;
 import com.tactfactory.nikoniko.models.User;
+import com.tactfactory.nikoniko.utils.DumpFields;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public class TeamDBManager extends BaseDBManager<Team> {
 
@@ -54,15 +57,22 @@ public class TeamDBManager extends BaseDBManager<Team> {
 	//
 	// }
 
-	@Override
+	/*@Override
 	public <O> void mapRelation(Team item, O relation) {
 
 		if (relation.getClass().getSimpleName().equals("Project")) {
 			Project project = (Project) relation;
+			ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+			Field fieldTeams = null;
+			for (Field field : fields) {
+				if ( field.getName().equals("Project")) {
+					fieldTeams = field;
+				}
+			}
 
 			// check existing relation in team_project table
 			// --------------------------------------------
-			String query = "SELECT * FROM " + "team_project" + " WHERE id = " + item.getId() + " AND id_project = "
+			String query = "SELECT * FROM " + fieldTeams.getAnnotation(MySQLAnnotation.class).associationTable() + " WHERE id = " + item.getId() + " AND id_project = "
 					+ project.getId();
 			ResultSet res = MySQLAccess.getInstance().resultQuery(query);
 
@@ -70,7 +80,7 @@ public class TeamDBManager extends BaseDBManager<Team> {
 			// ---------------
 			try {
 				if (!res.next()) {
-					query = "INSERT INTO " + "team_project" + " (id,id_project)" + " VALUES (" + item.getId() + ","
+					query = "INSERT INTO " + fieldTeams.getAnnotation(MySQLAnnotation.class).associationTable() + " (id,id_project)" + " VALUES (" + item.getId() + ","
 							+ project.getId() + ")";
 					MySQLAccess.getInstance().updateQuery(query);
 				}
@@ -79,10 +89,17 @@ public class TeamDBManager extends BaseDBManager<Team> {
 			}
 		} else if (relation.getClass().getSimpleName().equals("User")) {
 			User user = (User) relation;
+			ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+			Field fieldTeams = null;
+			for (Field field : fields) {
+				if ( field.getName().equals("User")) {
+					fieldTeams = field;
+				}
+			}
 
 			// check existing relation in team_project table
 			// --------------------------------------------
-			String query = "SELECT * FROM " + "user_team" + " WHERE id = " + user.getId() + " AND id_team = "
+			String query = "SELECT * FROM " + fieldTeams.getAnnotation(MySQLAnnotation.class).associationTable() + " WHERE id = " + user.getId() + " AND id_team = "
 					+ item.getId();
 			ResultSet res = MySQLAccess.getInstance().resultQuery(query);
 
@@ -90,7 +107,7 @@ public class TeamDBManager extends BaseDBManager<Team> {
 			// ---------------
 			try {
 				if (!res.next()) {
-					query = "INSERT INTO " + "user_team" + " (id,id_team)" + " VALUES (" + user.getId() + ","
+					query = "INSERT INTO " + fieldTeams.getAnnotation(MySQLAnnotation.class).associationTable() + " (id,id_team)" + " VALUES (" + user.getId() + ","
 							+ item.getId() + ")";
 					MySQLAccess.getInstance().updateQuery(query);
 				}
@@ -101,7 +118,7 @@ public class TeamDBManager extends BaseDBManager<Team> {
 			System.err
 					.println("mapRelation for Team, inconsistent relation with " + relation.getClass().getSimpleName());
 		}
-	}
+	}*/
 
 	@Override
 	public void updateWithChildren(Team item) {

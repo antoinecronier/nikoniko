@@ -3,16 +3,29 @@ package com.tactfactory.nikoniko.models;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.models.security.SecurityUser;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class User extends SecurityUser {
 	public static final String TABLE = "user";
 	public static final String[] FIELDS = { "id", "login", "password", "lastname", "firstname", "registration_cgi" };
 
+	@MySQLAnnotation(fieldName = "lastname", mysqlType = MySQLTypes.VARCHAR)
 	private String lastname;
+
+	@MySQLAnnotation(fieldName = "firstname", mysqlType = MySQLTypes.VARCHAR)
 	private String firstname;
+
+	@MySQLAnnotation(fieldName = "registration_cgi", mysqlType = MySQLTypes.VARCHAR)
 	private String registration_cgi;
+
+	@MySQLAnnotation(fieldName = "id_user", mysqlType = MySQLTypes.ASSOCIATION, nullable = true)
 	private ArrayList<NikoNiko> nikoNikos;
+
+	@MySQLAnnotation(fieldName = "id_user" ,mysqlType = MySQLTypes.ASSOCIATION, nullable = true, associationTable = "user_team")
 	private ArrayList<Team> teams;
+
+	@MySQLAnnotation(fieldName = "sex", mysqlType = MySQLTypes.VARCHAR)
 	private char sex;
 
 	/**

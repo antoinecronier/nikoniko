@@ -140,7 +140,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
+	/*@Override
 	public <O> void mapRelation(NikoNiko item, O relation) {
 		String query = "";
 
@@ -156,7 +156,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 			System.err.println(
 					"mapRelation for NikoNiko, inconsistent relation with " + relation.getClass().getSimpleName());
 		}
-	}
+	}*/
 
 	@Override
 	public void updateWithChildren(NikoNiko item) {

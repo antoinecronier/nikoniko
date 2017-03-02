@@ -14,9 +14,11 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public class DumpFields {
 	public static <T> ArrayList<String> inspectBaseAttribut(Class<T> klazz) {
@@ -38,6 +40,50 @@ public class DumpFields {
 		}
 
 		return attributs;
+	}
+
+	public static <T> ArrayList<Field> getFields(Class<T> klazz) {
+		ArrayList<Field> attributs = new ArrayList<Field>();
+		Field[] fields;
+		Class superClass = klazz;
+
+		fields = superClass.getDeclaredFields();
+		for (Field field : fields) {
+			if (field.getAnnotation(MySQLAnnotation.class) != null) {
+				attributs.add(field);
+			}
+		}
+
+		while (superClass.getSuperclass() != DatabaseItem.class && superClass.getSuperclass() != Object.class) {
+			superClass = superClass.getSuperclass();
+			fields = superClass.getDeclaredFields();
+			for (int i = fields.length - 1; i >= 0; i--) {
+				attributs.add(0, fields[i]);
+			}
+		}
+
+		return attributs;
+	}
+
+	public static <T extends DatabaseItem> Object runGetter(Field field, T o) {
+		// MZ: Find the correct method
+		for (Method method : DumpFields.getGetter(o.getClass())) {
+			if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))) {
+				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+					// MZ: Method found, run it
+					try {
+						return method.invoke(o);
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
+
+				}
+			}
+		}
+
+		return null;
 	}
 
 	public static <T> ArrayList<String> inspectGetter(Class<T> klazz) {
@@ -237,6 +283,7 @@ public class DumpFields {
 	}
 
 	public static boolean isSetter(Method method) {
+
 		return Modifier.isPublic(method.getModifiers()) && method.getReturnType().equals(void.class)
 				&& method.getParameterTypes().length == 1 && method.getName().matches("^set[A-Z].*");
 	}
@@ -267,4 +314,16 @@ public class DumpFields {
 		return list;
 	}
 
+	public static Method getSetter(Field field) {
+		// MZ: Find the correct method
+		for (Method method : DumpFields.getSetter(field.getDeclaringClass())) {
+			if ((method.getName().startsWith("set")) && (method.getName().length() == (field.getName().length() + 3))) {
+				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+					return method;
+				}
+			}
+		}
+
+		return null;
+	}
 }

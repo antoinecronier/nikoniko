@@ -3,6 +3,8 @@ package com.tactfactory.nikoniko.manager.database.manager.interfaces.base;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+
 public interface IDBManagerBase<T> {
 
 	// Utilities
@@ -12,6 +14,7 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @return
 	 */
+	//Erwan
 	public String getValues(T item);
 
 	/**
@@ -20,7 +23,7 @@ public interface IDBManagerBase<T> {
 	 * @param resultSet
 	 * @return
 	 */
-	public T setObjectFromResultSet(ResultSet resultSet, T item);
+	public T setObjectFromResultSet(ResultSet resultSet,T item);
 
 	// Database management
 	/**
@@ -28,15 +31,15 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param table
 	 */
+	//Denis
 	public void purgeTable(String table);
 
 	/**
 	 * Return object as java item to be used.
-	 * 
-	 * @param id
 	 * @param item
-	 * @return
+	 * @return item
 	 */
+
 	public T getById(T item);
 
 	/**
@@ -45,6 +48,7 @@ public interface IDBManagerBase<T> {
 	 * @param id
 	 * @return
 	 */
+	//Damien
 	public T getByIdFull(long id);
 
 	/**
@@ -52,6 +56,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @return
 	 */
+	//Felix
 	public ArrayList<T> getAll();
 
 	/**
@@ -59,6 +64,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
+	//Romain
 	public void getAssociateObject(T item);
 
 	/**
@@ -66,6 +72,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
+	//0
 	public void insert(T item);
 
 	/**
@@ -73,6 +80,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
+	//Regis
 	public void update(T item);
 
 	/**
@@ -80,6 +88,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
+	//Denis
 	public void delete(T item);
 
 	/**
@@ -88,7 +97,8 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @param relation
 	 */
-	public <O> void mapRelation(T item, O relation);
+	//Denis
+	public <O extends DatabaseItem> void mapRelation(T item, O relation);
 
 	/**
 	 * Update all items extract from current item. Calling "public <O> void
@@ -96,6 +106,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
+	//Regis
 	public void updateWithChildren(T item);
 
 	/**
@@ -104,6 +115,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
+	//Denis
 	public <O> void updateChildren(T item);
 
 	/**
