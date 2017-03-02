@@ -87,6 +87,7 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @param relation
 	 */
+	//Denis
 	public <O> void mapRelation(T item, O relation);
 
 	/**
@@ -94,6 +95,7 @@ public interface IDBManagerBase<T> {
 	 * Calling "public <O> void updateChildren(T item)" for all kind of children.
 	 * @param item
 	 */
+	//Regis
 	public void updateWithChildren(T item);
 
 	/**
