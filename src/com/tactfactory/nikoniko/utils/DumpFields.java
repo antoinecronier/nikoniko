@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
@@ -41,6 +42,7 @@ public class DumpFields {
 		return attributs;
 	}
 
+	// recupere tous les attributs et informations
 	public static <T> ArrayList<Field> getFields(Class<T> klazz) {
 		ArrayList<Field> attributs = new ArrayList<Field>();
 		Field[] fields;
@@ -64,6 +66,36 @@ public class DumpFields {
 		return attributs;
 	}
 
+	public static <T extends DatabaseItem> Object runGetter(Field field, T o)
+	{
+	    // MZ: Find the correct method
+	    for (Method method : DumpFields.getGetter(o.getClass()))
+	    {
+	        if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3)))
+	        {
+	            if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase()))
+	            {
+	                // MZ: Method found, run it
+	                try
+	                {
+	                	Object result = method.invoke(o);
+	                    return result;
+	                }
+	                catch (IllegalAccessException e) {
+	                	e.printStackTrace();
+	                }
+	                catch (InvocationTargetException e) {
+	                	e.printStackTrace();
+	                }
+
+	            }
+	        }
+	    }
+
+
+	    return null;
+	}
+	
 	public static <T> ArrayList<String> inspectGetter(Class<T> klazz) {
 		ArrayList<String> result = new ArrayList<String>();
 		try {
@@ -304,8 +336,4 @@ public class DumpFields {
 		return null;
 	}
 
-	public static ArrayList<Class> getClasses(String string){
-		
-		return void;
-	}
 }

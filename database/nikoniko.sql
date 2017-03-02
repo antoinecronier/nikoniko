@@ -17,10 +17,17 @@ CREATE TABLE User(
         login            Varchar (25) NOT NULL ,
         password         Varchar (25) NOT NULL ,
 <<<<<<< HEAD
+<<<<<<< HEAD
         sex				 Varchar (1),
 =======
         sex              Varchar (1)  NOT NULL ,
 >>>>>>> master
+=======
+        sex				 Varchar (1)  NOT NULL ,
+=======
+        sex              Varchar (1)  NOT NULL ,
+>>>>>>> dcdc0b264371b0615372b9e70218c44665820c21
+>>>>>>> origin
         lastname         Varchar (25) NOT NULL ,
         firstname        Varchar (25) NOT NULL ,
         registration_cgi Varchar (25) NOT NULL ,
