@@ -41,6 +41,7 @@ public class DumpFields {
 		return attributs;
 	}
 
+	// recupere tous les attributs et informations
 	public static <T> ArrayList<Field> getFields(Class<T> klazz) {
 		ArrayList<Field> attributs = new ArrayList<Field>();
 		Field[] fields;
