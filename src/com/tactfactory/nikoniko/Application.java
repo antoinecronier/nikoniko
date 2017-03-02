@@ -36,8 +36,7 @@ public class Application {
 //		NikoNikoDBManager nikonikoManager = new NikoNikoDBManager();
 //		nikonikoManager.insert(niko);
 //
-//		User user = new User("login", "password", "lastname", "firstname",
-//				"test");
+//		User user = new User("login", "password", "lastname", "firstname", "test");
 //		UserDBManager userManager = new UserDBManager();
 //		userManager.insert(user);
 //
@@ -65,17 +64,16 @@ public class Application {
 //
 //		// Team user linking
 //		for (int i = 0; i < 10; i++) {
-//			User userTmp = new User("login" + i, "password" + i,
-//					"lastname" + i, "firstname" + i, "registration" + i);
+//			User userTmp = new User("login" + i, "password" + i, "lastname" + i, "firstname" + i, "registration" + i);
 //			userManager.insert(userTmp);
-//			teamManager.<User> mapRelation(team, userTmp);
+//			teamManager.<User>mapRelation(team, userTmp);
 //		}
 //
 //		// User team linking
 //		for (int i = 0; i < 10; i++) {
 //			Team tmpTeam = new Team("teamV" + i, "serialV" + i);
 //			teamManager.insert(tmpTeam);
-//			userManager.<Team> mapRelation(user, tmpTeam);
+//			userManager.<Team>mapRelation(user, tmpTeam);
 //		}
 //
 //		User newUser = userManager.getById(user);
@@ -116,13 +114,13 @@ public class Application {
 //		ArrayList<String> result1 = DumpFields.inspectBaseAttribut(User.class);
 //		System.out.println(result1);
 //
-//		System.out.println(nikoNikoDBManager.getById(niko));
+//		System.out.println(nikoNikoDBManager.getById(new NikoNiko()).toString());
 //
 //		NikoNikoDBManager nikonikoDbManager = new NikoNikoDBManager();
 //		nikonikoDbManager.insert(new NikoNiko(new User(), new Project(), 1));
 //
 //		NikoNiko newNiko = new NikoNiko();
-//		newNiko = nikonikoDbManager.getById((newNiko));
+//		newNiko = nikonikoDbManager.getById(newNiko);
 //		System.out.println(newNiko.getId() + " " + newNiko.getSatisfaction());
 //
 //		// creer un objet de type T -> DumpFields.createContentsEmpty()
@@ -145,8 +143,7 @@ public class Application {
 //		/* --------------------- */
 //		ArrayList<String> classNames = new ArrayList<>();
 //		try {
-//			classNames = DumpFields
-//					.getClassesNames("com.tactfactory.nikoniko.models");
+//			classNames = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
 //		} catch (ClassNotFoundException | IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -155,7 +152,15 @@ public class Application {
 //		for (String className : classNames) {
 //			System.out.println("Class " + className);
 //		}
-
+		
+		
+		//test getALL
+		
+		ArrayList<NikoNiko> maliste = new ArrayList();
+		
+		NikoNikoDBManager NikoManager = new NikoNikoDBManager();
+		NikoManager.getAll();
+		
 		NikoNikoDBManager nikonikoDBManager = new NikoNikoDBManager();
 		NikoNiko niko = new NikoNiko(new User("test", "test"), new Project("test", new Date()), 2, "blabla", true);
 		nikonikoDBManager.insert(niko);
@@ -165,6 +170,7 @@ public class Application {
 
 		nikonikoDBManager.getById(niko1);
 		System.out.println(niko1);
+		
 //		for (Field field : DumpFields.getFields(NikoNiko.class)) {
 //			try {
 //				System.out.println(field.getName() + " : " +field.get(niko));
@@ -179,5 +185,8 @@ public class Application {
 //			System.out.println("  Nullable? : " + field.getAnnotation(MySQLAnnotation.class).nullable());
 //			System.out.println("  SQL Name : " + field.getAnnotation(MySQLAnnotation.class).fieldName());
 //		}
+		
+		}
+
 	}
-}
+

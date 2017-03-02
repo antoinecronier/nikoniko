@@ -36,7 +36,6 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @return
 	 */
-	//0
 	public T getById(T item);
 
 	/**
@@ -51,8 +50,8 @@ public interface IDBManagerBase<T> {
 	 * Return all objects from selected table. Without relations.
 	 * @return
 	 */
-	//Felix
-	public ArrayList<T> getAll();
+	public ArrayList<T> getAll(Class<T> clazz);
+
 
 	/**
 	 * Get all related objects even if they are arrays or single object.
