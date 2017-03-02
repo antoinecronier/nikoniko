@@ -11,10 +11,10 @@ import com.tactfactory.nikoniko.models.User;
 
 public class NikoNikoManager extends ManagerBase {
 
-	public static final int[] satisfactionItems = {1,2,3};
+	public static final int[] satisfactionItems = { 1, 2, 3 };
 	public static final int defaultSatisfactionError = 0;
 
-	public static Boolean inSatisfactionItems(int satisfaction){
+	public static Boolean inSatisfactionItems(int satisfaction) {
 		Boolean flag = false;
 		for (int i = 0; i < satisfactionItems.length; i++) {
 			if (satisfaction == satisfactionItems[i]) {
@@ -30,10 +30,10 @@ public class NikoNikoManager extends ManagerBase {
 			return satisfaction;
 		} else {
 			String error = "Error satisfaction not in ";
-			for (int i = 0; i < satisfactionItems.length-1; i++) {
+			for (int i = 0; i < satisfactionItems.length - 1; i++) {
 				error += satisfactionItems[i] + ", ";
 			}
-			error += satisfactionItems[satisfactionItems.length-1] + ".";
+			error += satisfactionItems[satisfactionItems.length - 1] + ".";
 			System.err.println(error);
 			return defaultSatisfactionError;
 		}
@@ -62,7 +62,7 @@ public class NikoNikoManager extends ManagerBase {
 		return (int) allItems;
 	}
 
-	public static void createNikoNikoConsole(User user, Project project){
+	public static void createNikoNikoConsole(User user, Project project) {
 		BufferedReader br = null;
 
 		while (true) {
@@ -84,12 +84,12 @@ public class NikoNikoManager extends ManagerBase {
 					// TODO: handle exception
 				}
 
-				if(NikoNikoManager.inSatisfactionItems(satisfaction)){
+				if (NikoNikoManager.inSatisfactionItems(satisfaction)) {
 					System.out.print("Comment ? : ");
 					String input1 = br.readLine();
 					if (!input1.equals("")) {
-						NikoNiko tempNiko = new NikoNiko(user, project, Integer.parseInt(input),input1);
-					}else{
+						NikoNiko tempNiko = new NikoNiko(user, project, Integer.parseInt(input), input1);
+					} else {
 						NikoNiko tempNiko = new NikoNiko(user, project, Integer.parseInt(input));
 					}
 				}

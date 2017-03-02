@@ -8,6 +8,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class Project extends DatabaseItem {
+	
 	public static final String TABLE = "project";
 	public static final String[] FIELDS = { "id", "name", "start_Date",
 			"end_Date" };

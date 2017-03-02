@@ -17,9 +17,16 @@ CREATE TABLE user(
         login            Varchar (25) NOT NULL ,
         password         Varchar (25) NOT NULL ,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	sex		 varchar (1) NOT NULL,
 =======
         sex              Varchar (1)  NOT NULL ,
+>>>>>>> master
+=======
+        sex				 Varchar (1)  NOT NULL ,
+=======
+        sex              Varchar (1)  NOT NULL ,
+>>>>>>> dcdc0b264371b0615372b9e70218c44665820c21
 >>>>>>> master
         lastname         Varchar (25) NOT NULL ,
         firstname        Varchar (25) NOT NULL ,

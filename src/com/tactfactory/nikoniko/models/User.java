@@ -7,6 +7,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class User extends SecurityUser {
+
 	public static final String TABLE = "user";
 	public static final String[] FIELDS = { "id", "login", "password", "sex",
 			"lastname", "firstname", "registration_cgi" };

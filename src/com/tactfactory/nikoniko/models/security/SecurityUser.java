@@ -5,6 +5,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class SecurityUser extends DatabaseItem {
+
 	@MySQLAnnotation(fieldName = "login", mysqlType = MySQLTypes.VARCHAR)
 	private String login;
 
@@ -41,8 +42,7 @@ public class SecurityUser extends DatabaseItem {
 		this.password = password;
 	}
 
-	public SecurityUser(String table, String[] fields, String login,
-			String password) {
+	public SecurityUser(String table, String[] fields, String login, String password) {
 		super(table, fields);
 		this.login = login;
 		this.password = password;
