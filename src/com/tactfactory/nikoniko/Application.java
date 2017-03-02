@@ -159,7 +159,11 @@ public class Application {
 		ArrayList<NikoNiko> maliste = new ArrayList();
 		
 		NikoNikoDBManager NikoManager = new NikoNikoDBManager();
-		NikoManager.getAll();
+		maliste = NikoManager.getAll();
+		
+		for (NikoNiko nikoNiko : maliste) {
+			System.out.println(nikoNiko);
+		}
 		
 		NikoNikoDBManager nikonikoDBManager = new NikoNikoDBManager();
 		NikoNiko niko = new NikoNiko(new User("test", "test"), new Project("test", new Date()), 2, "blabla", true);

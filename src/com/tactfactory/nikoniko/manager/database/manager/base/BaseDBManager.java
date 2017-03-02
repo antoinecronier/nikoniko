@@ -365,7 +365,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					T item = DumpFields.createContentsEmpty (clazz);
 					
 		// création d'une requete de sélection totale de tout ce qu'il y a dans la table liée à cet objet
-					ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table + "");
+					ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table );
 		
 		//création d'une liste d'objets
 					ArrayList<T> malistedobjets = new ArrayList<T>();
