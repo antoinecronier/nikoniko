@@ -363,7 +363,6 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 		map = DumpFields.fielder(item);
 		String fieldsValues = getValues(item);
-		System.out.println(fieldsValues);
 		String[] list = fieldsValues.split(",");
 
 		query = "UPDATE " + item.table + " SET ";
@@ -384,7 +383,6 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		query += " WHERE id=";
 		query += item.getId();
 		query += ";";
-		System.out.println(query);
 		
 		MySQLAccess.getInstance().updateQuery(query);
 	}
