@@ -13,10 +13,10 @@ public class NikoNiko extends DatabaseItem {
 			"satisfaction", "nikoniko_comment", "isanonymous", "id_User",
 			"id_Project" };
 
-	@MySQLAnnotation(fieldName = "log_date",mysqlType = MySQLTypes.DATETIME)
+	@MySQLAnnotation(fieldName = "log_Date",mysqlType = MySQLTypes.DATETIME)
 	private Date log_date;
 
-	@MySQLAnnotation(fieldName = "change_date",mysqlType = MySQLTypes.DATETIME, nullable = true)
+	@MySQLAnnotation(fieldName = "change_Date",mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date change_date;
 
 	@MySQLAnnotation(fieldName = "satisfaction",mysqlType = MySQLTypes.INT)
@@ -25,7 +25,7 @@ public class NikoNiko extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "nikoniko_comment",mysqlType = MySQLTypes.TEXT, nullable = true)
 	private String comment;
 
-	@MySQLAnnotation(fieldName = "isAnonymous",mysqlType = MySQLTypes.TINYINT)
+	@MySQLAnnotation(fieldName = "isanonymous",mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
 
 	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.INT, nullable = true)

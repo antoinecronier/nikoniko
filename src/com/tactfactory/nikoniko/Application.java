@@ -1,17 +1,13 @@
 package com.tactfactory.nikoniko;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
-import com.tactfactory.nikoniko.manager.database.manager.ProjectDBManager;
-import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
-import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
 import com.tactfactory.nikoniko.models.*;
-import com.tactfactory.nikoniko.utils.DatabasePurjer;
+import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
 import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
@@ -155,6 +151,7 @@ public class Application {
 //		}
 		
 		NikoNiko item = new NikoNiko();
+		item.setSatisfaction(1);
 		//Get all attributes names and associated values from given item
 		Map<String, Object> fields =  DumpFields.fielder(item);
 		
@@ -180,19 +177,48 @@ public class Application {
 
 		nikonikoDBManager.getById(niko1);
 		System.out.println(niko1);*/
-		for (Field field : DumpFields.getFields(NikoNiko.class)) {
-			try {
-				System.out.println(field.getName() + " : " +field.get(niko));
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+//		for (Field field : DumpFields.getFields(NikoNiko.class)) {
+////			try {
+////				System.out.println(field.getName() + " : " +field.get(niko));
+////			} catch (IllegalArgumentException e) {
+////				// TODO Auto-generated catch block
+////				e.printStackTrace();
+////			} catch (IllegalAccessException e) {
+////				// TODO Auto-generated catch block
+////				e.printStackTrace();
+////			}
+//			System.out.println("  SQL Type : " + field.getAnnotation(MySQLAnnotation.class).mysqlType());
+//			System.out.println("  Nullable? : " + field.getAnnotation(MySQLAnnotation.class).nullable());
+//			System.out.println("  SQL Name : " + field.getAnnotation(MySQLAnnotation.class).fieldName());
+//			
+//			System.out.println("  comment vs sql name : " + field.getName().equals(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+//			System.out.println("##########");
+//		}
+//		
+		
+		for (String fieldItem : item.fields) {
+			//for each element of item.fields (simplification avec un i++ à faire plus tard)
+			for (Field field : DumpFields.getFields(item.getClass())) {
+				//Correlate java attribute with sql attribute
+				if (fieldItem.equals(field.getAnnotation(MySQLAnnotation.class).fieldName())) {
+					System.out.println("on est entré : " + fieldItem);
+					switch (field.getAnnotation(MySQLAnnotation.class).mysqlType()) {
+					case DATETIME:
+						if (DumpFields.runGetter(field, item) != null) {
+							System.out.println("ancienne date : " + DumpFields.runGetter(field, item));
+							System.out.println("est nullable? " + !field.getAnnotation(MySQLAnnotation.class).nullable());
+							System.out.println("'" + DateConverter.getMySqlDatetime((Date)DumpFields.runGetter(field, item)) + "',");
+						} else {
+							System.out.println("null");
+						}
+						break;
+
+					default:
+						System.out.println("on break");
+						break;
+					}
+				}
 			}
-			System.out.println("  SQL Type : " + field.getAnnotation(MySQLAnnotation.class).mysqlType());
-			System.out.println("  Nullable? : " + field.getAnnotation(MySQLAnnotation.class).nullable());
-			System.out.println("  SQL Name : " + field.getAnnotation(MySQLAnnotation.class).fieldName());
 		}
 	}
 }
