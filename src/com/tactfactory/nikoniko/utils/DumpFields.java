@@ -79,7 +79,8 @@ public class DumpFields {
 	                // MZ: Method found, run it
 	                try
 	                {
-	                    return method.invoke(o);
+	                	Object result = method.invoke(o);
+	                    return result;
 	                }
 	                catch (IllegalAccessException e) {
 	                	e.printStackTrace();

@@ -28,10 +28,10 @@ public class NikoNiko extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "isanonymous",mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
 
-	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.INT, nullable = true)
+	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.DATABASEITEM, nullable = true)
 	private User user;
 
-	@MySQLAnnotation(fieldName = "id_Project",mysqlType = MySQLTypes.INT, nullable = true)
+	@MySQLAnnotation(fieldName = "id_Project",mysqlType = MySQLTypes.DATABASEITEM, nullable = true)
 	private Project project;
 
 	/**

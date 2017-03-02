@@ -5,5 +5,7 @@ public enum MySQLTypes {
 	INT,
 	TINYINT,
 	DATETIME,
-	TEXT
+	TEXT,
+	DATABASEITEM,
+	ASSOCIATION
 }
