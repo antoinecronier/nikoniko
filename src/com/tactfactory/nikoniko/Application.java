@@ -1,5 +1,6 @@
 package com.tactfactory.nikoniko;
 
+<<<<<<< HEAD
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.io.IOException;
@@ -38,5 +39,12 @@ public class Application {
 		user1.setId(39);
 		
 		userDBManager.update(user1);
+=======
+public class Application {
+
+	public static void main(String[] args) {
+
+>>>>>>> master
 	}
+
 }

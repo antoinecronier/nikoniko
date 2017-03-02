@@ -31,8 +31,7 @@ public class DumpFields {
 			attributs.add(field.getName());
 		}
 
-		while (superClass.getSuperclass() != DatabaseItem.class
-				&& superClass.getSuperclass() != Object.class) {
+		while (superClass.getSuperclass() != DatabaseItem.class && superClass.getSuperclass() != Object.class) {
 			superClass = superClass.getSuperclass();
 			fields = superClass.getDeclaredFields();
 			for (int i = fields.length - 1; i >= 0; i--) {
@@ -43,6 +42,7 @@ public class DumpFields {
 		return attributs;
 	}
 
+	// recupere tous les attributs et informations
 	public static <T> ArrayList<Field> getFields(Class<T> klazz) {
 		ArrayList<Field> attributs = new ArrayList<Field>();
 		Field[] fields;
@@ -55,8 +55,7 @@ public class DumpFields {
 			}
 		}
 
-		while (superClass.getSuperclass() != DatabaseItem.class
-				&& superClass.getSuperclass() != Object.class) {
+		while (superClass.getSuperclass() != DatabaseItem.class && superClass.getSuperclass() != Object.class) {
 			superClass = superClass.getSuperclass();
 			fields = superClass.getDeclaredFields();
 			for (int i = fields.length - 1; i >= 0; i--) {
@@ -79,7 +78,8 @@ public class DumpFields {
 	                // MZ: Method found, run it
 	                try
 	                {
-	                    return method.invoke(o);
+	                	Object result = method.invoke(o);
+	                    return result;
 	                }
 	                catch (IllegalAccessException e) {
 	                	e.printStackTrace();
@@ -99,8 +99,7 @@ public class DumpFields {
 	public static <T> ArrayList<String> inspectGetter(Class<T> klazz) {
 		ArrayList<String> result = new ArrayList<String>();
 		try {
-			for (PropertyDescriptor propertyDescriptor : Introspector
-					.getBeanInfo(klazz, DatabaseItem.class)
+			for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(klazz, DatabaseItem.class)
 					.getPropertyDescriptors()) {
 
 				result.add(propertyDescriptor.getReadMethod().getName());
@@ -115,8 +114,7 @@ public class DumpFields {
 	public static <T> ArrayList<String> inspectSetter(Class<T> klazz) {
 		ArrayList<String> result = new ArrayList<String>();
 		try {
-			for (PropertyDescriptor propertyDescriptor : Introspector
-					.getBeanInfo(klazz, DatabaseItem.class)
+			for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(klazz, DatabaseItem.class)
 					.getPropertyDescriptors()) {
 
 				result.add(propertyDescriptor.getWriteMethod().getName());
@@ -131,8 +129,7 @@ public class DumpFields {
 	public static <T> ArrayList<Method> getGetter(Class<T> klazz) {
 		ArrayList<Method> result = new ArrayList<Method>();
 		try {
-			for (PropertyDescriptor propertyDescriptor : Introspector
-					.getBeanInfo(klazz, DatabaseItem.class)
+			for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(klazz, DatabaseItem.class)
 					.getPropertyDescriptors()) {
 
 				result.add(propertyDescriptor.getReadMethod());
@@ -147,8 +144,7 @@ public class DumpFields {
 	public static <T> ArrayList<Method> getSetter(Class<T> klazz) {
 		ArrayList<Method> result = new ArrayList<Method>();
 		try {
-			for (PropertyDescriptor propertyDescriptor : Introspector
-					.getBeanInfo(klazz, DatabaseItem.class)
+			for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(klazz, DatabaseItem.class)
 					.getPropertyDescriptors()) {
 
 				result.add(propertyDescriptor.getWriteMethod());
@@ -162,13 +158,12 @@ public class DumpFields {
 
 	public static Map<String, Object> fielder(Object bean) {
 		try {
-			return Arrays
-					.asList(Introspector.getBeanInfo(bean.getClass(),
-							Object.class).getPropertyDescriptors()).stream()
+			return Arrays.asList(Introspector.getBeanInfo(bean.getClass(), Object.class).getPropertyDescriptors())
+					.stream()
 					// filter out properties with setters only
 					.filter(pd -> Objects.nonNull(pd.getReadMethod()))
 					.collect(Collectors.toMap(
-					// bean property name
+							// bean property name
 							PropertyDescriptor::getName, pd -> { // invoke
 																	// method to
 																	// get value
@@ -207,12 +202,10 @@ public class DumpFields {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	public static ArrayList<String> getClassesNames(String packageName)
-			throws ClassNotFoundException, IOException {
+	public static ArrayList<String> getClassesNames(String packageName) throws ClassNotFoundException, IOException {
 		ArrayList<String> result = new ArrayList<String>();
 
-		ClassLoader classLoader = Thread.currentThread()
-				.getContextClassLoader();
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		assert classLoader != null;
 		String path = packageName.replace('.', '/');
 		Enumeration<URL> resources = classLoader.getResources(path);
@@ -227,8 +220,7 @@ public class DumpFields {
 		}
 
 		for (Class class1 : classes) {
-			result.add(class1.getSimpleName().replace("ViewController", "")
-					.toLowerCase());
+			result.add(class1.getSimpleName().replace("ViewController", "").toLowerCase());
 		}
 		return result;
 	}
@@ -244,8 +236,7 @@ public class DumpFields {
 	 * @return The classes
 	 * @throws ClassNotFoundException
 	 */
-	private static List<Class> findClasses(File directory, String packageName)
-			throws ClassNotFoundException {
+	private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
 		List<Class> classes = new ArrayList<Class>();
 		if (!directory.exists()) {
 			return classes;
@@ -254,13 +245,10 @@ public class DumpFields {
 		for (File file : files) {
 			if (file.isDirectory()) {
 				assert !file.getName().contains(".");
-				classes.addAll(findClasses(file,
-						packageName + "." + file.getName()));
+				classes.addAll(findClasses(file, packageName + "." + file.getName()));
 			} else if (file.getName().endsWith(".class")) {
-				classes.add(Class.forName(packageName
-						+ '.'
-						+ file.getName().substring(0,
-								file.getName().length() - 6)));
+				classes.add(
+						Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
 			}
 		}
 		return classes;
@@ -305,11 +293,9 @@ public class DumpFields {
 	}
 
 	public static boolean isSetter(Method method) {
-		   return Modifier.isPublic(method.getModifiers()) &&
-				 method.getReturnType().equals(void.class) &&
-		         method.getParameterTypes().length == 1 &&
-		         method.getName().matches("^set[A-Z].*");
-		}
+		return Modifier.isPublic(method.getModifiers()) && method.getReturnType().equals(void.class)
+				&& method.getParameterTypes().length == 1 && method.getName().matches("^set[A-Z].*");
+	}
 
 	public static boolean isGetter(Method method) {
 		if (Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length == 0) {
@@ -317,39 +303,36 @@ public class DumpFields {
 				return true;
 			if (method.getName().matches("^is[A-Z].*") && method.getReturnType().equals(boolean.class))
 				return true;
-		   }
+		}
 		return false;
 	}
 
 	/**
-	 * scinder find getter et find setters pourrait etre plus interessant pour la suite
+	 * scinder find getter et find setters pourrait etre plus interessant pour
+	 * la suite
+	 * 
 	 * @param c
 	 * @return
 	 */
 	public static ArrayList<Method> findGettersSetters(Class<?> c) {
-		   ArrayList<Method> list = new ArrayList<Method>();
-		   Method[] methods = c.getDeclaredMethods();
-		   for (Method method : methods)
-		      if (isGetter(method) || isSetter(method))
-		         list.add(method);
-		   return list;
+		ArrayList<Method> list = new ArrayList<Method>();
+		Method[] methods = c.getDeclaredMethods();
+		for (Method method : methods)
+			if (isGetter(method) || isSetter(method))
+				list.add(method);
+		return list;
+	}
+
+	public static Method getSetter(Field field) {
+		// MZ: Find the correct method
+		for (Method method : DumpFields.getSetter(field.getDeclaringClass())) {
+			if ((method.getName().startsWith("set")) && (method.getName().length() == (field.getName().length() + 3))) {
+				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+					return method;
+				}
+			}
 		}
-	
-	public static Method getSetter(Field field)
-	{
-	    // MZ: Find the correct method
-	    for (Method method : DumpFields.getSetter(field.getDeclaringClass()))
-	    {
-	        if ((method.getName().startsWith("set")) && (method.getName().length() == (field.getName().length() + 3)))
-	        {
-	            if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase()))
-	            {
-	            	return method; 
-	            }
-	        }
-	    }
-	    
-	    return null;
+
+		return null;
 	}
 }
-
