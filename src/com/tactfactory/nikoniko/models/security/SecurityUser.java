@@ -1,10 +1,15 @@
 package com.tactfactory.nikoniko.models.security;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class SecurityUser extends DatabaseItem {
-	
+
+	@MySQLAnnotation(fieldName = "login", mysqlType = MySQLTypes.VARCHAR)
 	private String login;
+
+	@MySQLAnnotation(fieldName = "password", mysqlType = MySQLTypes.VARCHAR)
 	private String password;
 
 	/**

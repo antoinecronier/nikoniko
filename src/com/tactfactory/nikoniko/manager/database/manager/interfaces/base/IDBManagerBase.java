@@ -113,6 +113,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
+	//Denis
 	public <O> void updateChildren(T item);
 
 	/**

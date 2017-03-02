@@ -4,16 +4,28 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class Project extends DatabaseItem {
 	
 	public static final String TABLE = "project";
-	public static final String[] FIELDS = { "id", "name", "start_Date", "end_Date" };
+	public static final String[] FIELDS = { "id", "name", "start_Date",
+			"end_Date" };
 
+	@MySQLAnnotation(fieldName = "name", mysqlType = MySQLTypes.VARCHAR)
 	private String name;
+
+	@MySQLAnnotation(fieldName = "start_Date", mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date start_date;
+
+	@MySQLAnnotation(fieldName = "end_Date", mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date end_date;
+
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "nikoniko")
 	private ArrayList<NikoNiko> nikoNikos;
+
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "team_project")
 	private ArrayList<Team> teams;
 
 	/**

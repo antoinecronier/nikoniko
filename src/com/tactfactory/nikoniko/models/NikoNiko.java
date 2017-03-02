@@ -13,10 +13,10 @@ public class NikoNiko extends DatabaseItem {
 	public static final String[] FIELDS = { "id", "log_Date", "change_Date", "satisfaction", "nikoniko_comment",
 			"isanonymous", "id_User", "id_Project" };
 
-	@MySQLAnnotation(fieldName = "log_Date",mysqlType = MySQLTypes.DATETIME)
+	@MySQLAnnotation(fieldName = "log_Date", mysqlType = MySQLTypes.DATETIME)
 	private Date log_date;
 
-	@MySQLAnnotation(fieldName = "change_Date",mysqlType = MySQLTypes.DATETIME, nullable = true)
+	@MySQLAnnotation(fieldName = "change_Date", mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date change_date;
 
 	@MySQLAnnotation(fieldName = "satisfaction", mysqlType = MySQLTypes.INT)
@@ -25,7 +25,7 @@ public class NikoNiko extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "nikoniko_comment", mysqlType = MySQLTypes.TEXT, nullable = true)
 	private String comment;
 
-	@MySQLAnnotation(fieldName = "isanonymous",mysqlType = MySQLTypes.TINYINT)
+	@MySQLAnnotation(fieldName = "isanonymous", mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
 
 	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.DATABASE_ITEM, nullable = true)
@@ -165,7 +165,8 @@ public class NikoNiko extends DatabaseItem {
 		this.isAnonymous = isAnonymous;
 	}
 
-	public NikoNiko(User user, Project project, int satisfaction, String comment, Boolean isAnonymous) {
+	public NikoNiko(User user, Project project, int satisfaction,
+			String comment, Boolean isAnonymous) {
 		this(user, project, satisfaction);
 		this.comment = comment;
 		this.isAnonymous = isAnonymous;
@@ -177,7 +178,8 @@ public class NikoNiko extends DatabaseItem {
 
 	@Override
 	public String toString() {
-		return "NikoNiko [log_date=" + log_date + ", change_date=" + change_date + ", satisfaction=" + satisfaction
-				+ ", comment=" + comment + ", isAnonymous=" + isAnonymous + "]";
+		return "NikoNiko [log_date=" + log_date + ", change_date="
+				+ change_date + ", satisfaction=" + satisfaction + ", comment="
+				+ comment + ", isAnonymous=" + isAnonymous + "]";
 	}
 }

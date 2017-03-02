@@ -16,11 +16,16 @@ import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
 import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
-public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
+public abstract class BaseDBManager<T extends DatabaseItem> implements
+		IDBManagerBase<T> {
 
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
+<<<<<<< HEAD
 	 * 
+=======
+	 *
+>>>>>>> antoine
 	 * @param item
 	 * @return query 
 	 */
@@ -29,8 +34,11 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		// Set empty string
 		String query = "";
 
-		// Verify if id already exists. If not, return null (in this case DTB auto_increment will be used). 
-		//Due to getFields definition, it is impossible to get the item id more efficiently than above
+
+		// Verify if id already exists. If not, return null (in this case DTB
+		// auto_increment will be used). Due to getFields definition, it is
+		// impossible
+		// to get the item id more efficiently than above
 		if (item.getId() != 0) {
 			query += item.getId() + ",";
 		} else {
@@ -58,6 +66,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
 							// No date attribute is set but this attribute is not nullable
 							query += ",'" + DateConverter.getMySqlDatetime(new Date()) + "'";
+
 						} else {
 							query += ",null";
 						}
@@ -327,23 +336,23 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	// recuperation dans une liste d'objets tout ce qu'il y a dans une table
 	public ArrayList<T> getAll(Class<T> clazz) {
 
-		// création d'un objet vide à partir d'une classe
+		// crï¿½ation d'un objet vide ï¿½ partir d'une classe
 		T item = DumpFields.createContentsEmpty(clazz);
 
-		// création d'une requete de sélection totale de tout ce qu'il y a dans
-		// la table liée à cet objet
+		// crï¿½ation d'une requete de sï¿½lection totale de tout ce qu'il y a dans
+		// la table liï¿½e ï¿½ cet objet
 		ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table);
 
-		// création d'une liste d'objets
+		// crï¿½ation d'une liste d'objets
 		ArrayList<T> malistedobjets = new ArrayList<T>();
 
 		try {
 			// tant que la requete a des resultats
 			while (query.next()) {
-				// création d'un objet vide à partir d'une classe
+				// crï¿½ation d'un objet vide ï¿½ partir d'une classe
 				T temp = DumpFields.createContentsEmpty(clazz);
 				
-				// remplir la liste d'objets avec les résultats
+				// remplir la liste d'objets avec les rï¿½sultats
 				malistedobjets.add(setObjectFromResultSet(query, temp));
 			}
 		} catch (SQLException e) {
