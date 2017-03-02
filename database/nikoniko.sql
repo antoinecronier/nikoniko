@@ -12,13 +12,17 @@ USE nikoniko;
 # Table: User
 #------------------------------------------------------------
 
-CREATE TABLE User(
+CREATE TABLE user(
         id               int (11) Auto_increment  NOT NULL ,
         login            Varchar (25) NOT NULL ,
         password         Varchar (25) NOT NULL ,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         sex				 Varchar (1),
+=======
+	sex		 varchar (1) NOT NULL,
+>>>>>>> 0849407dc1bf4826168de0447c64badf6710bfc5
 =======
         sex              Varchar (1)  NOT NULL ,
 >>>>>>> master
@@ -27,7 +31,11 @@ CREATE TABLE User(
 =======
         sex              Varchar (1)  NOT NULL ,
 >>>>>>> dcdc0b264371b0615372b9e70218c44665820c21
+<<<<<<< HEAD
 >>>>>>> origin
+=======
+>>>>>>> master
+>>>>>>> 0849407dc1bf4826168de0447c64badf6710bfc5
         lastname         Varchar (25) NOT NULL ,
         firstname        Varchar (25) NOT NULL ,
         registration_cgi Varchar (25) NOT NULL ,
@@ -39,7 +47,7 @@ CREATE TABLE User(
 # Table: Team
 #------------------------------------------------------------
 
-CREATE TABLE Team(
+CREATE TABLE team(
         id     int (11) Auto_increment  NOT NULL ,
         name   Varchar (25) NOT NULL ,
         serial Varchar (25) ,
@@ -51,15 +59,15 @@ CREATE TABLE Team(
 # Table: NikoNiko
 #------------------------------------------------------------
 
-CREATE TABLE NikoNiko(
+CREATE TABLE nikoniko(
         id               int (11) Auto_increment  NOT NULL ,
         log_Date     Datetime NOT NULL ,
         change_Date      Datetime ,
         satisfaction     Int NOT NULL ,
         nikoniko_comment Text ,
         isanonymous      Bool NOT NULL ,
-        id_User          Int ,
-        id_Project       Int ,
+        id_user          Int ,
+        id_project       Int ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
@@ -68,7 +76,7 @@ CREATE TABLE NikoNiko(
 # Table: Project
 #------------------------------------------------------------
 
-CREATE TABLE Project(
+CREATE TABLE project(
         id         int (11) Auto_increment  NOT NULL ,
         name       Varchar (25) NOT NULL ,
         start_Date Datetime ,
@@ -82,9 +90,9 @@ CREATE TABLE Project(
 #------------------------------------------------------------
 
 CREATE TABLE user_team(
-        id_User Int NOT NULL ,
-        id_Team Int NOT NULL ,
-        PRIMARY KEY (id_User ,id_Team )
+        id_user Int NOT NULL ,
+        id_team Int NOT NULL ,
+        PRIMARY KEY (id_user ,id_team )
 )ENGINE=InnoDB;
 
 
@@ -93,14 +101,14 @@ CREATE TABLE user_team(
 #------------------------------------------------------------
 
 CREATE TABLE team_project(
-        id_Team    Int NOT NULL ,
-        id_Project Int NOT NULL ,
-        PRIMARY KEY (id_Team ,id_Project )
+        id_team    Int NOT NULL ,
+        id_project Int NOT NULL ,
+        PRIMARY KEY (id_team ,id_project )
 )ENGINE=InnoDB;
 
-ALTER TABLE NikoNiko ADD CONSTRAINT FK_NikoNiko_id_User FOREIGN KEY (id_User) REFERENCES User(id);
-ALTER TABLE NikoNiko ADD CONSTRAINT FK_NikoNiko_id_Project FOREIGN KEY (id_Project) REFERENCES Project(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id_User) REFERENCES User(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES Team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id_Team) REFERENCES Team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Project FOREIGN KEY (id_Project) REFERENCES Project(id);
+ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_user FOREIGN KEY (id_user) REFERENCES user(id);
+ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_project FOREIGN KEY (id_project) REFERENCES project(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id_user) REFERENCES user(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_team FOREIGN KEY (id_team) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id_team) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_project FOREIGN KEY (id_project) REFERENCES project(id);

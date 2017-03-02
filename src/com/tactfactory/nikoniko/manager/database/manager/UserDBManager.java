@@ -80,4 +80,10 @@ public class UserDBManager extends BaseDBManager<User> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void getAssociateObject(User item) {
+		// TODO Auto-generated method stub
+		
+	}
 }

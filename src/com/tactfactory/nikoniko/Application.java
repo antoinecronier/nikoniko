@@ -18,9 +18,14 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public class Application {
 
-	public static void main(String[] args) {
-
-
-	}
-
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+		
+		NikoNikoDBManager nikoManager = new NikoNikoDBManager();
+		NikoNiko niko = new NikoNiko();
+		
+		nikoManager.getAssociatedObject(niko);
+		
+		}
+	
 }
+
