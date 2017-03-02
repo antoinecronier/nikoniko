@@ -31,11 +31,11 @@ public class UserDBManager extends BaseDBManager<User> {
 		return null;
 	}
 
-	@Override
-	public void getAssociateObject(User item) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void getAssociateObject(User item) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void update(User item) {

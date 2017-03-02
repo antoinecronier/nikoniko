@@ -87,19 +87,8 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		return query;
 	}
 
-	/**
-	 * Fonction qui permet d'obtenir toutes les informations d'un nikoniko en
-	 * fonction de l'id renseigné
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public NikoNiko getById(long id) {
-		return super.getById(id, new NikoNiko());
-	}
-
 	@Override
-	public NikoNiko getByIdFull(long id) {
+	public NikoNiko getByIdFull(NikoNiko nikoniko) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -109,8 +98,15 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * Fonction qui permet d'obtenir toutes les informations d'un nikoniko en
+	 * fonction de l'id renseigné
+	 * 
+	 * @param item
+	 * @return
+	 */
 	@Override
-	public NikoNiko getById(long id, NikoNiko item) {
+	public NikoNiko getById(NikoNiko item) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -123,10 +119,10 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		return null;
 	}
 
-	@Override
-	public void getAssociateObject(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
+//	@Override
+//	public void getAssociateObject(NikoNiko item) {
+//		// TODO Auto-generated method stub
+//	}
 
 	// Fonction qui permet l'ajout des attributs d'un nikoniko dans la BDD
 	// en utilisant la fonction getNikoNikoValues().

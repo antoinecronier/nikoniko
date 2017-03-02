@@ -1,5 +1,6 @@
 package com.tactfactory.nikoniko.manager.database.manager.base;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
@@ -40,11 +41,11 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 	
 	@Override
-	public T getById(long id,T item) {
+	public T getById(T item) {
 		
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
 				"SELECT * FROM " + item.table + " WHERE " + item.table
-						+ ".id = " + id);
+						+ ".id = " + item.getId());
 		try {
 			if (query.next()) {
 				item = this.setObjectFromResultSet(query,item);
@@ -52,6 +53,14 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return item;
+	}
+	
+	public T getByIdFull(T item){
+		
+		item = getById(item);
+		getAssociateObject(item);
+		
 		return item;
 	}
 
@@ -122,5 +131,40 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			e.printStackTrace();
 		}
 		return item;
+	}
+	
+	public void getAssociateObject(T item){
+		ArrayList<String> classname = new ArrayList<String>();
+		Field[] fields = new Field();
+		int i = 0;
+		
+		try {
+			classname = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		System.out.println(item.getClass().getSimpleName());
+		fields = item.getClass().getFields();
+		System.out.println();
+		
+		for (i = 0; i < classname.size(); i++) {
+			System.out.println("com.tactfactory.nikoniko.models." +classname.get(i));			
+			if (item.getClass().getSimpleName().toLowerCase().equals( classname.get(i))) {
+				
+				System.out.println(i);
+				break;
+			}
+		}
+		
+		System.out.println(DumpFields.inspectGetter(item.getClass()));
+		System.out.println(classname.get(i));
+			
+		
+		
 	}
 }
