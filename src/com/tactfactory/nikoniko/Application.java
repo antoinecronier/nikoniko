@@ -157,7 +157,8 @@ public class Application {
 //		}
 
 		NikoNikoDBManager nikonikoDBManager = new NikoNikoDBManager();
-		NikoNiko niko = new NikoNiko(new User("test", "test"), new Project("test", new Date()), 2);
+		User user = new User("test", "test");
+		NikoNiko niko = new NikoNiko(user, new Project("test", new Date()), 2);
 		/*nikonikoDBManager.insert(niko);
 
 		NikoNiko niko1 = new NikoNiko();
@@ -165,19 +166,29 @@ public class Application {
 
 		nikonikoDBManager.getById(niko1);
 		System.out.println(niko1);*/
-		for (Field field : DumpFields.getFields(NikoNiko.class)) {
-			try {
-				System.out.println(field.getName() + " : " +field.get(niko));
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+//		for (Field field : DumpFields.getFields(NikoNiko.class)) {
+//			try {
+//				System.out.println(field.getName() + " : " +field.get(niko));
+//			} catch (IllegalArgumentException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			System.out.println("  SQL Type : " + field.getAnnotation(MySQLAnnotation.class).mysqlType());
+//			System.out.println("  Nullable? : " + field.getAnnotation(MySQLAnnotation.class).nullable());
+//			System.out.println("  SQL Name : " + field.getAnnotation(MySQLAnnotation.class).fieldName());
+//		}
+		System.out.println(user.getClass().getSimpleName());
+		ArrayList<Field> fields = DumpFields.getFields(user.getClass());
+		for (Field field : fields) {
+			Class klazz = field.getType();
+			if (klazz == User.class) {
+				System.out.println("User");
+			}else if (klazz == ArrayList.class) {
+				System.out.println("ArrayList");
 			}
-			System.out.println("  SQL Type : " + field.getAnnotation(MySQLAnnotation.class).mysqlType());
-			System.out.println("  Nullable? : " + field.getAnnotation(MySQLAnnotation.class).nullable());
-			System.out.println("  SQL Name : " + field.getAnnotation(MySQLAnnotation.class).fieldName());
 		}
 	}
 }

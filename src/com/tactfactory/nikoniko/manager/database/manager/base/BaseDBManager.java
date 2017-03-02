@@ -61,60 +61,60 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 	public T setObjectFromResultSet(ResultSet resultSet,T item) {
 
-		for (Field field : DumpFields.getFields(item.getClass())) {
-			if (field.getType() == int.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getInt(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (method.getParameterTypes()[0] == Date.class) {
-
-			}else if (method.getParameterTypes()[0] == Integer.class) {
-
-			}else if (method.getParameterTypes()[0] == String.class) {
-
-			}else if (method.getParameterTypes()[0] == Boolean.class) {
-
-			}else if (method.getParameterTypes()[0] == boolean.class) {
-
-			}else if (method.getParameterTypes()[0] == long.class) {
-
-			}else if (method.getParameterTypes()[0] == Long.class) {
-
-			}else if (method.getParameterTypes()[0] == double.class) {
-
-			}else if (method.getParameterTypes()[0] == Double.class) {
-
-			}else if (method.getParameterTypes()[0] == BigDecimal.class) {
-
-			}else if (method.getParameterTypes()[0] == float.class) {
-
-			}else if (method.getParameterTypes()[0] == Float.class) {
-
-			}else if (method.getParameterTypes()[0] == char.class) {
-
-			}else if (method.getParameterTypes()[0] == byte.class) {
-
-			}else if (method.getParameterTypes()[0] == Byte.class) {
-
-			}else if (method.getParameterTypes()[0] == short.class) {
-
-			}else if (method.getParameterTypes()[0] == Short.class) {
-
-			}
-
-		}
+//		for (Field field : DumpFields.getFields(item.getClass())) {
+//			if (field.getType() == int.class) {
+//				try {
+//					DumpFields.getSetter(field).invoke(item, resultSet.getInt(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+//				} catch (IllegalAccessException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (IllegalArgumentException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (InvocationTargetException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}else if (method.getParameterTypes()[0] == Date.class) {
+//
+//			}else if (method.getParameterTypes()[0] == Integer.class) {
+//
+//			}else if (method.getParameterTypes()[0] == String.class) {
+//
+//			}else if (method.getParameterTypes()[0] == Boolean.class) {
+//
+//			}else if (method.getParameterTypes()[0] == boolean.class) {
+//
+//			}else if (method.getParameterTypes()[0] == long.class) {
+//
+//			}else if (method.getParameterTypes()[0] == Long.class) {
+//
+//			}else if (method.getParameterTypes()[0] == double.class) {
+//
+//			}else if (method.getParameterTypes()[0] == Double.class) {
+//
+//			}else if (method.getParameterTypes()[0] == BigDecimal.class) {
+//
+//			}else if (method.getParameterTypes()[0] == float.class) {
+//
+//			}else if (method.getParameterTypes()[0] == Float.class) {
+//
+//			}else if (method.getParameterTypes()[0] == char.class) {
+//
+//			}else if (method.getParameterTypes()[0] == byte.class) {
+//
+//			}else if (method.getParameterTypes()[0] == Byte.class) {
+//
+//			}else if (method.getParameterTypes()[0] == short.class) {
+//
+//			}else if (method.getParameterTypes()[0] == Short.class) {
+//
+//			}
+//
+//		}
 
 		return item;
 	}

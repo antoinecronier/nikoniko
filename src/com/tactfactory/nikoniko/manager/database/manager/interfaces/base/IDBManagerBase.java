@@ -103,6 +103,7 @@ public interface IDBManagerBase<T> {
 	 * Call "public <O> void mapRelation(T item, O relation)" for each foreign key.
 	 * @param item
 	 */
+	//Denis
 	public <O> void updateChildren(T item);
 
 	/**
