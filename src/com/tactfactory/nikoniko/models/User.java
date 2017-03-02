@@ -9,12 +9,8 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 public class User extends SecurityUser {
 
 	public static final String TABLE = "user";
-<<<<<<< HEAD
 	public static final String[] FIELDS = { "id", "login", "password", "sex",
 			"lastname", "firstname", "registration_cgi" };
-=======
-	public static final String[] FIELDS = { "id", "login", "password", "lastname", "firstname", "registration_cgi" };
->>>>>>> master
 
 	@MySQLAnnotation(fieldName = "lastname", mysqlType = MySQLTypes.VARCHAR)
 	private String lastname;
@@ -124,12 +120,7 @@ public class User extends SecurityUser {
 		this.teams = teams;
 	}
 
-<<<<<<< HEAD
-	public User(String login, String password, String lastname,
-			String firstname, String registration_cgi) {
-=======
 	public User(String login, String password, String lastname, String firstname, String registration_cgi) {
->>>>>>> master
 		super(User.TABLE, User.FIELDS, login, password);
 		this.lastname = lastname;
 		this.firstname = firstname;

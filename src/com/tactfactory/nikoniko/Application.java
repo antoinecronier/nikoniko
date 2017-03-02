@@ -1,6 +1,5 @@
 package com.tactfactory.nikoniko;
 
-<<<<<<< HEAD
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		UserDBManager userDBManager = new UserDBManager();	
-		User user0,user1;
+		User user0,user1,user2;
 		//user0 = new User();
 		//user0.setId(40);
 		//user1 = userDBManager.getById(user0);
@@ -37,14 +36,8 @@ public class Application {
 
 		user1=new User("rp","coucou","philippot", "régis","3333");
 		user1.setId(39);
-		
-		userDBManager.update(user1);
-=======
-public class Application {
-
-	public static void main(String[] args) {
-
->>>>>>> master
+		user2 = userDBManager.getById(user1);
+		//userDBManager.update(user1);
 	}
 
 }
