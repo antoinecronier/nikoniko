@@ -16,6 +16,11 @@ CREATE TABLE User(
         id               int (11) Auto_increment  NOT NULL ,
         login            Varchar (25) NOT NULL ,
         password         Varchar (25) NOT NULL ,
+<<<<<<< HEAD
+        sex				 Varchar (1)  NOT NULL ,
+=======
+        sex              Varchar (1)  NOT NULL ,
+>>>>>>> dcdc0b264371b0615372b9e70218c44665820c21
         lastname         Varchar (25) NOT NULL ,
         firstname        Varchar (25) NOT NULL ,
         registration_cgi Varchar (25) NOT NULL ,

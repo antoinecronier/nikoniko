@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.tactfactory.nikoniko.manager.NikoNikoManager;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class NikoNiko extends DatabaseItem {
 	public static final String TABLE = "nikoniko";
@@ -11,12 +13,25 @@ public class NikoNiko extends DatabaseItem {
 			"satisfaction", "nikoniko_comment", "isanonymous", "id_User",
 			"id_Project" };
 
+	@MySQLAnnotation(fieldName = "log_Date", mysqlType = MySQLTypes.DATETIME)
 	private Date log_date;
+
+	@MySQLAnnotation(fieldName = "change_Date", mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date change_date;
+
+	@MySQLAnnotation(fieldName = "satisfaction", mysqlType = MySQLTypes.INT)
 	private Integer satisfaction;
+
+	@MySQLAnnotation(fieldName = "nikoniko_comment", mysqlType = MySQLTypes.TEXT, nullable = true)
 	private String comment;
+
+	@MySQLAnnotation(fieldName = "isanonymous", mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
+
+	@MySQLAnnotation(fieldName = "id_User", mysqlType = MySQLTypes.INT, nullable = true)
 	private User user;
+
+	@MySQLAnnotation(fieldName = "id_Project", mysqlType = MySQLTypes.INT, nullable = true)
 	private Project project;
 
 	/**
@@ -152,19 +167,20 @@ public class NikoNiko extends DatabaseItem {
 	}
 
 	public NikoNiko(User user, Project project, int satisfaction,
-		String comment, Boolean isAnonymous) {
+			String comment, Boolean isAnonymous) {
 		this(user, project, satisfaction);
 		this.comment = comment;
 		this.isAnonymous = isAnonymous;
 	}
 
 	public NikoNiko() {
-		super(NikoNiko.TABLE,NikoNiko.FIELDS);
+		super(NikoNiko.TABLE, NikoNiko.FIELDS);
 	}
 
 	@Override
 	public String toString() {
-		return "NikoNiko [log_date=" + log_date + ", change_date=" + change_date + ", satisfaction=" + satisfaction
-				+ ", comment=" + comment + ", isAnonymous=" + isAnonymous + "]";
+		return "NikoNiko [log_date=" + log_date + ", change_date="
+				+ change_date + ", satisfaction=" + satisfaction + ", comment="
+				+ comment + ", isAnonymous=" + isAnonymous + "]";
 	}
 }
