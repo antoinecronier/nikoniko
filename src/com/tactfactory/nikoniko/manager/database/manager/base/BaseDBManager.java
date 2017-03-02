@@ -175,6 +175,9 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 
 	@Override
 	public T getById(T item) {
+		
+		System.out.println("SELECT * FROM " + item.table + " WHERE " + item.table
+						+ ".id = " + item.getId());
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
 				"SELECT * FROM " + item.table + " WHERE " + item.table
 						+ ".id = " + item.getId());
@@ -440,6 +443,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 				}
 			} else if (field.getType() == char.class) {
 				try {
+					System.out.println("item="+item+", field annotation="+field.getAnnotation(
+							MySQLAnnotation.class).fieldName());
+					System.out.println("resultSet.getString = "+resultSet.getString(field.getAnnotation(
+									MySQLAnnotation.class).fieldName()));
 					DumpFields.getSetter(field).invoke(
 							item,
 							resultSet.getString(field.getAnnotation(
@@ -548,6 +555,9 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 		
 		map = DumpFields.fielder(item);
 		String fieldsValues = getValues(item);
+
+		System.out.println("fieldsValues="+fieldsValues);
+		
 		String[] list = fieldsValues.split(",");
 		
 		query = "UPDATE " + item.table + " SET " ;
@@ -560,9 +570,12 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 		query += item.getId();
 		query += ";";
 		
+		System.out.println(query);
+		
 		MySQLAccess.getInstance().updateQuery(query);
 	}
 	
+	@Override
 	public void updateWithChildren(T item){
 		Map<String, Object> map;
 		map = DumpFields.fielder(item);
