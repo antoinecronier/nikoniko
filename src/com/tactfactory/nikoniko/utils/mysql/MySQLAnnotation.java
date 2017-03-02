@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface MySQLAnnotation {
 	String fieldName() default "";
+
 	MySQLTypes mysqlType();
+
 	boolean nullable() default false;
 }

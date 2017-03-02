@@ -17,7 +17,7 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 	@Override
 	public void purgeTable(String table) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -35,49 +35,49 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 	@Override
 	public void getAssociateObject(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void mapRelation(Project item, O relation) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateWithChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void updateChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteWithChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void deleteChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

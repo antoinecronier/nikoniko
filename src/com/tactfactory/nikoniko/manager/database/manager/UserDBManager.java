@@ -17,7 +17,7 @@ public class UserDBManager extends BaseDBManager<User> {
 	@Override
 	public void purgeTable(String table) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -35,49 +35,49 @@ public class UserDBManager extends BaseDBManager<User> {
 	@Override
 	public void getAssociateObject(User item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(User item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(User item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void mapRelation(User item, O relation) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateWithChildren(User item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void updateChildren(User item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteWithChildren(User item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void deleteChildren(User item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

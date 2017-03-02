@@ -18,23 +18,21 @@ public class FromFile {
 	public void setList(ArrayList<String> list) {
 		this.list = list;
 	}
-	
-	public FromFile(String path)
-	{
-		String  thisLine = null;
-		list = new ArrayList<String>(); 
-  		try{
-  			FileReader myFile = new FileReader(path);
-  			// open input stream test.txt for reading purpose.
-  			BufferedReader br = new BufferedReader(myFile);
+
+	public FromFile(String path) {
+		String thisLine = null;
+		list = new ArrayList<String>();
+		try {
+			FileReader myFile = new FileReader(path);
+			// open input stream test.txt for reading purpose.
+			BufferedReader br = new BufferedReader(myFile);
 			while ((thisLine = br.readLine()) != null) {
-			     this.list.add(thisLine);
+				this.list.add(thisLine);
 			}
 			br.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
+
 	}
 }
