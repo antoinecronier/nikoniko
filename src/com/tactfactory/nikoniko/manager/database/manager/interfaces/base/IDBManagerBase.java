@@ -36,11 +36,9 @@ public interface IDBManagerBase<T> {
 	/**
 	 * Return object as java item to be used.
 	 * 
-	 * @param id
 	 * @param item
-	 * @return
+	 * @return item
 	 */
-	// 0
 	public T getById(T item);
 
 	/**
