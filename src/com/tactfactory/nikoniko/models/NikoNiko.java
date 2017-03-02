@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.tactfactory.nikoniko.manager.NikoNikoManager;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class NikoNiko extends DatabaseItem {
 	public static final String TABLE = "nikoniko";
@@ -11,12 +13,25 @@ public class NikoNiko extends DatabaseItem {
 			"satisfaction", "nikoniko_comment", "isanonymous", "id_User",
 			"id_Project" };
 
+	@MySQLAnnotation(fieldName = "log_date",mysqlType = MySQLTypes.DATETIME)
 	private Date log_date;
+
+	@MySQLAnnotation(fieldName = "change_date",mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date change_date;
+
+	@MySQLAnnotation(fieldName = "satisfaction",mysqlType = MySQLTypes.INT)
 	private Integer satisfaction;
+
+	@MySQLAnnotation(fieldName = "nikoniko_comment",mysqlType = MySQLTypes.TEXT, nullable = true)
 	private String comment;
+
+	@MySQLAnnotation(fieldName = "isAnonymous",mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
+
+	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.INT, nullable = true)
 	private User user;
+
+	@MySQLAnnotation(fieldName = "id_Project",mysqlType = MySQLTypes.INT, nullable = true)
 	private Project project;
 
 	/**

@@ -19,11 +19,11 @@ public class UserDBManager extends BaseDBManager<User> {
 		
 	}
 
-	@Override
-	public User getByIdFull(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public User getByIdFull(long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public ArrayList<User> getAll() {

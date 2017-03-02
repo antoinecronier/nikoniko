@@ -19,11 +19,11 @@ public class TeamDBManager extends BaseDBManager<Team> {
 		
 	}
 
-	@Override
-	public Team getByIdFull(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Team getByIdFull(long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public ArrayList<Team> getAll() {

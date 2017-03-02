@@ -19,11 +19,11 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 		
 	}
 
-	@Override
-	public Project getByIdFull(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Project getByIdFull(long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public ArrayList<Project> getAll() {

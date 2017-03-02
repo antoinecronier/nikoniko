@@ -1,17 +1,26 @@
 package com.tactfactory.nikoniko.manager.database.manager.base;
 
+
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
+import com.tactfactory.nikoniko.models.NikoNiko;
+import com.tactfactory.nikoniko.models.Project;
+import com.tactfactory.nikoniko.models.Team;
+import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DumpFields;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
 
@@ -39,10 +48,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			}
 		}
 	}
-	
+
 	@Override
 	public T getById(T item) {
-		
+
 		ResultSet query = MySQLAccess.getInstance().resultQuery(
 				"SELECT * FROM " + item.table + " WHERE " + item.table
 						+ ".id = " + item.getId());
@@ -65,103 +74,245 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 
 	public T setObjectFromResultSet(ResultSet resultSet,T item) {
-		
-		try {
-			item.setId(resultSet.getLong("id"));
-			
-			Map<String,Object> map=DumpFields.fielder(item);
-			ArrayList<Method> methods= DumpFields.getSetter(item.getClass());
-			
-			for (Map.Entry<String, Object> element : map.entrySet()) {
-				
-				String name = "set"+element.getKey().substring(0, 1).toUpperCase() + element.getKey().substring(1);
-				Method setter = null;
-				for (Method method : methods) {
-					if (method.getName().equals(name)){
-						setter=method;
-					}
+
+		for (Field field : DumpFields.getFields(item.getClass())) {
+			if (field.getType() == int.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getInt(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-				
-				if (element.getValue().getClass().getName()=="Integer"){
-					try {
-						setter.invoke(item, resultSet.getInt(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
+			}else if (field.getType() == Date.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getDate(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-				else if (element.getValue().getClass().getName()=="Boolean"){
-					try {
-						setter.invoke(item, resultSet.getBoolean(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
+			}else if (field.getType() == Integer.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getInt(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-				else if (element.getValue().getClass().getName()=="String"){
-					try {
-						setter.invoke(item, resultSet.getString(element.getKey()));
-					} catch (IllegalAccessException e) {			
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {		
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {			
-						e.printStackTrace();
-					}
+			}else if (field.getType() == String.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getString(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-				else if (element.getValue().getClass().getName()=="Date"){
-					try {
-						setter.invoke(item, resultSet.getDate(element.getKey()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
+			}else if (field.getType() == Boolean.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getBoolean(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == boolean.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getBoolean(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == long.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getLong(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == Long.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getLong(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == double.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getDouble(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == Double.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getDouble(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == BigDecimal.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getBigDecimal(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == float.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getFloat(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == Float.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getFloat(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == char.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getString(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == byte.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getByte(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == Byte.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getByte(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == short.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getShort(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else if (field.getType() == Short.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item, resultSet.getShort(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return item;
 	}
 	
 	public void getAssociateObject(T item){
-		ArrayList<String> classname = new ArrayList<String>();
-		int i = 0;
+		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+		ArrayList<Class> classes = DumpFields.getClasses("com.tactfactory.nikoniko.models");
 		
-		try {
-			classname = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		System.out.println(item.getClass().getSimpleName());
-		fields = item.getClass().getFields();
-		System.out.println();
-		
-		for (i = 0; i < classname.size(); i++) {
-			System.out.println("com.tactfactory.nikoniko.models." +classname.get(i));			
-			if (item.getClass().getSimpleName().toLowerCase().equals( classname.get(i))) {
+		for (Field field : fields) {
+			Class klass = field.getType();
+			
+			if (classes.contains(klass)) {
 				
-				System.out.println(i);
-				break;
+				
+				String resultset = "Select * FROM "+ item.getClass().getSimpleName() +" WHERE id_user = "+item.getId();
+				
+				ResultSet result = MySQLAccess.getInstance().resultQuery(resultset);
+				
+				item = setObjectFromResultSet(result, item);
 			}
 		}
-		
-		System.out.println(DumpFields.inspectGetter(item.getClass()));
-		System.out.println(classname.get(i));
-			
-		
-		
 	}
 }
