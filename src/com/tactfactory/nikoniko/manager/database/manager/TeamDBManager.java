@@ -16,7 +16,7 @@ public class TeamDBManager extends BaseDBManager<Team> {
 	@Override
 	public void purgeTable(String table) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -34,49 +34,48 @@ public class TeamDBManager extends BaseDBManager<Team> {
 	@Override
 	public void getAssociateObject(Team item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Team item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Team item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void mapRelation(Team item, O relation) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateWithChildren(Team item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void updateChildren(Team item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteWithChildren(Team item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void deleteChildren(Team item) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }

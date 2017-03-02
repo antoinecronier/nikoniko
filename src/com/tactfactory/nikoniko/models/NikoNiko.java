@@ -8,30 +8,30 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class NikoNiko extends DatabaseItem {
+	
 	public static final String TABLE = "nikoniko";
-	public static final String[] FIELDS = { "id", "log_Date", "change_Date",
-			"satisfaction", "nikoniko_comment", "isanonymous", "id_User",
-			"id_Project" };
+	public static final String[] FIELDS = { "id", "log_Date", "change_Date", "satisfaction", "nikoniko_comment",
+			"isanonymous", "id_User", "id_Project" };
 
-	@MySQLAnnotation(fieldName = "log_date",mysqlType = MySQLTypes.DATETIME)
+	@MySQLAnnotation(fieldName = "log_date", mysqlType = MySQLTypes.DATETIME)
 	private Date log_date;
 
-	@MySQLAnnotation(fieldName = "change_date",mysqlType = MySQLTypes.DATETIME, nullable = true)
+	@MySQLAnnotation(fieldName = "change_date", mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date change_date;
 
-	@MySQLAnnotation(fieldName = "satisfaction",mysqlType = MySQLTypes.INT)
+	@MySQLAnnotation(fieldName = "satisfaction", mysqlType = MySQLTypes.INT)
 	private Integer satisfaction;
 
-	@MySQLAnnotation(fieldName = "nikoniko_comment",mysqlType = MySQLTypes.TEXT, nullable = true)
+	@MySQLAnnotation(fieldName = "nikoniko_comment", mysqlType = MySQLTypes.TEXT, nullable = true)
 	private String comment;
 
-	@MySQLAnnotation(fieldName = "isAnonymous",mysqlType = MySQLTypes.TINYINT)
+	@MySQLAnnotation(fieldName = "isAnonymous", mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
 
-	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.INT, nullable = true)
+	@MySQLAnnotation(fieldName = "id_User", mysqlType = MySQLTypes.INT, nullable = true)
 	private User user;
 
-	@MySQLAnnotation(fieldName = "id_Project",mysqlType = MySQLTypes.INT, nullable = true)
+	@MySQLAnnotation(fieldName = "id_Project", mysqlType = MySQLTypes.INT, nullable = true)
 	private Project project;
 
 	/**
@@ -160,21 +160,19 @@ public class NikoNiko extends DatabaseItem {
 		this.comment = comment;
 	}
 
-	public NikoNiko(User user, Project project, int satisfaction,
-			Boolean isAnonymous) {
+	public NikoNiko(User user, Project project, int satisfaction, Boolean isAnonymous) {
 		this(user, project, satisfaction);
 		this.isAnonymous = isAnonymous;
 	}
 
-	public NikoNiko(User user, Project project, int satisfaction,
-		String comment, Boolean isAnonymous) {
+	public NikoNiko(User user, Project project, int satisfaction, String comment, Boolean isAnonymous) {
 		this(user, project, satisfaction);
 		this.comment = comment;
 		this.isAnonymous = isAnonymous;
 	}
 
 	public NikoNiko() {
-		super(NikoNiko.TABLE,NikoNiko.FIELDS);
+		super(NikoNiko.TABLE, NikoNiko.FIELDS);
 	}
 
 	@Override
