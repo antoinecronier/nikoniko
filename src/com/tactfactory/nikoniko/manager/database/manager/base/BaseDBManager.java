@@ -135,16 +135,13 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	
 	public void getAssociateObject(T item){
 		ArrayList<String> classname = new ArrayList<String>();
-		Field[] fields = new Field();
 		int i = 0;
 		
 		try {
 			classname = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
