@@ -1,27 +1,16 @@
 package com.tactfactory.nikoniko;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.io.IOException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
-import com.mysql.jdbc.StringUtils;
-import com.tactfactory.nikoniko.manager.NikoNikoManager;
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.ProjectDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
+import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.*;
 import com.tactfactory.nikoniko.utils.DatabasePurjer;
-import com.tactfactory.nikoniko.utils.DumpFields;
-
-import com.tactfactory.nikoniko.utils.DateConverter;
-
 import com.tactfactory.nikoniko.utils.DumpFields;
 
 public class Application {
@@ -86,7 +75,7 @@ public class Application {
 			userManager.<Team>mapRelation(user, tmpTeam);
 		}
 
-		User newUser = userManager.getById(user.getId(), user);
+		User newUser = userManager.getById(user);
 		ArrayList<User> users = userManager.getAll();
 
 		for (int i = 0; i < 10; i++) {
@@ -107,6 +96,8 @@ public class Application {
 
 		int a = 0;
 		a++;
+		
+		nikonikoManager.getAssociatedObject(niko);
 
 		NikoNikoDBManager nikoNikoDBManager = new NikoNikoDBManager();
 
@@ -116,7 +107,7 @@ public class Application {
 
 		System.out.println(nikoniko.getLog_date());
 
-		nikoNikoDBManager.getById(1, new NikoNiko());
+		nikoNikoDBManager.getById(new NikoNiko());
 
 		ArrayList<String> result = DumpFields.inspectGetter(Project.class);
 		System.out.println(result);
@@ -124,44 +115,50 @@ public class Application {
 		ArrayList<String> result1 = DumpFields.inspectBaseAttribut(User.class);
 		System.out.println(result1);
 
-		System.out.println(nikoNikoDBManager.getById(35).toString());
+		System.out.println(nikoNikoDBManager);
 
 		NikoNikoDBManager nikonikoDbManager = new NikoNikoDBManager();
 		nikonikoDbManager.insert(new NikoNiko(new User(), new Project(), 1));
 
 		NikoNiko newNiko = new NikoNiko();
-		newNiko = nikonikoDbManager.getById((int) 2, newNiko);
+		newNiko = nikonikoDbManager.getById(newNiko);
 		System.out.println(newNiko.getId() + " " + newNiko.getSatisfaction());
 
 		// creer un objet de type T -> DumpFields.createContentsEmpty()
 		// .<T> inspectedBAseAttribute
 		// utilisation de Map
-
 		NikoNiko newNiko1 = new NikoNiko();
 		Project proj1 = DumpFields.createContentsEmpty(Project.class);
 
-		/* Test on inspectBaseAttribut */
-		/* --------------------------- */
-		ArrayList<String> attributs = new ArrayList<String>();
-		attributs = DumpFields.inspectBaseAttribut(NikoNiko.class);
-
-		System.out.println("NbAttr " + attributs.size());
-		for (String attribut : attributs) {
-			System.out.println("attribut " + attribut);
-		}
-
-		/* Test on getClassesNames */
-		/* --------------------- */
-		ArrayList<String> classNames = new ArrayList<>();
-		try {
-			classNames = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("NbClass " + classNames.size());
-		for (String className : classNames) {
-			System.out.println("Class " + className);
+//		/* Test on inspectBaseAttribut */
+//		/* --------------------------- */
+//		ArrayList<String> attributs = new ArrayList<String>();
+//		attributs = DumpFields.inspectBaseAttribut(NikoNiko.class);
+//
+//		System.out.println("NbAttr " + attributs.size());
+//		for (String attribut : attributs) {
+//			System.out.println("attribut " + attribut);
+//		}
+//
+//		/* Test on getClassesNames */
+//		/* --------------------- */
+//		ArrayList<String> classNames = new ArrayList<>();
+//		try {
+//			classNames = DumpFields.getClassesNames("com.tactfactory.nikoniko.models");
+//		} catch (ClassNotFoundException | IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("NbClass " + classNames.size());
+//		for (String className : classNames) {
+//			System.out.println("Class " + className);
+		
+		
+		
+		
+		
+			
+			
 		}
 	}
-}
+
