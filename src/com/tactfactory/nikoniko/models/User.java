@@ -21,10 +21,12 @@ public class User extends SecurityUser {
 	@MySQLAnnotation(fieldName = "registration_cgi", mysqlType = MySQLTypes.VARCHAR)
 	private String registration_cgi;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, nullable = true)
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "nikoniko",
+			associationName = "id_User", nullable = true)
 	private ArrayList<NikoNiko> nikoNikos;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, nullable = true)
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "user_team",
+			associationName = "id_Team", nullable = true)
 	private ArrayList<Team> teams;
 
 	@MySQLAnnotation(fieldName = "sex", mysqlType = MySQLTypes.VARCHAR)

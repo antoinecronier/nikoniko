@@ -335,4 +335,17 @@ public class DumpFields {
 
 		return null;
 	}
+	
+	public static Method getGetter(Field field) {
+		// MZ: Find the correct method
+		for (Method method : DumpFields.getGetter(field.getDeclaringClass())) {
+			if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))) {
+				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+					return method;
+				}
+			}
+		}
+
+		return null;
+	}
 }

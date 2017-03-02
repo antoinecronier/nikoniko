@@ -17,10 +17,12 @@ public class Team extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "serial", mysqlType = MySQLTypes.VARCHAR)
 	private String serial;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "team_project")
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "team_project",
+			associationName = "id_Project", nullable = true)
 	private ArrayList<Project> projects;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "user_team")
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "user_team",
+			associationName = "id_User", nullable = true)
 	private ArrayList<User> users;
 
 	/**

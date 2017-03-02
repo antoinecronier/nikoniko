@@ -2,6 +2,7 @@ package com.tactfactory.nikoniko.manager.database.manager.base;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,30 +11,28 @@ import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
+import com.tactfactory.nikoniko.models.NikoNiko;
+import com.tactfactory.nikoniko.models.Project;
+import com.tactfactory.nikoniko.models.Team;
 import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
 import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
-public abstract class BaseDBManager<T extends DatabaseItem> implements
-		IDBManagerBase<T> {
+public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
 
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
-<<<<<<< HEAD
 	 * 
-=======
-	 *
->>>>>>> antoine
 	 * @param item
-	 * @return query 
+	 * @return query
 	 */
 	public String getValues(T item) {
 
 		// Set empty string
 		String query = "";
-
 
 		// Verify if id already exists. If not, return null (in this case DTB
 		// auto_increment will be used). Due to getFields definition, it is
@@ -44,18 +43,19 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 		} else {
 			query += "null,";
 		}
-		
-		//Use item.field to have the good order of arguments to fill DTB
+
+		// Use item.field to have the good order of arguments to fill DTB
 		for (String fieldItem : item.fields) {
-			
+
 			// For each attributes of item with a MySQLAnnotation
 			for (Field field : DumpFields.getFields(item.getClass())) {
-				
+
 				// Name of the current found attribute and current element
 				// of item.field are equal
 				if (fieldItem.equals(field.getAnnotation(MySQLAnnotation.class).fieldName())) {
-					
-					//For each SQL known type, do the appropriate action to fill the query
+
+					// For each SQL known type, do the appropriate action to
+					// fill the query
 					switch (field.getAnnotation(MySQLAnnotation.class).mysqlType()) {
 					case DATETIME:
 						if (DumpFields.runGetter(field, item) != null) {
@@ -64,7 +64,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 									+ "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// No date attribute is set but this attribute is not nullable
+							// No date attribute is set but this attribute is
+							// not nullable
 							query += ",'" + DateConverter.getMySqlDatetime(new Date()) + "'";
 
 						} else {
@@ -78,22 +79,28 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable INT attribute : -1 (not logic value here)
-							// Concat operation is maintained in case of the use of a "defaultValue" method
+							// Default value of a not nullable INT attribute :
+							// -1 (not logic value here)
+							// Concat operation is maintained in case of the use
+							// of a "defaultValue" method
 							query += ",'" + "-1" + "'";
 						} else {
 							query += ",null";
 						}
 						break;
 
-					case TINYINT:// TINYINT is the type used for a boolean in our DTB
+					case TINYINT:// TINYINT is the type used for a boolean in
+									// our DTB
 						if (DumpFields.runGetter(field, item) != null) {
-							// A TINYINT (aka boolean) attribute is already set in item
+							// A TINYINT (aka boolean) attribute is already set
+							// in item
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable boolean attribute : 0 (false)
-							// Concat operation is maintained in case of the use of a "defaultValue" method
+							// Default value of a not nullable boolean attribute
+							// : 0 (false)
+							// Concat operation is maintained in case of the use
+							// of a "defaultValue" method
 							query += ",'" + 0 + "'";
 						} else {
 							query += ",null";
@@ -106,8 +113,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable TEXT attribute : empty string
-							// Concat operation is maintained in case of the use of a "defaultValue" method
+							// Default value of a not nullable TEXT attribute :
+							// empty string
+							// Concat operation is maintained in case of the use
+							// of a "defaultValue" method
 							query += ",'" + "" + "'";
 						} else {
 							query += ",null";
@@ -117,26 +126,30 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 					case DATABASE_ITEM:
 						Object dbItem = DumpFields.runGetter(field, item);
 						if (dbItem != null && ((DatabaseItem) dbItem).getId() != 0) {
-							//An object attribute is already set in item
+							// An object attribute is already set in item
 							query += ",'" + ((DatabaseItem) dbItem).getId() + "'";
 						} else {
-							//No object associated to item : null
+							// No object associated to item : null
 							query += ",null";
 						}
 						break;
 
 					case ASSOCIATION:
-						// if the selected attribute is an ArrayList of object, do nothing (case of association table)
+						// if the selected attribute is an ArrayList of object,
+						// do nothing (case of association table)
 						break;
 					default:
-						//In case of the selected attribute is an unknown sql type 
+						// In case of the selected attribute is an unknown sql
+						// type
 						if (DumpFields.runGetter(field, item) != null) {
-							//This attribute is already set in item (even if his SQL type is unknown)
+							// This attribute is already set in item (even if
+							// his SQL type is unknown)
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else {
-							//Set it to null in other cases
-							//WARNING : It may create errors when try to fill DTB with this item if 
-							//set to not nullable in DTB
+							// Set it to null in other cases
+							// WARNING : It may create errors when try to fill
+							// DTB with this item if
+							// set to not nullable in DTB
 							query += ",null";
 						}
 						break;
@@ -351,7 +364,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 			while (query.next()) {
 				// cr�ation d'un objet vide � partir d'une classe
 				T temp = DumpFields.createContentsEmpty(clazz);
-				
+
 				// remplir la liste d'objets avec les r�sultats
 				malistedobjets.add(setObjectFromResultSet(query, temp));
 			}
@@ -361,5 +374,57 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 
 		// retourne la liste d'objets
 		return malistedobjets;
+	}
+
+	public void deleteWithChildren(T item) {
+		delete(item);
+
+		// Find which kind of object is T, to know what association to delete
+		switch (item.getClass().getSimpleName()) {
+		case "NikoNiko":
+		case "User":
+		case "Project":
+		case "Team":
+		}
+	}
+
+	public <O extends DatabaseItem> void deleteChildren(T item, O child) {
+		String query = "";
+		Field fieldChild = null;
+		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+		if (item.getClass().getSimpleName().equals("NikoNiko")) {
+			for (Field field : fields) {
+				String name = child.getClass().getSimpleName();
+				name = name.substring(0, 1).toLowerCase() + name.substring(1);
+				if (field.getName().equals(name)) {
+					fieldChild = field;
+				}
+			}
+
+			query = "UPDATE FROM nikoniko SET" + fieldChild.getAnnotation(MySQLAnnotation.class).fieldName()
+					+ "=NULL WHERE id=" + item.getId();
+
+		} else {
+			for (Field field : fields) {
+				String name = child.getClass().getSimpleName();
+				name = name.substring(0, 1).toLowerCase() + name.substring(1) + "s";
+				if (field.getName().equals(name)) {
+					fieldChild = field;
+				}
+				if (child.getClass().getSimpleName().equals("NikoNiko")) {
+					for (NikoNiko nikochild : item.getNikoNikos()) {//reussir a cast
+						query = "UPDATE FROM nikoniko SET id_" + item.getClass().getSimpleName() + "=NULL WHERE id="
+								+ nikochild.getId();
+					}
+					
+				} else {
+					query = "DELETE FROM" + fieldChild.getAnnotation(MySQLAnnotation.class).associationTable()
+							+ "WHERE " + fieldChild.getAnnotation(MySQLAnnotation.class).associationName() + "="
+							+ item.getId();
+				}
+			}
+
+		}
+
 	}
 }
