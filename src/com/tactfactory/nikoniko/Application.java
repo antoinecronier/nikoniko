@@ -151,7 +151,14 @@ public class Application {
 			System.out.println("Class " + className);
 		}
 		
-		ArrayList<String> result2 = DumpFields.inspectBaseAttribut(User.class);
-		System.out.println(result2);
+		
+		//test getALL
+		
+		ArrayList<NikoNiko> maliste = new ArrayList();
+		
+		NikoNikoDBManager NikoManager = new NikoNikoDBManager();
+		NikoManager.getAll();
+		
+		}
 	}
-}
+
