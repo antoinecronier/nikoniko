@@ -7,9 +7,8 @@ import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 
 public class NikoNiko extends DatabaseItem {
 	public static final String TABLE = "nikoniko";
-	public static final String[] FIELDS = { "id", "log_Date", "change_Date",
-			"satisfaction", "nikoniko_comment", "isanonymous", "id_User",
-			"id_Project" };
+	public static final String[] FIELDS = { "id", "log_Date", "change_Date", "satisfaction", "nikoniko_comment",
+			"isanonymous", "id_User", "id_Project" };
 
 	private Date log_date;
 	private Date change_date;
@@ -145,21 +144,19 @@ public class NikoNiko extends DatabaseItem {
 		this.comment = comment;
 	}
 
-	public NikoNiko(User user, Project project, int satisfaction,
-			Boolean isAnonymous) {
+	public NikoNiko(User user, Project project, int satisfaction, Boolean isAnonymous) {
 		this(user, project, satisfaction);
 		this.isAnonymous = isAnonymous;
 	}
 
-	public NikoNiko(User user, Project project, int satisfaction,
-		String comment, Boolean isAnonymous) {
+	public NikoNiko(User user, Project project, int satisfaction, String comment, Boolean isAnonymous) {
 		this(user, project, satisfaction);
 		this.comment = comment;
 		this.isAnonymous = isAnonymous;
 	}
 
 	public NikoNiko() {
-		super(NikoNiko.TABLE,NikoNiko.FIELDS);
+		super(NikoNiko.TABLE, NikoNiko.FIELDS);
 	}
 
 	@Override

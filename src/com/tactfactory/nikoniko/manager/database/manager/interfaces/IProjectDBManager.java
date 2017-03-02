@@ -13,8 +13,6 @@ import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.Team;
 import com.tactfactory.nikoniko.utils.DateConverter;
 
-public interface IProjectDBManager<O,L> extends IDBManagerBase {
-	
-	
+public interface IProjectDBManager<O, L> extends IDBManagerBase {
 
 }

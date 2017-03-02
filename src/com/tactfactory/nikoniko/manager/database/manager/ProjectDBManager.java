@@ -22,7 +22,7 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 	@Override
 	public void purgeTable(String table) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -40,75 +40,78 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 	@Override
 	public void getAssociateObject(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-//	@Override
-//	public void delete(Project item) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	// @Override
+	// public void delete(Project item) {
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 	@Override
 	public <O> void mapRelation(Project item, O relation) {
-	
-		if(relation.getClass().getSimpleName().equals("NikoNiko")) {
-			//NikoNiko usr = (NikoNiko)relation;
-			//query = "UPDATE " + item.table + " SET id_user = " + usr.getId() + " WHERE id = " + item.getId();	
-			//MySQLAccess.getInstance().updateQuery(query);
+
+		if (relation.getClass().getSimpleName().equals("NikoNiko")) {
+			// NikoNiko usr = (NikoNiko)relation;
+			// query = "UPDATE " + item.table + " SET id_user = " + usr.getId()
+			// + " WHERE id = " + item.getId();
+			// MySQLAccess.getInstance().updateQuery(query);
 			System.err.println("No Sql relation table exist between Projects and NikoNiko tables");
-		} else if(relation.getClass().getSimpleName().equals("Team")) {
-			Team team = (Team)relation;
-			
-			//check existing relation in team_project table
+		} else if (relation.getClass().getSimpleName().equals("Team")) {
+			Team team = (Team) relation;
+
+			// check existing relation in team_project table
 			// --------------------------------------------
-			String query = "SELECT * FROM " + "team_project" + " WHERE id = " + team.getId() + " AND id_project = " + item.getId();
+			String query = "SELECT * FROM " + "team_project" + " WHERE id = " + team.getId() + " AND id_project = "
+					+ item.getId();
 			ResultSet res = MySQLAccess.getInstance().resultQuery(query);
-			
-			//insert relation
-			//---------------
+
+			// insert relation
+			// ---------------
 			try {
-				if(!res.next()) {
-					query = "INSERT INTO " + "team_project" + " (id,id_project)"  +
-							" VALUES (" + team.getId() + "," + item.getId() + ")";	
+				if (!res.next()) {
+					query = "INSERT INTO " + "team_project" + " (id,id_project)" + " VALUES (" + team.getId() + ","
+							+ item.getId() + ")";
 					MySQLAccess.getInstance().updateQuery(query);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		} else {
-			System.err.println("mapRelation for Project, inconsistent relation with " + relation.getClass().getSimpleName());
+			System.err.println(
+					"mapRelation for Project, inconsistent relation with " + relation.getClass().getSimpleName());
 		}
 	}
 
 	@Override
 	public void updateWithChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void updateChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteWithChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public <O> void deleteChildren(Project item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -31,9 +31,7 @@ public class MySQLAccess {
 		// This will load the MySQL driver, each DB has its own driver
 		Class.forName("com.mysql.jdbc.Driver");
 		// Setup the connection with the DB
-		connect = DriverManager
-				.getConnection("jdbc:mysql://localhost/"+DATABASE+"?"
-						+ "user=root&password=");
+		connect = DriverManager.getConnection("jdbc:mysql://localhost/" + DATABASE + "?" + "user=root&password=");
 	}
 
 	public ResultSet resultQuery(String query) {
@@ -44,8 +42,7 @@ public class MySQLAccess {
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 			// Result set get the result of the SQL query
-			resultSet = statement
-					.executeQuery(query);
+			resultSet = statement.executeQuery(query);
 			return resultSet;
 		}
 
@@ -64,8 +61,7 @@ public class MySQLAccess {
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 			// Result set get the result of the SQL query
-			result = statement
-					.executeUpdate(query);
+			result = statement.executeUpdate(query);
 		}
 
 		catch (Exception e) {

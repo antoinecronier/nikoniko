@@ -7,9 +7,9 @@ import com.tactfactory.nikoniko.models.User;
 
 public interface IUserDBManager extends IDBManagerBase<User> {
 
-
 	/**
 	 * Allow user to connect application.
+	 * 
 	 * @param login
 	 * @param password
 	 * @return
