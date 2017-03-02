@@ -6,9 +6,11 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
+import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
@@ -320,5 +322,35 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		}
 
 		return item;
+	}
+
+	// recuperation dans une liste d'objets tout ce qu'il y a dans une table
+	public ArrayList<T> getAll(Class<T> clazz) {
+
+		// création d'un objet vide à partir d'une classe
+		T item = DumpFields.createContentsEmpty(clazz);
+
+		// création d'une requete de sélection totale de tout ce qu'il y a dans
+		// la table liée à cet objet
+		ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table);
+
+		// création d'une liste d'objets
+		ArrayList<T> malistedobjets = new ArrayList<T>();
+
+		try {
+			// tant que la requete a des resultats
+			while (query.next()) {
+				// création d'un objet vide à partir d'une classe
+				T temp = DumpFields.createContentsEmpty(clazz);
+				
+				// remplir la liste d'objets avec les résultats
+				malistedobjets.add(setObjectFromResultSet(query, temp));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		// retourne la liste d'objets
+		return malistedobjets;
 	}
 }

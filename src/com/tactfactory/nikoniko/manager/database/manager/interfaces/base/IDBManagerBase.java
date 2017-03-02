@@ -55,8 +55,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @return
 	 */
-	// Felix
-	public ArrayList<T> getAll();
+	public ArrayList<T> getAll(Class<T> clazz);
 
 	/**
 	 * Get all related objects even if they are arrays or single object.
