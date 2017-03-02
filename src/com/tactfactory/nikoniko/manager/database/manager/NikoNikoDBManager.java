@@ -8,12 +8,12 @@ import com.tactfactory.nikoniko.utils.DateConverter;
 
 public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
-	// Création d'un classe permettant d'insérer des Niko-niko dans la base de
-	// données
-	// et aussi de récupérer les données
+	// Creation d'un classe permettant d'insérer des Niko-niko dans la base de
+	// donnees
+	// et aussi de recuperer les donnees
 	// Fonction permettant d'obtenir les attributs d'une instance Niko Niko
-	// et de la sauvegarder dans une "query" pour par la suite, insérer les
-	// données in BDD
+	// et de la sauvegarder dans une "query" pour par la suite, inserer les
+	// donnees in BDD
 
 	@Override
 	public String getValues(NikoNiko item) {
@@ -117,6 +117,12 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	public ArrayList<NikoNiko> getAll(Class<NikoNiko> clazz) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public ArrayList<NikoNiko> getAll() {
+		// TODO Auto-generated method stub
+		NikoNikoDBManager niko = new NikoNikoDBManager();
+		return niko.getAll(NikoNiko.class);
 	}
 
 	@Override
