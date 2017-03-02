@@ -61,297 +61,136 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 
 	public T setObjectFromResultSet(ResultSet resultSet,T item) {
-
+		
+		try {
+			item.setId(resultSet.getLong("id"));
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+				
 		for (Field field : DumpFields.getFields(item.getClass())) {
-			if (field.getType() == int.class) {
+			if (field.getType() == int.class || field.getType() == Integer.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getInt(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else if (field.getType() == Date.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getDate(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if (field.getType() == Integer.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getInt(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == String.class) {
+			}else if (field.getType() == char.class || field.getType() == String.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getString(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if (field.getType() == Boolean.class) {
+			}else if (field.getType() == boolean.class || field.getType() == Boolean.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getBoolean(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if (field.getType() == boolean.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getBoolean(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == long.class) {
+			}else if (field.getType() == long.class || field.getType() == Long.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getLong(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if (field.getType() == Long.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getLong(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == double.class) {
+			}else if (field.getType() == double.class || field.getType() == Double.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getDouble(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == Double.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getDouble(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else if (field.getType() == BigDecimal.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getBigDecimal(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if (field.getType() == float.class) {
+			}else if (field.getType() == float.class || field.getType() == Float.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getFloat(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if (field.getType() == Float.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getFloat(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == char.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getString(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == byte.class) {
+			}else if (field.getType() == byte.class || field.getType() == Byte.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getByte(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if (field.getType() == Byte.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getByte(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == short.class) {
+			}else if (field.getType() == short.class || field.getType() == Short.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item, resultSet.getShort(field.getAnnotation(MySQLAnnotation.class).fieldName()));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if (field.getType() == Short.class) {
-				try {
-					DumpFields.getSetter(field).invoke(item, resultSet.getShort(field.getAnnotation(MySQLAnnotation.class).fieldName()));
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+			
 
 		}
 
