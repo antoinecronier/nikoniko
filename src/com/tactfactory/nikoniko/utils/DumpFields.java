@@ -304,6 +304,22 @@ public class DumpFields {
 		         list.add(method);
 		   return list;
 		}
-
+	
+	public static Method getSetter(Field field)
+	{
+	    // MZ: Find the correct method
+	    for (Method method : DumpFields.getSetter(field.getDeclaringClass()))
+	    {
+	        if ((method.getName().startsWith("set")) && (method.getName().length() == (field.getName().length() + 3)))
+	        {
+	            if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase()))
+	            {
+	            	return method; 
+	            }
+	        }
+	    }
+	    
+	    return null;
+	}
 }
 
