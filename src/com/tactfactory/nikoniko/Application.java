@@ -31,7 +31,7 @@ public class Application {
 		ProjectDBManager projectManager = new ProjectDBManager();
 		TeamDBManager teamManager = new TeamDBManager();
 		
-		nikoManager.deleteChildren(niko1, project1);
+		nikoManager.deleteWithChildren(niko1);
 		
 
 	}

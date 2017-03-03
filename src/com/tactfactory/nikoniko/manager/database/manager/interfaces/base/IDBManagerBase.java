@@ -3,6 +3,8 @@ package com.tactfactory.nikoniko.manager.database.manager.interfaces.base;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+
 public interface IDBManagerBase<T> {
 
 	// Utilities
@@ -128,5 +130,5 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
-	public <O> void deleteChildren(T item);
+	public <O extends DatabaseItem> void deleteChildren(T item, O child);
 }

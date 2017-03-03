@@ -2,7 +2,6 @@ package com.tactfactory.nikoniko.manager.database.manager.base;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -12,10 +11,6 @@ import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.interfaces.base.IDBManagerBase;
-import com.tactfactory.nikoniko.models.NikoNiko;
-import com.tactfactory.nikoniko.models.Project;
-import com.tactfactory.nikoniko.models.Team;
-import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
@@ -30,6 +25,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	 * @param item
 	 * @return query
 	 */
+	@Override
 	public String getValues(T item) {
 
 		// Set empty string
@@ -348,6 +344,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 
 	// recuperation dans une liste d'objets tout ce qu'il y a dans une table
+	@Override
 	public ArrayList<T> getAll(Class<T> clazz) {
 
 		// cr�ation d'un objet vide � partir d'une classe
@@ -377,19 +374,32 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		return malistedobjets;
 	}
 
+	@Override
 	public void deleteWithChildren(T item) {
+
 		delete(item);
 
-		// Find which kind of object is T, to know what association to delete
-		switch (item.getClass().getSimpleName()) {
-		case "NikoNiko":
-		case "User":
-		case "Project":
-		case "Team":
+		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+
+		// This for loop allows you to find the children fields from item's
+		// class and delete the relations.
+		for (Field field : fields) {
+			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+				ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
+				Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
+
+				deleteChildren(item, (DatabaseItem) DumpFields.createContentsEmpty(containedClass));
+
+			} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+
+				deleteChildren(item, (DatabaseItem) DumpFields.createContentsEmpty(field.getType()));
+			}
 		}
 	}
 
+	@Override
 	public <O extends DatabaseItem> void deleteChildren(T item, O child) {
+
 		String query = "";
 		Field fieldChild = null;
 		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
