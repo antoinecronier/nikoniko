@@ -14,13 +14,13 @@ public class Team extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "name", mysqlType = MySQLTypes.VARCHAR)
 	private String name;
 
-	@MySQLAnnotation(fieldName = "serial", mysqlType = MySQLTypes.VARCHAR)
+	@MySQLAnnotation(fieldName = "serial", mysqlType = MySQLTypes.VARCHAR, nullable = true)
 	private String serial;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "team_project")
+	@MySQLAnnotation(fieldName = "id_Team" ,associationTable = "team_project", mysqlType = MySQLTypes.ASSOCIATION)
 	private ArrayList<Project> projects;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "user_team")
+	@MySQLAnnotation(fieldName = "id_Team" ,associationTable = "user_team", mysqlType = MySQLTypes.ASSOCIATION)
 	private ArrayList<User> users;
 
 	/**

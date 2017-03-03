@@ -11,7 +11,7 @@ public @interface MySQLAnnotation {
 	
 	String fieldName() default "";
 	MySQLTypes mysqlType() default MySQLTypes.NONE ;
-	
 	boolean nullable() default false;
 	String associationTable() default "";
+	String associationName() default "";
 }

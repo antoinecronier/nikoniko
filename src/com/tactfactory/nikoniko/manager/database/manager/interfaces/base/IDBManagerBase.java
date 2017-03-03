@@ -3,6 +3,8 @@ package com.tactfactory.nikoniko.manager.database.manager.interfaces.base;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+
 public interface IDBManagerBase<T> {
 
 	// Utilities
@@ -21,6 +23,7 @@ public interface IDBManagerBase<T> {
 	 * @param resultSet
 	 * @return
 	 */
+
 	// 1
 	public T setObjectFromResultSet(ResultSet resultSet, T item);
 
@@ -95,6 +98,7 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @param relation
 	 */
+
 	// Denis
 	public <O> void mapRelation(T item, O relation);
 

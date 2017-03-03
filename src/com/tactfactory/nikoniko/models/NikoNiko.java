@@ -28,17 +28,10 @@ public class NikoNiko extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "isanonymous", mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
 
-<<<<<<< HEAD
-	@MySQLAnnotation(fieldName = "id_User", mysqlType = MySQLTypes.INT, nullable = true)
-	private User user;
-
-	@MySQLAnnotation(fieldName = "id_Project", mysqlType = MySQLTypes.INT, nullable = true)
-=======
 	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.DATABASE_ITEM, nullable = true)
 	private User user;
 
 	@MySQLAnnotation(fieldName = "id_Project",mysqlType = MySQLTypes.DATABASE_ITEM, nullable = true)
->>>>>>> master
 	private Project project;
 
 	/**
@@ -172,12 +165,7 @@ public class NikoNiko extends DatabaseItem {
 		this.isAnonymous = isAnonymous;
 	}
 
-<<<<<<< HEAD
-	public NikoNiko(User user, Project project, int satisfaction,
-			String comment, Boolean isAnonymous) {
-=======
 	public NikoNiko(User user, Project project, int satisfaction, String comment, Boolean isAnonymous) {
->>>>>>> master
 		this(user, project, satisfaction);
 		this.comment = comment;
 		this.isAnonymous = isAnonymous;
@@ -189,8 +177,7 @@ public class NikoNiko extends DatabaseItem {
 
 	@Override
 	public String toString() {
-		return "NikoNiko [log_date=" + log_date + ", change_date="
-				+ change_date + ", satisfaction=" + satisfaction + ", comment="
-				+ comment + ", isAnonymous=" + isAnonymous + "]";
+		return "NikoNiko [log_date=" + log_date + ", change_date=" + change_date + ", satisfaction=" + satisfaction
+				+ ", comment=" + comment + ", isAnonymous=" + isAnonymous + "]";
 	}
 }

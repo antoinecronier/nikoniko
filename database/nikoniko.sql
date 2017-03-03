@@ -1,12 +1,12 @@
 #------------------------------------------------------------
 #        Script MySQL.
 #------------------------------------------------------------
-
 DROP DATABASE IF EXISTS nikoniko;
 
 CREATE DATABASE nikoniko;
 
 USE nikoniko;
+
 
 #------------------------------------------------------------
 # Table: user
@@ -14,11 +14,11 @@ USE nikoniko;
 
 CREATE TABLE user(
         id               int (11) Auto_increment  NOT NULL ,
-        login            Varchar (25) NOT NULL ,
-        password         Varchar (25) NOT NULL ,
-        sex              Varchar (1)  NOT NULL ,
-        lastname         Varchar (25) NOT NULL ,
+        login            Varchar (25) ,
+        password         Varchar (25) ,
+        sex              Char (25) NOT NULL ,
         firstname        Varchar (25) NOT NULL ,
+        lastname         Varchar (25) NOT NULL ,
         registration_cgi Varchar (25) NOT NULL ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
@@ -30,8 +30,8 @@ CREATE TABLE user(
 
 CREATE TABLE team(
         id     int (11) Auto_increment  NOT NULL ,
-        name   Varchar (25) NOT NULL ,
-        serial Varchar (25) ,
+        name   Varchar (25) ,
+        serial Int ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
@@ -42,13 +42,13 @@ CREATE TABLE team(
 
 CREATE TABLE nikoniko(
         id               int (11) Auto_increment  NOT NULL ,
-        log_Date     Datetime NOT NULL ,
-        change_Date      Datetime ,
+        log_Date         Date NOT NULL ,
+        change_Date      Date ,
         satisfaction     Int NOT NULL ,
         nikoniko_comment Text ,
-        isanonymous      Bool NOT NULL ,
-        id_User          Int ,
+        isannonymous     Bool ,
         id_Project       Int ,
+        id_User          Int ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
@@ -60,8 +60,8 @@ CREATE TABLE nikoniko(
 CREATE TABLE project(
         id         int (11) Auto_increment  NOT NULL ,
         name       Varchar (25) NOT NULL ,
-        start_Date Datetime ,
-        end_Date   Datetime ,
+        start_Date Date ,
+        end_Date   Date ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
@@ -87,9 +87,17 @@ CREATE TABLE team_project(
         PRIMARY KEY (id_Team ,id_Project )
 )ENGINE=InnoDB;
 
+<<<<<<< HEAD
 ALTER TABLE nikoniko ADD CONSTRAINT FK_NikoNiko_id_User FOREIGN KEY (id_User) REFERENCES user(id);
 ALTER TABLE nikoniko ADD CONSTRAINT FK_NikoNiko_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);
 ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id_User) REFERENCES user(id);
 ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES team(id);
 ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id_Team) REFERENCES team(id);
+=======
+ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);
+ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_User FOREIGN KEY (id_User) REFERENCES user(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_User FOREIGN KEY (id_User) REFERENCES user(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Team FOREIGN KEY (id_Team) REFERENCES team(id);
+>>>>>>> master
 ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);

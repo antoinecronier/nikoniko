@@ -27,17 +27,7 @@ import com.tactfactory.nikoniko.utils.DumpFields;
 public class Application {
 
 	public static void main(String[] args) {
-		UserDBManager userDBManager = new UserDBManager();	
-		User user0,user1,user2;
-		//user0 = new User();
-		//user0.setId(40);
-		//user1 = userDBManager.getById(user0);
-		
 
-		user1=new User("rp","coucou","philippot", "régis","3333");
-		user1.setId(39);
-		user2 = userDBManager.getById(user1);
-		//userDBManager.update(user1);
 	}
 
 }
