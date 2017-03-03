@@ -14,7 +14,7 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @return
 	 */
-	//Erwan
+	// Erwan
 	public String getValues(T item);
 
 	/**
@@ -23,7 +23,9 @@ public interface IDBManagerBase<T> {
 	 * @param resultSet
 	 * @return
 	 */
-	public T setObjectFromResultSet(ResultSet resultSet,T item);
+
+	// 1
+	public T setObjectFromResultSet(ResultSet resultSet, T item);
 
 	// Database management
 	/**
@@ -31,15 +33,15 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param table
 	 */
-	//Denis
+	// Denis
 	public void purgeTable(String table);
 
 	/**
 	 * Return object as java item to be used.
+	 * 
 	 * @param item
 	 * @return item
 	 */
-
 	public T getById(T item);
 
 	/**
@@ -48,7 +50,7 @@ public interface IDBManagerBase<T> {
 	 * @param id
 	 * @return
 	 */
-	//Damien
+	// Damien
 	public T getByIdFull(long id);
 
 	/**
@@ -56,15 +58,14 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @return
 	 */
-	//Felix
-	public ArrayList<T> getAll();
+	public ArrayList<T> getAll(Class<T> clazz);
 
 	/**
 	 * Get all related objects even if they are arrays or single object.
 	 * 
 	 * @param item
 	 */
-	//Romain
+	// Romain
 	public void getAssociateObject(T item);
 
 	/**
@@ -72,7 +73,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
-	//0
+	// 0
 	public void insert(T item);
 
 	/**
@@ -80,7 +81,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
-	//Regis
+	// Regis
 	public void update(T item);
 
 	/**
@@ -88,7 +89,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
-	//Denis
+	// Denis
 	public void delete(T item);
 
 	/**
@@ -97,8 +98,9 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @param relation
 	 */
-	//Denis
-	public <O extends DatabaseItem> void mapRelation(T item, O relation);
+
+	// Denis
+	public <O> void mapRelation(T item, O relation);
 
 	/**
 	 * Update all items extract from current item. Calling "public <O> void
@@ -106,7 +108,7 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
-	//Regis
+	// Regis
 	public void updateWithChildren(T item);
 
 	/**

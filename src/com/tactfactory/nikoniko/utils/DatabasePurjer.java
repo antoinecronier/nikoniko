@@ -1,8 +1,5 @@
 package com.tactfactory.nikoniko.utils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 
 public class DatabasePurjer {

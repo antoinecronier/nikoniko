@@ -8,6 +8,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class NikoNiko extends DatabaseItem {
+	
 	public static final String TABLE = "nikoniko";
 	public static final String[] FIELDS = { "id", "log_Date", "change_Date", "satisfaction", "nikoniko_comment",
 			"isanonymous", "id_User", "id_Project" };
@@ -27,10 +28,10 @@ public class NikoNiko extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "isanonymous", mysqlType = MySQLTypes.TINYINT)
 	private Boolean isAnonymous;
 
-	@MySQLAnnotation(fieldName = "id_User", mysqlType = MySQLTypes.INT, nullable = true)
+	@MySQLAnnotation(fieldName = "id_User",mysqlType = MySQLTypes.DATABASE_ITEM, nullable = true)
 	private User user;
 
-	@MySQLAnnotation(fieldName = "id_Project", mysqlType = MySQLTypes.INT, nullable = true)
+	@MySQLAnnotation(fieldName = "id_Project",mysqlType = MySQLTypes.DATABASE_ITEM, nullable = true)
 	private Project project;
 
 	/**

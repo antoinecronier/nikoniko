@@ -2,21 +2,17 @@ package com.tactfactory.nikoniko.manager.database.manager;
 
 import java.util.ArrayList;
 
-import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
-import com.tactfactory.nikoniko.models.Project;
-import com.tactfactory.nikoniko.models.User;
-import com.tactfactory.nikoniko.utils.DateConverter;
 
 public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
-	// Création d'un classe permettant d'insérer des Niko-niko dans la base de
-	// données
-	// et aussi de récupérer les données
+	// Creation d'un classe permettant d'insérer des Niko-niko dans la base de
+	// donnees
+	// et aussi de recuperer les donnees
 	// Fonction permettant d'obtenir les attributs d'une instance Niko Niko
-	// et de la sauvegarder dans une "query" pour par la suite, insérer les
-	// données in BDD
+	// et de la sauvegarder dans une "query" pour par la suite, inserer les
+	// donnees in BDD
 
 	/*@Override
 	public String getValues(NikoNiko item) {
@@ -105,7 +101,11 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	 * Fonction qui permet d'obtenir toutes les informations d'un nikoniko en
 	 * fonction de l'id renseigné
 	 * 
+<<<<<<< HEAD
 	 * @param id
+=======
+	 * @param item
+>>>>>>> master
 	 * @return
 	 */
 	@Override
@@ -116,10 +116,16 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
 	// Fonction qui permet d'obtenir tous les nikoniko de la table
 	// niko niko dans la BDD
-	@Override
+//	@Override
+//	public ArrayList<NikoNiko> getAll(Class<NikoNiko> clazz) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 	public ArrayList<NikoNiko> getAll() {
 		// TODO Auto-generated method stub
-		return null;
+		NikoNikoDBManager niko = new NikoNikoDBManager();
+		return niko.getAll(NikoNiko.class);
 	}
 
 	@Override
@@ -176,5 +182,11 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	@Override
 	public <O> void updateChildren(NikoNiko item) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public <O> void mapRelation(NikoNiko item, O relation) {
+		// TODO Auto-generated method stub
+		
 	}
 }

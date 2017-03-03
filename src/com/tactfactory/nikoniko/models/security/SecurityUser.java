@@ -5,6 +5,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class SecurityUser extends DatabaseItem {
+
 	@MySQLAnnotation(fieldName = "login", mysqlType = MySQLTypes.VARCHAR)
 	private String login;
 

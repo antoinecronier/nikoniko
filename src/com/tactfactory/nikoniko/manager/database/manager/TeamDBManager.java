@@ -1,17 +1,9 @@
 package com.tactfactory.nikoniko.manager.database.manager;
 
-import java.lang.reflect.Field;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
-import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.Team;
-import com.tactfactory.nikoniko.models.User;
-import com.tactfactory.nikoniko.utils.DumpFields;
-import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 
 public class TeamDBManager extends BaseDBManager<Team> {
 
@@ -34,7 +26,7 @@ public class TeamDBManager extends BaseDBManager<Team> {
 	}
 
 	@Override
-	public ArrayList<Team> getAll() {
+	public ArrayList<Team> getAll(Class<Team> clazz) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -51,6 +43,12 @@ public class TeamDBManager extends BaseDBManager<Team> {
 
 	}
 
+	@Override
+	public void delete(Team item) {
+		// TODO Auto-generated method stub
+
+	}
+
 	// @Override
 	// public void delete(Team item) {
 	// // TODO Auto-generated method stub
@@ -59,6 +57,7 @@ public class TeamDBManager extends BaseDBManager<Team> {
 
 	/*@Override
 	public <O> void mapRelation(Team item, O relation) {
+<<<<<<< HEAD
 
 		if (relation.getClass().getSimpleName().equals("Project")) {
 			Project project = (Project) relation;
@@ -144,4 +143,9 @@ public class TeamDBManager extends BaseDBManager<Team> {
 
 	}
 
+	@Override
+	public <O> void mapRelation(Team item, O relation) {
+		// TODO Auto-generated method stub
+		
+	}
 }

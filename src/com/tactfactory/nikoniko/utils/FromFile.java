@@ -3,10 +3,7 @@ package com.tactfactory.nikoniko.utils;
 import java.util.ArrayList;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class FromFile {
 	private ArrayList<String> list;

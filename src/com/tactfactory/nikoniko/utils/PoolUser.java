@@ -2,7 +2,6 @@ package com.tactfactory.nikoniko.utils;
 
 import com.tactfactory.nikoniko.models.*;
 import java.util.ArrayList;
-import java.lang.*;
 
 public class PoolUser {
 	ArrayList<User> list;

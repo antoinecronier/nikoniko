@@ -34,6 +34,7 @@ public class MySQLAccess {
 
 		connect = DriverManager
 				.getConnection("jdbc:mysql://localhost/" + DATABASE + "?" + "user=root&password=");
+
 	}
 
 	public ResultSet resultQuery(String query) {

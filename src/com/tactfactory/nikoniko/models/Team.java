@@ -7,6 +7,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class Team extends DatabaseItem {
+
 	public static final String TABLE = "team";
 	public static final String[] FIELDS = { "id", "name", "serial" };
 

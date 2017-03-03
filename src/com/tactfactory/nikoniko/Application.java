@@ -177,9 +177,13 @@ public class Application {
 		
 		for(int i=0; i<1; i++) {
 			User usr = new User();
+			usr.setId(0);
+			usr.setLogin("prenom"+(i+1));
+			usr.setPassword("1");
 			usr.setFirstname("prenom"+(i+1));
 			usr.setLastname("nom"+(i+1));
 			usr.setSex('F');
+			usr.setRegistration_cgi("123456");
 			
 			BaseDBManager<User> dbmanager = new UserDBManager();
 			dbmanager.insert(usr);
@@ -242,4 +246,5 @@ public class Application {
 		
 		
 	}
+
 }
