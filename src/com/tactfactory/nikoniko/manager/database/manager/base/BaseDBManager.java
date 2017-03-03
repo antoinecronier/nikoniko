@@ -3,6 +3,7 @@ package com.tactfactory.nikoniko.manager.database.manager.base;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -379,25 +380,57 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			Class klazz = field.getType();
 
 			if (classes.contains(klazz)) {
-
+				
 				// Instanciation de la classe klazz
-				DatabaseItem object = (DatabaseItem) DumpFields.runGetter(field, item);
 
 				// Création de la requète pour recupérer les informations
 				String query = "";
-				query += "SELECT * FROM " + item.table + " WHERE "
-						+ field.getAnnotation(MySQLAnnotation.class).fieldName() + " = "
-						+ object.getId();
-
+				query += "SELECT * FROM " + item.getClass().getSimpleName() + " WHERE id = "
+						+ item.getId();
+				System.out.println(query);
 				ResultSet result = MySQLAccess.getInstance().resultQuery(query);
-
-				System.out.println(setObjectFromResultSet(result, item));
-
-				// Création d'un nouvel objet instancié depuis la classe Klazz.
-				DumpFields.createContentsEmpty(klazz);
-
+				
+				ParameterizedType fieldParamType1 = (ParameterizedType) field.getGenericType();
+				Class<?> fieldSubClass = (Class<?>) fieldParamType1.getActualTypeArguments()[0];
+				
+				
+				
+				try {
+					while (result.next()){
+						Object object = DumpFields.createContentsEmpty(fieldSubClass);
+						
+						setObjectFromResultSet(result, item);
+						
+						
+					}
+					
+				} catch (SQLException e) {
+					System.out.println("rat�");
+					e.printStackTrace();
+				}
 			} else if (klazz == ArrayList.class) {
-				System.out.println("ok");
+				
+				String query = "";
+				query += "SELECT * FROM " + field.getAnnotation(MySQLAnnotation.class).associationTable() + 
+						" WHERE " + field.getAnnotation(MySQLAnnotation.class).fieldName() + " = "
+						+ item.getId();
+				System.out.println(query);
+				ResultSet result = MySQLAccess.getInstance().resultQuery(query);
+				
+				ParameterizedType fieldParamType2 = (ParameterizedType) field.getGenericType();
+				Class<?> fieldSubClass = (Class<?>) fieldParamType2.getActualTypeArguments()[0];
+				
+				try {
+					while (result.next()){
+						Object object = DumpFields.createContentsEmpty(fieldSubClass);
+						setObjectFromResultSet(result, item);
+					}
+					
+					
+				} catch (SQLException e) {
+					System.out.println("rat�");
+					e.printStackTrace();
+				}
 			}
 		}
 	}

@@ -22,10 +22,10 @@ public class Project extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "end_Date", mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date end_date;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "nikoniko")
+	@MySQLAnnotation(fieldName = "id", mysqlType = MySQLTypes.ASSOCIATION, associationTable = "nikoniko")
 	private ArrayList<NikoNiko> nikoNikos;
 
-	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "team_project")
+	@MySQLAnnotation(fieldName = "id_team", mysqlType = MySQLTypes.ASSOCIATION, associationTable = "team_project")
 	private ArrayList<Team> teams;
 
 	/**
