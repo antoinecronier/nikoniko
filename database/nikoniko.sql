@@ -9,18 +9,14 @@ CREATE DATABASE nikoniko;
 USE nikoniko;
 
 #------------------------------------------------------------
-# Table: User
+# Table: user
 #------------------------------------------------------------
 
-CREATE TABLE User(
+CREATE TABLE user(
         id               int (11) Auto_increment  NOT NULL ,
         login            Varchar (25) NOT NULL ,
         password         Varchar (25) NOT NULL ,
-<<<<<<< HEAD
-        sex				 Varchar (1)  NOT NULL ,
-=======
         sex              Varchar (1)  NOT NULL ,
->>>>>>> dcdc0b264371b0615372b9e70218c44665820c21
         lastname         Varchar (25) NOT NULL ,
         firstname        Varchar (25) NOT NULL ,
         registration_cgi Varchar (25) NOT NULL ,
@@ -29,10 +25,10 @@ CREATE TABLE User(
 
 
 #------------------------------------------------------------
-# Table: Team
+# Table: team
 #------------------------------------------------------------
 
-CREATE TABLE Team(
+CREATE TABLE team(
         id     int (11) Auto_increment  NOT NULL ,
         name   Varchar (25) NOT NULL ,
         serial Varchar (25) ,
@@ -41,10 +37,10 @@ CREATE TABLE Team(
 
 
 #------------------------------------------------------------
-# Table: NikoNiko
+# Table: nikoniko
 #------------------------------------------------------------
 
-CREATE TABLE NikoNiko(
+CREATE TABLE nikoniko(
         id               int (11) Auto_increment  NOT NULL ,
         log_Date     Datetime NOT NULL ,
         change_Date      Datetime ,
@@ -58,10 +54,10 @@ CREATE TABLE NikoNiko(
 
 
 #------------------------------------------------------------
-# Table: Project
+# Table: project
 #------------------------------------------------------------
 
-CREATE TABLE Project(
+CREATE TABLE project(
         id         int (11) Auto_increment  NOT NULL ,
         name       Varchar (25) NOT NULL ,
         start_Date Datetime ,
@@ -91,9 +87,9 @@ CREATE TABLE team_project(
         PRIMARY KEY (id_Team ,id_Project )
 )ENGINE=InnoDB;
 
-ALTER TABLE NikoNiko ADD CONSTRAINT FK_NikoNiko_id_User FOREIGN KEY (id_User) REFERENCES User(id);
-ALTER TABLE NikoNiko ADD CONSTRAINT FK_NikoNiko_id_Project FOREIGN KEY (id_Project) REFERENCES Project(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id_User) REFERENCES User(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES Team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id_Team) REFERENCES Team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Project FOREIGN KEY (id_Project) REFERENCES Project(id);
+ALTER TABLE nikoniko ADD CONSTRAINT FK_NikoNiko_id_User FOREIGN KEY (id_User) REFERENCES user(id);
+ALTER TABLE nikoniko ADD CONSTRAINT FK_NikoNiko_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id_User) REFERENCES user(id);
+ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id_Team) REFERENCES team(id);
+ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);
