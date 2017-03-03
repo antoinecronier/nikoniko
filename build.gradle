@@ -26,12 +26,11 @@ dependencies {
 
 sourceSets {
         main {
-            java.srcDirs = ['src/com/tactfactory/nikoniko']
-            java.excludes = ['src/com/tactfactory/nikoniko/test/**']
+            java.srcDirs = ['src/main/java/com/tactfactory/nikoniko']
         }
 
         test {
-            java.srcDirs = ['src/com/tactfactory/nikoniko/test']
+            java.srcDirs = ['src/main/test/com/tactfactory/nikoniko']
         }
     }
 
