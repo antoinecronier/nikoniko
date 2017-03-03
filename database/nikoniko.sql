@@ -8,17 +8,19 @@ CREATE DATABASE nikoniko;
 
 USE nikoniko;
 
+
 #------------------------------------------------------------
 # Table: user
 #------------------------------------------------------------
 
 CREATE TABLE user(
-        id        int (11) Auto_increment  NOT NULL ,
-        firstname Varchar (25) NOT NULL ,
-        lastname  Varchar (25) NOT NULL ,
-        login     Varchar (25) ,
-        password  Varchar (25) ,
-        sex				 Varchar (1)  NOT NULL ,
+        id               int (11) Auto_increment  NOT NULL ,
+        login            Varchar (25) ,
+        password         Varchar (25) ,
+        sex              Char (25) NOT NULL ,
+        firstname        Varchar (25) NOT NULL ,
+        lastname         Varchar (25) NOT NULL ,
+        registration_cgi Varchar (25) NOT NULL ,
         PRIMARY KEY (id )
 )ENGINE=InnoDB;
 
@@ -92,3 +94,4 @@ ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_user FOREIGN KEY (id_user) 
 ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_team FOREIGN KEY (id_team) REFERENCES team(id);
 ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_team FOREIGN KEY (id_team) REFERENCES team(id);
 ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_project FOREIGN KEY (id_project) REFERENCES project(id);
+

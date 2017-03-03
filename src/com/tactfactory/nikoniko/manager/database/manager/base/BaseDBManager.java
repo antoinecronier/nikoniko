@@ -2,6 +2,7 @@ package com.tactfactory.nikoniko.manager.database.manager.base;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +23,9 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
+	 * 
 	 * @param item
-	 * @return query 
+	 * @return query
 	 */
 	public String getValues(T item) {
 
@@ -38,18 +40,19 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		} else {
 			query += "null";
 		}
-		
-		//Use item.field to have the good order of arguments to fill DTB
+
+		// Use item.field to have the good order of arguments to fill DTB
 		for (String fieldItem : item.fields) {
-			
+
 			// For each attributes of item with a MySQLAnnotation
 			for (Field field : DumpFields.getFields(item.getClass())) {
-				
+
 				// Name of the current found attribute and current element
 				// of item.field are equal
 				if (fieldItem.equals(field.getAnnotation(MySQLAnnotation.class).fieldName())) {
-					
-					//For each SQL known type, do the appropriate action to fill the query
+
+					// For each SQL known type, do the appropriate action to
+					// fill the query
 					switch (field.getAnnotation(MySQLAnnotation.class).mysqlType()) {
 					case DATETIME:
 						if (DumpFields.runGetter(field, item) != null) {
@@ -58,7 +61,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 									+ "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// No date attribute is set but this attribute is not nullable
+							// No date attribute is set but this attribute is
+							// not nullable
 							query += ",'" + DateConverter.getMySqlDatetime(new Date()) + "'";
 
 						} else {
@@ -72,22 +76,28 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable INT attribute : -1 (not logic value here)
-							// Concat operation is maintained in case of the use of a "defaultValue" method
+							// Default value of a not nullable INT attribute :
+							// -1 (not logic value here)
+							// Concat operation is maintained in case of the use
+							// of a "defaultValue" method
 							query += ",'" + "-1" + "'";
 						} else {
 							query += ",null";
 						}
 						break;
 
-					case TINYINT:// TINYINT is the type used for a boolean in our DTB
+					case TINYINT:// TINYINT is the type used for a boolean in
+									// our DTB
 						if (DumpFields.runGetter(field, item) != null) {
-							// A TINYINT (aka boolean) attribute is already set in item
+							// A TINYINT (aka boolean) attribute is already set
+							// in item
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable boolean attribute : 0 (false)
-							// Concat operation is maintained in case of the use of a "defaultValue" method
+							// Default value of a not nullable boolean attribute
+							// : 0 (false)
+							// Concat operation is maintained in case of the use
+							// of a "defaultValue" method
 							query += ",'" + 0 + "'";
 						} else {
 							query += ",null";
@@ -100,8 +110,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable TEXT attribute : empty string
-							// Concat operation is maintained in case of the use of a "defaultValue" method
+							// Default value of a not nullable TEXT attribute :
+							// empty string
+							// Concat operation is maintained in case of the use
+							// of a "defaultValue" method
 							query += ",'" + "" + "'";
 						} else {
 							query += ",null";
@@ -111,26 +123,30 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					case DATABASE_ITEM:
 						Object dbItem = DumpFields.runGetter(field, item);
 						if (dbItem != null && ((DatabaseItem) dbItem).getId() != 0) {
-							//An object attribute is already set in item
+							// An object attribute is already set in item
 							query += ",'" + ((DatabaseItem) dbItem).getId() + "'";
 						} else {
-							//No object associated to item : null
+							// No object associated to item : null
 							query += ",null";
 						}
 						break;
 
 					case ASSOCIATION:
-						// if the selected attribute is an ArrayList of object, do nothing (case of association table)
+						// if the selected attribute is an ArrayList of object,
+						// do nothing (case of association table)
 						break;
 					default:
-						//In case of the selected attribute is an unknown sql type 
+						// In case of the selected attribute is an unknown sql
+						// type
 						if (DumpFields.runGetter(field, item) != null) {
-							//This attribute is already set in item (even if his SQL type is unknown)
+							// This attribute is already set in item (even if
+							// his SQL type is unknown)
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else {
-							//Set it to null in other cases
-							//WARNING : It may create errors when try to fill DTB with this item if 
-							//set to not nullable in DTB
+							// Set it to null in other cases
+							// WARNING : It may create errors when try to fill
+							// DTB with this item if
+							// set to not nullable in DTB
 							query += ",null";
 						}
 						break;
@@ -149,7 +165,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		query += "INSERT INTO " + item.table + " VALUES (";
 		query += this.getValues(item);
 		query += ")";
-System.out.println(query);
+
 		MySQLAccess.getInstance().updateQuery(query);
 
 		if (item.getId() == 0) {
@@ -387,35 +403,62 @@ System.out.println(query);
 	}
 
 	public <O extends DatabaseItem> void mapRelation(T item, O relation) {
-		for (Field field : DumpFields.getFields(item.getClass())) {
-System.out.println(item.getClass().getSimpleName());
-			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-				if (field.getType() == relation.getClass()) {
+		for (Field itemField : DumpFields.getFields(item.getClass())) {
+			if (itemField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
 
-					String annotationTable = field.getAnnotation(MySQLAnnotation.class).associationTable();
-					String fieldName = field.getAnnotation(MySQLAnnotation.class).fieldName();
-					
-					// check existing relation in user_team table
-					// -----------------------------------------
-					String query = "SELECT * FROM " + annotationTable + " WHERE " + fieldName + " = " + relation.getId()
-							+ " AND id = " + item.getId();
-					ResultSet res = MySQLAccess.getInstance().resultQuery(query);
-//System.out.println(query);
-					// insert relation
-					// ---------------
-					try {
-						if (!res.next()) {
-							query = "INSERT INTO " + annotationTable + " (id," + fieldName + ")" + " VALUES ("
-									+ item.getId() + "," + relation.getId() + ")";
-							MySQLAccess.getInstance().updateQuery(query);
+				// retrieve value (class) of Item Association ArrayList Type
+				// ----------------------------------------------------------
+				ParameterizedType stringListType = (ParameterizedType) itemField.getGenericType();
+				Class<?> stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+
+				// compare Association ArrayList Type with relation Class
+				// -------------------------------------------------------
+				if (stringListClass == relation.getClass()) {
+
+					String annotationTable = itemField.getAnnotation(MySQLAnnotation.class).associationTable();
+					String itemFieldName = itemField.getAnnotation(MySQLAnnotation.class).fieldName();
+
+					// find @MySQLAnnotation fieldName for object relation
+					// ----------------------------------------------------
+					for (Field relationField : DumpFields.getFields(relation.getClass()))
+						if (relationField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+
+							// retrieve value (class) of Relation Association
+							// ArrayList Type
+							// ----------------------------------------------------------
+							stringListType = (ParameterizedType) relationField.getGenericType();
+							stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+
+							// compare Association ArrayList Type with relation
+							// Class
+							// -------------------------------------------------------
+							if (stringListClass == item.getClass()) {
+								String relationFieldName = relationField.getAnnotation(MySQLAnnotation.class)
+										.fieldName();
+
+								// check existing relation in user_team table
+								// -----------------------------------------
+								String query = "";
+								query = "SELECT * FROM " + annotationTable + " WHERE " + relationFieldName
+										+ " = " + relation.getId() + " AND " + itemFieldName + " = " + item.getId();
+								ResultSet res = MySQLAccess.getInstance().resultQuery(query);
+
+								// insert relation
+								// ---------------
+								try {
+									if (!res.next()) {
+										query = "INSERT INTO " + annotationTable + " (" + itemFieldName + ","
+												+ relationFieldName + ")" + " VALUES (" + item.getId() + ","
+												+ relation.getId() + ")";
+										MySQLAccess.getInstance().updateQuery(query);
+									}
+								} catch (SQLException e) {
+									e.printStackTrace();
+								}
+							}
 						}
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
 				}
-
 			}
-
 		}
 	}
 
@@ -425,7 +468,8 @@ System.out.println(item.getClass().getSimpleName());
 		// cr�ation d'un objet vide � partir d'une classe
 		T item = DumpFields.createContentsEmpty(clazz);
 
-		// cr�ation d'une requete de s�lection totale de tout ce qu'il y a dans
+		// cr�ation d'une requete de s�lection totale de tout ce qu'il y a
+		// dans
 		// la table li�e � cet objet
 		ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table);
 
@@ -437,7 +481,7 @@ System.out.println(item.getClass().getSimpleName());
 			while (query.next()) {
 				// cr�ation d'un objet vide � partir d'une classe
 				T temp = DumpFields.createContentsEmpty(clazz);
-				
+
 				// remplir la liste d'objets avec les r�sultats
 				malistedobjets.add(setObjectFromResultSet(query, temp));
 			}

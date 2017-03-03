@@ -22,7 +22,7 @@ public class Application {
 		 * Project p1 = new Project(); p1.getTeams().add(t1);
 		 * t1.getProjects().add(p1);
 		 */
-		DatabasePurjer.purjeDatabase();
+//		DatabasePurjer.purjeDatabase();
 		/*
 		 * 
 		 * NikoNiko niko = new NikoNiko(); niko.setSatisfaction(1);
@@ -159,10 +159,10 @@ public class Application {
 		// BaseDBManager<Team> teamdbmanager = new TeamDBManager();
 		// teamdbmanager.delete(tm);
 		//
-		MySQLAccess.getInstance().updateQuery("ALTER TABLE USER AUTO_INCREMENT=0");
-		MySQLAccess.getInstance().updateQuery("ALTER TABLE PROJECT AUTO_INCREMENT=0");
-		MySQLAccess.getInstance().updateQuery("ALTER TABLE TEAM AUTO_INCREMENT=0");
-		MySQLAccess.getInstance().updateQuery("ALTER TABLE NIKONIKO AUTO_INCREMENT=0");
+//		MySQLAccess.getInstance().updateQuery("ALTER TABLE USER AUTO_INCREMENT=0");
+//		MySQLAccess.getInstance().updateQuery("ALTER TABLE PROJECT AUTO_INCREMENT=0");
+//		MySQLAccess.getInstance().updateQuery("ALTER TABLE TEAM AUTO_INCREMENT=0");
+//		MySQLAccess.getInstance().updateQuery("ALTER TABLE NIKONIKO AUTO_INCREMENT=0");
 
 		/*for(int i=0; i<10; i++) {
 			int satisfaction = 1;
@@ -175,46 +175,32 @@ public class Application {
 			dbmanager.insert(niko);
 		}*/
 		
-		for(int i=0; i<1; i++) {
-			User usr = new User();
-			usr.setId(0);
-			usr.setLogin("prenom"+(i+1));
-			usr.setPassword("1");
-			usr.setFirstname("prenom"+(i+1));
-			usr.setLastname("nom"+(i+1));
-			usr.setSex('F');
-			usr.setRegistration_cgi("123456");
-			
-			BaseDBManager<User> dbmanager = new UserDBManager();
-			dbmanager.insert(usr);
-			
-			
-//			String query = "INSERT INTO user (firstname,lastname,sex) VALUES ('" 
-//							+ usr.getFirstname() + "','"+ usr.getLastname() + "','"+ usr.getSex() + "')";
-//			MySQLAccess.getInstance().updateQuery(query);
-		}	
-		
-		for(int i=0; i<4; i++) {
-			Project prj = new Project();
-			prj.setName("projet"+(i+1));
-			BaseDBManager<Project> dbmanager = new ProjectDBManager();
-			//dbmanager.insert(prj);
-			
-//			String query = "INSERT INTO project (name) VALUES ('" 
-//					+ prj.getName() +"')";
-//			MySQLAccess.getInstance().updateQuery(query);
-		}
-		
-		for(int i=0; i<2; i++) {
-			Team team = new Team();
-			team.setName("projet"+(i+1));
-			BaseDBManager<Team> dbmanager = new TeamDBManager();
-			//dbmanager.insert(team);
-			
-//			String query = "INSERT INTO team (name) VALUES ('" 
-//					+ team.getName() +"')";
-//			MySQLAccess.getInstance().updateQuery(query);
-		}
+//		for(int i=0; i<10; i++) {
+//			User usr = new User();
+//			usr.setId(0);
+//			usr.setLogin("login"+(i+1));
+//			usr.setPassword("passwd"+(i+1));
+//			usr.setFirstname("prenom"+(i+1));
+//			usr.setLastname("nom"+(i+1));
+//			usr.setSex('F');
+//			usr.setRegistration_cgi("cgi_reg_" + (i+1));
+//			BaseDBManager<User> dbmanager = new UserDBManager();
+//			dbmanager.insert(usr);
+//		}	
+//		
+//		for(int i=0; i<4; i++) {
+//			Project prj = new Project();
+//			prj.setName("projet"+(i+1));
+//			BaseDBManager<Project> dbmanager = new ProjectDBManager();
+//			dbmanager.insert(prj);
+//		}
+//		
+//		for(int i=0; i<2; i++) {
+//			Team team = new Team();
+//			team.setName("projet"+(i+1));
+//			BaseDBManager<Team> dbmanager = new TeamDBManager();
+//			dbmanager.insert(team);
+//		}
 
 		
 		// Tests for mapRelation Denis
@@ -238,12 +224,10 @@ public class Application {
 
 		 /*BaseDBManager<User> userdbmanager = new UserDBManager();
 		 userdbmanager.mapRelation(usr, tm);
-
+*/
 		BaseDBManager<Team> teamdbmanager = new TeamDBManager();
 		 teamdbmanager.mapRelation(tm, usr);
-		 teamdbmanager.mapRelation(tm, prj);
-		*/
-		
+		 //teamdbmanager.mapRelation(tm, prj);
 		
 	}
 
