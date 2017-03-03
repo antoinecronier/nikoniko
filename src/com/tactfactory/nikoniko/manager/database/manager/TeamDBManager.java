@@ -7,12 +7,6 @@ import com.tactfactory.nikoniko.models.Team;
 
 public class TeamDBManager extends BaseDBManager<Team> {
 
-//	@Override
-//	public String getValues(Team item) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 	@Override
 	public void purgeTable(String table) {
 		// TODO Auto-generated method stub

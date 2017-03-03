@@ -14,7 +14,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
@@ -328,6 +327,19 @@ public class DumpFields {
 		// MZ: Find the correct method
 		for (Method method : DumpFields.getSetter(field.getDeclaringClass())) {
 			if ((method.getName().startsWith("set")) && (method.getName().length() == (field.getName().length() + 3))) {
+				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+					return method;
+				}
+			}
+		}
+
+		return null;
+	}
+	
+	public static Method getGetter(Field field) {
+		// MZ: Find the correct method
+		for (Method method : DumpFields.getGetter(field.getDeclaringClass())) {
+			if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))) {
 				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
 					return method;
 				}
