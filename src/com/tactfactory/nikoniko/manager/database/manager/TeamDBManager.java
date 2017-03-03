@@ -126,18 +126,6 @@ public class TeamDBManager extends BaseDBManager<Team> {
 	}
 
 	@Override
-	public void deleteWithChildren(Team item) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public <O> void deleteChildren(Team item) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public <O> void mapRelation(Team item, O relation) {
 		// TODO Auto-generated method stub
 		

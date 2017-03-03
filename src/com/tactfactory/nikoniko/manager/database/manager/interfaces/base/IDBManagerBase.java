@@ -132,5 +132,5 @@ public interface IDBManagerBase<T> {
 	 * 
 	 * @param item
 	 */
-	public <O> void deleteChildren(T item);
+	public <O extends DatabaseItem> void deleteChildren(T item, O child);
 }

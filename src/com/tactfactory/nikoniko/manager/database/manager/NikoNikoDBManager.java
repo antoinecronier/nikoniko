@@ -98,16 +98,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	}
 
 	@Override
-	public void deleteWithChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public <O> void deleteChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public <O> void updateChildren(NikoNiko item) {
 		// TODO Auto-generated method stub
 	}
