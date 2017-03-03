@@ -91,14 +91,14 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 						if (DumpFields.runGetter(field, item) != null) {
 							// A TINYINT (aka boolean) attribute is already set
 							// in item
-							query += ",'" + DumpFields.runGetter(field, item) + "'";
+							query += "," + DumpFields.runGetter(field, item) + "";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
 							// Default value of a not nullable boolean attribute
 							// : 0 (false)
 							// Concat operation is maintained in case of the use
 							// of a "defaultValue" method
-							query += ",'" + 0 + "'";
+							query += "," + 0 ;
 						} else {
 							query += ",null";
 						}
@@ -439,8 +439,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 								// check existing relation in user_team table
 								// -----------------------------------------
 								String query = "";
-								query = "SELECT * FROM " + annotationTable + " WHERE " + relationFieldName
-										+ " = " + relation.getId() + " AND " + itemFieldName + " = " + item.getId();
+								query = "SELECT * FROM " + annotationTable + " WHERE " + relationFieldName + " = "
+										+ relation.getId() + " AND " + itemFieldName + " = " + item.getId();
 								ResultSet res = MySQLAccess.getInstance().resultQuery(query);
 
 								// insert relation
@@ -451,6 +451,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 												+ relationFieldName + ")" + " VALUES (" + item.getId() + ","
 												+ relation.getId() + ")";
 										MySQLAccess.getInstance().updateQuery(query);
+									} else {
+										System.err.println("  Warning relation already exist between " + itemFieldName + "="
+												+ item.getId() + " and " + relationFieldName + "=" + relation.getId()
+												+ " in association table " + annotationTable);
 									}
 								} catch (SQLException e) {
 									e.printStackTrace();
