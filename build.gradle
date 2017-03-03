@@ -60,7 +60,7 @@ uploadArchives {
 
 task copyDeps(type: Copy) {
   from configurations.runtime
-  into 'libs'
+  //into 'libs'
 }
 
 task copyJarDependencies(type: Copy) {
