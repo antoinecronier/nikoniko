@@ -13,6 +13,7 @@ public class NikoNiko extends DatabaseItem {
 	public static final String[] FIELDS = { "id", "log_Date", "change_Date", "satisfaction", "nikoniko_comment",
 			"isanonymous", "id_User", "id_Project" };
 
+	//appel de tous les types et les annotations associés aux types par l'intermédiaire de MySQLAnnotation
 	@MySQLAnnotation(fieldName = "log_Date", mysqlType = MySQLTypes.DATETIME)
 	private Date log_date;
 

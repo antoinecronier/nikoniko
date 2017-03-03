@@ -90,12 +90,11 @@ public class DumpFields {
 
 	            }
 	        }
+
 	    }
-
-
 	    return null;
 	}
-	
+
 	public static <T> ArrayList<String> inspectGetter(Class<T> klazz) {
 		ArrayList<String> result = new ArrayList<String>();
 		try {
@@ -335,4 +334,19 @@ public class DumpFields {
 
 		return null;
 	}
+	
+    public static <T> ArrayList<T> toString (Field field, T o)
+    
+    {
+    	String result = "";
+    	ArrayList<T> listeObj = new ArrayList<T>();
+	
+			for (Field field : DumpFields.runGetter(field, o))
+			{	
+				result+=((String) DumpFields.runGetter(field, o));
+			}
+
+    	return result;
+    }
+    
 }

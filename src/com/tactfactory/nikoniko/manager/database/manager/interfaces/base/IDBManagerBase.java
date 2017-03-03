@@ -108,13 +108,13 @@ public interface IDBManagerBase<T> {
 	public void updateWithChildren(T item);
 
 	/**
-	 * Update only one relation of current item named O. Call "public <O> void
+	 * Update only one relation of current item, named O. Call "public <O> void
 	 * mapRelation(T item, O relation)" for each foreign key.
 	 * 
 	 * @param item
 	 */
 	//Denis
-	public <O> void updateChildren(T item);
+	public <O> void updateChildren(T item, O child );
 
 	/**
 	 * Delete current java object to DB. With children.

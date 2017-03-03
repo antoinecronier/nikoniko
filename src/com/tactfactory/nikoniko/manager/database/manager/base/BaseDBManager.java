@@ -3,6 +3,7 @@ package com.tactfactory.nikoniko.manager.database.manager.base;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -15,17 +16,13 @@ import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
 import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements
 		IDBManagerBase<T> {
 
 	/**
 	 * Retrieve values of item to be set as a string to build queries.
-<<<<<<< HEAD
-	 * 
-=======
-	 *
->>>>>>> antoine
 	 * @param item
 	 * @return query 
 	 */
@@ -41,7 +38,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 		// to get the item id more efficiently than above
 		if (item.getId() != 0) {
 			query += item.getId() + ",";
-		} else {
+		} else 
+		{
 			query += "null,";
 		}
 		
@@ -362,4 +360,65 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements
 		// retourne la liste d'objets
 		return malistedobjets;
 	}
+
+	//permettant de récupérer l'association entre deux objets T et O
+	public <O extends DatabaseItem> void mapRelation(T item, O relation) {
+			// pour tous les champs récupérés de la classe correspondante de l'objet T
+			for (Field field : DumpFields.getFields(item.getClass())) {
+				// si en récupérant le champ son annotation correspond à une association dans MySQLTypes
+				if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+					// si la classe du field est égale à la classe de l'objet à comparer
+					if (field.getType() == relation.getClass()) {
+						
+						//alors on crée un String nommé annotationTable que l'on remplit avec le nom
+						// de la table d'association
+						String annotationTable = field.getAnnotation(MySQLAnnotation.class).associationTable();
+						
+						//On crée un String nommé fieldName que l'on remplit avec le nom
+						// du champ
+						String fieldName = field.getAnnotation(MySQLAnnotation.class).fieldName();
+						
+						// check existing relation in user_team table
+						// -----------------------------------------
+						
+						//on fait une requete de vérification de cette table d'association
+						String query = "SELECT * FROM " + annotationTable + " WHERE " + fieldName + " = " 
+								+ relation.getId()
+								+ " AND id = " + item.getId();
+						ResultSet res = MySQLAccess.getInstance().resultQuery(query);
+
+						// insert relation
+						// ---------------
+						try {
+							if (!res.next()) {
+								query = "INSERT INTO " + annotationTable + " (id," + fieldName + ")" + " VALUES ("
+										+ item.getId() + "," + relation.getId() + ")";
+								MySQLAccess.getInstance().updateQuery(query);
+							}
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+
+				}
+
+			}
+
+		}
+	
+	public static URL getSource(String sourceDir, Class type) {
+        return type.getClassLoader().getResource(
+                sourceDir + type.getName().replace(".","/") + ".java"); 
+    }
+	
+	
+
+	public <O extends DatabaseItem> void updateChildren(T item, O child)
+		
+	{		
+		// update children of type 0 related to table T
+		
+	}
+	
+	
 }
