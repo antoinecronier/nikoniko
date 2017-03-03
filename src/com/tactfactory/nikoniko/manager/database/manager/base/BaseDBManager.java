@@ -17,6 +17,7 @@ import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
 import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManagerBase<T> {
 
@@ -54,7 +55,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					case DATETIME:
 						if (DumpFields.runGetter(field, item) != null) {
 							// A date attribute is already set in item
-							query += ",'" + DateConverter.getMySqlDatetime((Date) DumpFields.runGetter(field, item))
+							query += ",'" + DateConverter.getMySqlDatetime((Date)DumpFields.runGetter(field, item))
 									+ "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
@@ -107,7 +108,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 						}
 						break;
 
-					case DATABASEITEM:
+					case DATABASE_ITEM:
 						Object dbItem = DumpFields.runGetter(field, item);
 						if (dbItem != null && ((DatabaseItem) dbItem).getId() != 0) {
 							//An object attribute is already set in item
@@ -184,4 +185,30 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 		return null;
 	}
+	
+	public <O extends DatabaseItem> void deleteChildren(T item, O child){
+		//Delete only children of Class-type O from current item.
+		
+		// Set empty string as query
+		String query = "";
+		
+		//1 - Get the related association table
+		
+			//1.1 - find in item.class the attribute of class-type O
+				//1.1.1- find all attribute with sql type ASSOCIATION or DATABASE_ITEM
+		for (Field field : DumpFields.getFields(item.getClass())) {
+			//If 
+			if (field.getAnnotation(MySQLAnnotation.class).mysqlType()== MySQLTypes.DATABASE_ITEM 
+					&& DumpFields.runGetter(field, item).getClass().getSimpleName()
+					.equals(child.getClass().getSimpleName())) {
+
+			}
+			
+		}
+				//1.1.2 - select from these attributes the one with the class-type O
+				//Beware that some elements can be ArrayLists<O> and we need to find their type
+		
+		//2 - Destroy all association between object and his children (T)
+	}
+
 }

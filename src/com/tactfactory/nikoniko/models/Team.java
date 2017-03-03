@@ -3,14 +3,25 @@ package com.tactfactory.nikoniko.models;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class Team extends DatabaseItem {
 	public static final String TABLE = "team";
-	public static final String[] FIELDS = { "id", "name", "serial"};
+	public static final String[] FIELDS = { "id", "name", "serial" };
 
+	@MySQLAnnotation(fieldName = "name", mysqlType = MySQLTypes.VARCHAR)
 	private String name;
+
+	@MySQLAnnotation(fieldName = "serial", mysqlType = MySQLTypes.VARCHAR, nullable = true)
 	private String serial;
+
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "team_project",
+			associationName = "id_Project", nullable = true)
 	private ArrayList<Project> projects;
+
+	@MySQLAnnotation(mysqlType = MySQLTypes.ASSOCIATION, associationTable = "user_team",
+			associationName = "id_User", nullable = true)
 	private ArrayList<User> users;
 
 	/**

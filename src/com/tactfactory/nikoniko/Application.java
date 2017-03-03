@@ -11,6 +11,7 @@ import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
 import com.tactfactory.nikoniko.utils.DateConverter;
 import com.tactfactory.nikoniko.utils.DumpFields;
 import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class Application {
 
@@ -160,7 +161,10 @@ public class Application {
 		item.setSatisfaction(1);
 		User user = new User();
 		user.setId(25685);
+		Project project = new Project();
+		project.setId(2531552);
 		item.setUser(user);
+		item.setProject(project);
 		// Get all attributes names and associated values from given item
 		Map<String, Object> fields = DumpFields.fielder(item);
 
@@ -284,7 +288,7 @@ public class Application {
 						}
 						break;
 
-					case DATABASEITEM:
+					case DATABASE_ITEM:
 						Object dbItem = DumpFields.runGetter(field, item);
 						if (dbItem != null && ((DatabaseItem) dbItem).getId() != 0) {
 							// A object attribute is already set in item
@@ -308,6 +312,23 @@ public class Application {
 		}
 		
 		System.out.println(query);
+		
+		
+		
+		for (Field field : DumpFields.getFields(item.getClass())) {
+			if (field.getAnnotation(MySQLAnnotation.class).mysqlType()== MySQLTypes.DATABASE_ITEM 
+					&& DumpFields.runGetter(field, item).getClass().getSimpleName().equals("Project")) {
+				System.out.println("Table asso : " + field.getAnnotation(MySQLAnnotation.class).associationTable());
+				System.out.println("Nom : " + field.getAnnotation(MySQLAnnotation.class).fieldName());
+				System.out.println("nullable? : " +field.getAnnotation(MySQLAnnotation.class).nullable());
+				System.out.println("classe? : " + 
+				(DumpFields.runGetter(field, item).getClass().getSimpleName().equals("Project")));
+				System.out.println("classe? : " + field.getName());
+			}
+			
+		}
+		
+		
 		
 	}
 }
