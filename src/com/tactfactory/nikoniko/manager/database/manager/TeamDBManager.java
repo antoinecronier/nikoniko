@@ -67,16 +67,4 @@ public class TeamDBManager extends BaseDBManager<Team> {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void deleteWithChildren(Team item) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public <O> void deleteChildren(Team item) {
-		// TODO Auto-generated method stub
-
-	}
 }

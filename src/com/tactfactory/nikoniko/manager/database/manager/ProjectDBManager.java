@@ -67,17 +67,5 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void deleteWithChildren(Project item) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public <O> void deleteChildren(Project item) {
-		// TODO Auto-generated method stub
-
-	}
 }
 
