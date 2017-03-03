@@ -8,11 +8,6 @@ import com.tactfactory.nikoniko.models.Project;
 
 public class ProjectDBManager extends BaseDBManager<Project> {
 
-	@Override
-	public String getValues(Project item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void purgeTable(String table) {

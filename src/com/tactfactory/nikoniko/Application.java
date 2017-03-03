@@ -1,11 +1,23 @@
 package com.tactfactory.nikoniko;
 
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
+
+import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
+import com.tactfactory.nikoniko.manager.database.manager.ProjectDBManager;
+import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
+import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
+import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.Team;
 import com.tactfactory.nikoniko.models.User;
+import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
+import com.tactfactory.nikoniko.utils.DumpFields;
+import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
+import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 
 
@@ -326,16 +338,72 @@ public class Application {
 //		
 //		
 		
-		ArrayList<User> users = new ArrayList<User>();
-		ArrayList<Project> project = new ArrayList<Project>();
-		ArrayList<NikoNiko> nikoNiko = new ArrayList<NikoNiko>();
-		ArrayList<Team> team = new ArrayList<Team>();
+//		ArrayList<User> users = new ArrayList<User>();
+//		ArrayList<Project> projects = new ArrayList<Project>();
+//		ArrayList<NikoNiko> nikoNikos = new ArrayList<NikoNiko>();
+//		ArrayList<Team> teams = new ArrayList<Team>();
+//			
+//		
+//		
+//		for (int i = 0; i < 10; i++) {
+//			UserDBManager userManager = new UserDBManager();
+//			users.add(new User());
+//			users.get(i).setFirstname("firstname"+i);
+//			users.get(i).setLastname("lastname"+i);
+//			users.get(i).setLogin("login"+i);
+//			users.get(i).setPassword("password"+i);
+//			users.get(i).setRegistration_cgi("registration_cgi"+i);
+//			users.get(i).setSex('F');
+//			userManager.insert(users.get(i));
+//			
+//			ProjectDBManager projectManager = new ProjectDBManager();
+//			projects.add(new Project());
+//			projects.get(i).setStart_date(new Date());
+//			projects.get(i).setEnd_date(new Date());
+//			projects.get(i).setName("name"+i);
+//			projectManager.insert(projects.get(i));
+//			
+//			NikoNikoDBManager nikoManager = new NikoNikoDBManager();
+//			nikoNikos.add(new NikoNiko());
+//			nikoNikos.get(i).setSatisfaction(2);
+//			nikoNikos.get(i).setComment("comment"+i);
+//			//nikoNikos.get(i).setIsAnonymous(false);
+//			nikoNikos.get(i).setLog_date(new Date());
+//			nikoNikos.get(i).setChange_date(new Date());
+//			nikoManager.insert(nikoNikos.get(i));
+//
+//			TeamDBManager teamManager = new TeamDBManager();
+//			teams.add(new Team());
+//			teams.get(i).setName("name"+i);
+//			teams.get(i).setSerial("serial"+i);
+//			teamManager.insert(teams.get(i));
+//			
+//		}
 				
-				
-				
-	
 		
-
+		NikoNiko item = new NikoNiko();
+		item.setSatisfaction(1);
+		User user = new User();
+		user.setId(25685);
+		Project project = new Project();
+		project.setId(2531552);
+		item.setUser(user);
+		item.setProject(project);
+		
+		
+		
+		
+		for (Field field : DumpFields.getFields(item.getClass())) {
+			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+				System.out.println(((DatabaseItem) DumpFields.runGetter(field, item)).getId());
+				System.out.println(((DatabaseItem) DumpFields.runGetter(field, item)).getClass());
+				
+				
+				
+			}
+			
+		}
+		
 	}
 
 }

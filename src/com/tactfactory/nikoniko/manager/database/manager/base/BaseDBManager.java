@@ -29,14 +29,12 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		// Set empty string
 		String query = "";
 
-		// Verify if id already exists. If not, return null (in this case DTB
-		// auto_increment will be used). Due to getFields definition, it is
-		// impossible
-		// to get the item id more efficiently than above
+		// Verify if id already exists. If not, return null (in this case DTB auto_increment will be used). 
+		//Due to getFields definition, it is impossible to get the item id more efficiently than above
 		if (item.getId() != 0) {
-			query += item.getId() + ",";
+			query += item.getId();
 		} else {
-			query += "null,";
+			query += "null";
 		}
 
 		// Use item.field to have the good order of arguments to fill DTB
@@ -49,8 +47,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 				// of item.field are equal
 				if (fieldItem.equals(field.getAnnotation(MySQLAnnotation.class).fieldName())) {
 
-					// For each SQL known type, do the appropriate action to
-					// fill the query
+					// For each SQL known type, do the appropriate action to fill the query
 					switch (field.getAnnotation(MySQLAnnotation.class).mysqlType()) {
 					case DATETIME:
 						if (DumpFields.runGetter(field, item) != null) {
@@ -59,8 +56,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 									+ "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// No date attribute is set but this attribute is
-							// not nullable
+							// No date attribute is set but this attribute is not nullable
 							query += ",'" + DateConverter.getMySqlDatetime(new Date()) + "'";
 
 						} else {
@@ -74,11 +70,9 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable INT attribute :
-							// -1 (not logic value here)
-							// Concat operation is maintained in case of the use
-							// of a "defaultValue" method
-							query += ",'" + "-1" + "'";
+							// Default value of a not nullable INT attribute : -1 (not logic value here)
+							// Concat operation is maintained in case of the use of a "defaultValue" method
+							query += "," + "-1";
 						} else {
 							query += ",null";
 						}
@@ -87,16 +81,15 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					case TINYINT:// TINYINT is the type used for a boolean in
 									// our DTB
 						if (DumpFields.runGetter(field, item) != null) {
-							// A TINYINT (aka boolean) attribute is already set
-							// in item
-							query += ",'" + DumpFields.runGetter(field, item) + "'";
+							//A TINYINT (aka boolean) attribute is already set in item
+							//No ' for a boolean or else it is see as a VARCHAR type by mySQL
+							query += "," + DumpFields.runGetter(field, item);
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable boolean attribute
-							// : 0 (false)
-							// Concat operation is maintained in case of the use
-							// of a "defaultValue" method
-							query += ",'" + 0 + "'";
+							// Default value of a not nullable boolean attribute : 0 (false)
+							// Concat operation is maintained in case of the use of a "defaultValue" method
+							System.out.println("not nullable + non renseigné");
+							query += "," + 0 ;
 						} else {
 							query += ",null";
 						}
@@ -108,10 +101,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else if (DumpFields.runGetter(field, item) == null
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
-							// Default value of a not nullable TEXT attribute :
-							// empty string
-							// Concat operation is maintained in case of the use
-							// of a "defaultValue" method
+							// Default value of a not nullable TEXT attribute : empty string
+							// Concat operation is maintained in case of the use of a "defaultValue" method
 							query += ",'" + "" + "'";
 						} else {
 							query += ",null";
@@ -130,20 +121,45 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 						break;
 
 					case ASSOCIATION:
-						// if the selected attribute is an ArrayList of object,
-						// do nothing (case of association table)
+						// if the selected attribute is an ArrayList of object, do nothing (case of association table)
 						break;
-					default:
-						// In case of the selected attribute is an unknown sql
-						// type
+						
+					case CHAR:
 						if (DumpFields.runGetter(field, item) != null) {
-							// This attribute is already set in item (even if
-							// his SQL type is unknown)
+							// A CHAR attribute is already set in item
+							query += ",'" + DumpFields.runGetter(field, item) + "'";
+						} else if (DumpFields.runGetter(field, item) == null
+								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
+							// Default value of a not nullable CHAR attribute : empty 
+							// Concat operation is maintained in case of the use of a "defaultValue" method
+							query += ",'" + "" + "'";
+						} else {
+							query += ",null";
+						}
+						break;
+						
+					case VARCHAR:
+						if (DumpFields.runGetter(field, item) != null) {
+							// A VARCHAR attribute is already set in item
+							query += ",'" + DumpFields.runGetter(field, item) + "'";
+						} else if (DumpFields.runGetter(field, item) == null
+								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
+							// Default value of a not nullable VARCHAR attribute : empty string
+							// Concat operation is maintained in case of the use of a "defaultValue" method
+							query += ",'" + "" + "'";
+						} else {
+							query += ",null";
+						}
+						break;
+						
+					default:
+						// In case of the selected attribute is an unknown sql type
+						if (DumpFields.runGetter(field, item) != null) {
+							// This attribute is already set in item (even if his SQL type is unknown)
 							query += ",'" + DumpFields.runGetter(field, item) + "'";
 						} else {
 							// Set it to null in other cases
-							// WARNING : It may create errors when try to fill
-							// DTB with this item if
+							// WARNING : It may create errors when try to fill DTB with this item if
 							// set to not nullable in DTB
 							query += ",null";
 						}
@@ -165,6 +181,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		query += this.getValues(item);
 		query += ")";
 
+		System.out.println(query);
 		MySQLAccess.getInstance().updateQuery(query);
 
 		if (item.getId() == 0) {
@@ -436,29 +453,4 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 	}
 	
-//	public <O extends DatabaseItem> void deleteChildren(T item, O child){
-//		//Delete only children of Class-type O from current item.
-//		
-//		// Set empty string as query
-//		String query = "";
-//		
-//		//1 - Get the related association table
-//		
-//			//1.1 - find in item.class the attribute of class-type O
-//				//1.1.1- find all attribute with sql type ASSOCIATION or DATABASE_ITEM
-//		for (Field field : DumpFields.getFields(item.getClass())) {
-//			//If 
-//			if (field.getAnnotation(MySQLAnnotation.class).mysqlType()== MySQLTypes.DATABASE_ITEM 
-//					&& DumpFields.runGetter(field, item).getClass().getSimpleName()
-//					.equals(child.getClass().getSimpleName())) {
-//
-//			}
-//			
-//		}
-//				//1.1.2 - select from these attributes the one with the class-type O
-//				//Beware that some elements can be ArrayLists<O> and we need to find their type
-//		
-//		//2 - Destroy all association between object and his children (T)
-//	}
-
 }

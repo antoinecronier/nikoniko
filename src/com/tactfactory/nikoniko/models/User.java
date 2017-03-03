@@ -29,7 +29,7 @@ public class User extends SecurityUser {
 			associationName = "id_Team", nullable = true)
 	private ArrayList<Team> teams;
 
-	@MySQLAnnotation(fieldName = "sex", mysqlType = MySQLTypes.VARCHAR)
+	@MySQLAnnotation(fieldName = "sex", mysqlType = MySQLTypes.CHAR)
 	private char sex;
 
 	/**
