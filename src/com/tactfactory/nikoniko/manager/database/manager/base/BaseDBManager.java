@@ -412,7 +412,20 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					fieldChild = field;
 				}
 				if (child.getClass().getSimpleName().equals("NikoNiko")) {
-					for (NikoNiko nikochild : item.getNikoNikos()) {//reussir a cast
+					ArrayList<NikoNiko> nikos = new ArrayList<NikoNiko>();
+					try {
+						nikos = (ArrayList<NikoNiko>) DumpFields.getGetter(fieldChild).invoke(item);
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					for (NikoNiko nikochild : nikos) {
 						query = "UPDATE FROM nikoniko SET id_" + item.getClass().getSimpleName() + "=NULL WHERE id="
 								+ nikochild.getId();
 					}
