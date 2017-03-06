@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
 import com.tactfactory.nikoniko.models.Project;
-import com.tactfactory.nikoniko.models.Team;
+import com.tactfactory.nikoniko.models.User;
 
-public class TeamDBManager extends BaseDBManager<Team> {
+public class UserDBManager extends BaseDBManager<User> {
+
 
 	@Override
 	public void purgeTable(String table) {
@@ -15,62 +16,63 @@ public class TeamDBManager extends BaseDBManager<Team> {
 	}
 
 	@Override
-	public Team getByIdFull(long id) {
+	public User getByIdFull(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Team> getAll(Class<Team> clazz) {
+	public ArrayList<User> getAll(Class<User> clazz) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void getAssociateObject(Team item) {
+	public void getAssociateObject(User item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(Team item) {
+	public void update(User item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delete(Team item) {
+	public void delete(User item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public <O> void mapRelation(Team item, O relation) {
+	public <O> void mapRelation(User item, O relation) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void updateWithChildren(Team item) {
+	public void updateWithChildren(User item) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+	@Override
+	public void deleteWithChildren(User item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public <O> void updateChildren(Team item) {
+	public <O> void deleteChildren(User item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteWithChildren(Team item) {
+	public <O> void updateChildren(User item, O child) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public <O> void deleteChildren(Team item) {
-		// TODO Auto-generated method stub
-
+		
 	}
 }

@@ -3,10 +3,10 @@ package com.tactfactory.nikoniko.manager.database.manager;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
+import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
-import com.tactfactory.nikoniko.models.User;
 
-public class UserDBManager extends BaseDBManager<User> {
+public class ProjectDBManager extends BaseDBManager<Project> {
 
 
 	@Override
@@ -16,62 +16,64 @@ public class UserDBManager extends BaseDBManager<User> {
 	}
 
 	@Override
-	public User getByIdFull(long id) {
+	public Project getByIdFull(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<User> getAll(Class<User> clazz) {
+	public ArrayList<Project> getAll(Class<Project> clazz) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void getAssociateObject(User item) {
+	public void getAssociateObject(Project item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(User item) {
+	public void update(Project item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delete(User item) {
+	public void delete(Project item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public <O> void mapRelation(User item, O relation) {
+	public <O> void mapRelation(Project item, O relation) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void updateWithChildren(User item) {
+	public void updateWithChildren(Project item) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+	@Override
+	public void deleteWithChildren(Project item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public <O> void updateChildren(User item) {
+	public <O> void deleteChildren(Project item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteWithChildren(User item) {
+	public <O> void updateChildren(Project item, O child) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public <O> void deleteChildren(User item) {
-		// TODO Auto-generated method stub
-
+		
 	}
 }
+

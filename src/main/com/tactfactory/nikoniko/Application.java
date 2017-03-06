@@ -2,9 +2,11 @@ package com.tactfactory.nikoniko;
 
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.ProjectDBManager;
 import com.tactfactory.nikoniko.manager.database.manager.TeamDBManager;
@@ -381,28 +383,238 @@ public class Application {
 //		}
 				
 		
-		NikoNiko item = new NikoNiko();
-		item.setSatisfaction(1);
-		User user = new User();
-		user.setId(25685);
-		Project project = new Project();
-		project.setId(2531552);
-		item.setUser(user);
-		item.setProject(project);
-		
-		
-		
-		
-		for (Field field : DumpFields.getFields(item.getClass())) {
-			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-				System.out.println(((DatabaseItem) DumpFields.runGetter(field, item)).getId());
-				System.out.println(((DatabaseItem) DumpFields.runGetter(field, item)).getClass());
+//		NikoNiko item = new NikoNiko();
+//		item.setSatisfaction(1);
+//		User user = new User();
+//		user.setId(25685);
+//		Project project = new Project();
+//		project.setId(2531552);
+//		item.setUser(user);
+//		item.setProject(project);
+//		
+		NikoNikoDBManager nikoManager = new NikoNikoDBManager();
 				
-				
-				
-			}
-			
-		}
+		User item = new User();
+		item.setId(1);
+		item.setFirstname("Felix");
+		item.setLastname("Le chat");
+		item.setRegistration_cgi("yolo 201130");
+		item.setLogin("miaou");
+		item.setPassword("jtGEgzG");
+		item.setSex('U');
+		
+		
+		NikoNiko nikoniko = new NikoNiko ();
+		NikoNiko nikoniko2 = new NikoNiko ();
+		
+		nikoniko.setId(391);
+		nikoniko.setSatisfaction(1);
+		nikoniko.setComment("MErga pouet323");
+		nikoniko.setIsAnonymous(false);
+		nikoniko.setUser(item);
+		
+//		nikoniko2.setId(215);
+		nikoniko2.setSatisfaction(1);
+		nikoniko2.setComment("Super pouet pouet56885");
+		nikoniko2.setIsAnonymous(false);
+	
+		Team team = new Team();
+		team.setId(531161);
+		team.setName("nommmmm");
+		
+		item.getNikoNikos().add(nikoniko);
+		item.getNikoNikos().add(nikoniko2);
+		item.getTeams().add(team);	
+		
+//		Team child = team;
+		NikoNiko child = nikoniko2;
+		
+		
+		
+		NikoNikoDBManager nikomanager = new NikoNikoDBManager();
+		nikomanager.updateChildren(nikoniko, item);
+		
+		System.out.println("niko finish");
+		
+		UserDBManager usermanager = new UserDBManager();
+		usermanager.updateChildren(item, nikoniko);
+		System.out.println("user finish");
+
+		
+//		for (Field field : DumpFields.getFields(item.getClass())) {
+//			
+//			
+////			System.out.println("1er test");
+//			
+//			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION){
+//
+//				//Script simplification variable
+//				ArrayList<DatabaseItem> childrenList = (ArrayList<DatabaseItem>)DumpFields.runGetter(field, item);
+//
+//				if (childrenList.get(0).getClass().getSimpleName().equals(child.getClass().getSimpleName())) {
+////					System.out.println("2e test");
+//					
+//					//recupere le path de la classe DBManager associee à item
+//					String classPath = ""; // nom à changer car pas représentatif
+//					String classSimpleName = ""+ childrenList.get(0).getClass().getSimpleName();
+//					
+////					System.out.println("classSimplename  = " + classSimpleName);
+//					
+//					classPath += "com.tactfactory.nikoniko.manager.database.manager.";
+//					classPath += classSimpleName ;
+//					classPath += "DBManager";
+//					
+////					System.out.println("classname  = " + className);
+//					
+//					
+//					//
+//					Object dbmanager = new Object();
+//					
+//					//on instancie le manager
+//					try {
+//						//
+//						Class ObjetClas = Class.forName(classPath);
+//						dbmanager = DumpFields.createContentsEmpty(ObjetClas);
+//						
+////						System.out.println("ça passe");
+//						
+//						} catch (ClassNotFoundException e) {
+//							
+////							System.out.println("ça casse");
+//							
+//							e.printStackTrace();
+//							//on break pour eviter de realiser tout le code dans le try ( rien n'est fait si catch)
+//							break;
+//					}
+//				
+////					System.out.println("test 1 ");
+//				//((BaseDBManager)dbmanager).getValues(item);
+//					
+////				System.out.println("ici : " +((ArrayList<DatabaseItem>)DumpFields.runGetter(field, item)).size());
+//				
+//					for (int i = 0; i < childrenList.size(); i++) {
+//						
+////						System.out.println("test 2 ");
+//						
+//						//If child don't have an id (0 = null here)
+//						if (childrenList.get(i).getId() == 0) { 
+//							
+//							System.out.println("J'insère car pas ID ");
+//							
+//							//Insert child if not referenced in DTB
+//							((BaseDBManager)dbmanager).insert((DatabaseItem)childrenList.get(i));
+//							
+//							//In this case the choosen child don't have Id => it don't exist in DTB
+//							//Can be done in 1-2 line with "insert(T item)" method
+//						
+//						} else {//Si l'id du child n'est pas référencé dans la DTB
+//							//Case to work on if necessary : getById send error (no id in DTB)
+//							//								 => No id registered (we want to give him a specific Id)
+//							//								 => Do an insert (beware, it can lead to unexpected problems)
+//														
+//							if (((BaseDBManager)dbmanager).getById((DatabaseItem)childrenList.get(i)) == null) {
+//								
+//								//Insert child if not referenced in DTB
+//								((BaseDBManager)dbmanager).insert((DatabaseItem)childrenList.get(i));
+//								
+//							} else {
+//								//Case to work on if necessary : getById send error (no id in DTB)
+//								//								 => No id registered (we want to give him a specific Id)
+//								//								 => Do an insert (beware, it can lead to unexpected problems)
+//								
+//								//##################################//
+//								//From here we state that the id of the Ith child is known and exists in DTB
+//															
+//								//Create empty query for update
+//								String query = "";
+//								
+//								//Ith children table_name in DTB (alway the same in our case)
+//								query += "UPDATE " + childrenList.get(i).table +" SET ";
+//								
+//								//Use getValueForUpdate to obtain "item.field[i]=splitedGetValue[i]"
+//								 
+//								query += ((BaseDBManager)dbmanager).getValuesForUpdate((DatabaseItem)childrenList.get(i));
+//								
+//								//Insert update condition to select the right child in DTB (ex : id_User = child.getId)
+//								//Use sql annotation of the field (fieldname) to select the right column in DTB 
+//								//association table 
+//								query += " WHERE ";
+//								
+//								query += "id = " + ((DatabaseItem)childrenList.get(i)).getId();
+//								
+//								//launch update query in dTB
+//								MySQLAccess.getInstance().updateQuery(query);
+//
+//								System.out.println("query3 = " + query);
+//							}
+//							
+//							
+//							
+//							
+//							try {
+//								//Cas ou l'id existe mais il n'y a rien dans la DTB
+//								((BaseDBManager)dbmanager).getById((DatabaseItem)childrenList.get(i));
+//								
+//								System.out.println("test : "+ ((BaseDBManager)dbmanager).getById((DatabaseItem)childrenList.get(i)));
+//							} catch (Exception e) {
+//								
+//								System.out.println("mon id n'est pas le bon " + ((DatabaseItem)childrenList.get(i)).getId() );
+//								
+//								//Insert child if not referenced in DTB
+//								((BaseDBManager)dbmanager).insert((DatabaseItem)childrenList.get(i));
+//							}							
+//						}
+//			
+//					
+//					
+////					System.out.println("là nom classe : " +childrenList.get(i).table);
+//
+//					
+//					
+//					
+//					
+//					
+////					System.out.println("là id : " +childrenList.get(i).getId());
+////					String query = "";
+//					
+//					//query += userdeb.getValues((User)((ArrayList<DatabaseItem>)DumpFields.runGetter(field, item)).get(i));
+////					System.out.println("preums : "+((BaseDBManager)dbmanager).getValues(((DatabaseItem)childrenList.get(i))) );
+//					
+//					//System.out.println(DumpFields.toString(field, item));
+//				
+//				
+//					}
+//				}
+//
+//			} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM
+//					&& field.getClass().getSimpleName().equals(child.getClass().getSimpleName())) {
+//				
+//			}	
+//		}	
+		
+//		for (Field field : DumpFields.getFields(item.getClass())) {
+//			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+////				System.out.println(((DatabaseItem) DumpFields.runGetter(field, item)).getId());
+////				System.out.println(((DatabaseItem) DumpFields.runGetter(field, item)).getClass());
+//				
+////				System.out.println(item.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+//				
+//				String toto = "";
+//				toto += item.getClass().getName();
+//				
+//				try {
+////					Class klazz = Class.forName("com.tactfactory.nikoniko.models.Project");
+//					Class klazz = Class.forName(toto);
+//					
+//					System.out.println("youpi!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//					System.out.println(klazz.getName());
+//				} catch (ClassNotFoundException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			
+//		}
 		
 	}
 
