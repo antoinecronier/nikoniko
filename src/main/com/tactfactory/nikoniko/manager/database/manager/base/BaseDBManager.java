@@ -428,7 +428,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					
 					//Loop over all element of the ArrayList<children>
 					for (int i = 0; i < childrenList.size(); i++) {
-												
+						System.out.println("child = " + childrenList.get(i).getClass());						
 						//If child id is  equal to 0 (i.e. : null)
 						if (childrenList.get(i).getId() == 0) { 
 							
@@ -436,15 +436,18 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 							((BaseDBManager)dbmanager).insert((DatabaseItem)childrenList.get(i));
 							
 						} else {
-
+							
+							//Flag to see if the child already exist in DTB (false =  don't exist)
+							Boolean flag = ((BaseDBManager) dbmanager).ExistById((DatabaseItem)childrenList.get(i));
+							
 							//If child ID is not null but not already filled in DTB					
-							if (((BaseDBManager)dbmanager).getById((DatabaseItem)childrenList.get(i))==null) {
+							if (!flag) {
 
 								//Insert this child at the selected ID (User have to be careful with this part)
 								((BaseDBManager)dbmanager).insert((DatabaseItem)childrenList.get(i));
 
 							} else {
-															
+								
 								//Create empty query to update our child
 								String query = "";
 								
@@ -499,20 +502,24 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 				
 				//If child id is  equal to 0 (i.e. : null)
 				if (child.getId() == 0) { 
-					System.out.println("rentrée 1");
+					
 					//Insert child if not referenced in DTB
 					((BaseDBManager)dbmanager).insert((DatabaseItem)child);
 					
 				} else {
 					
+					//Flag to see if the child already exist in DTB (false =  don't exist)
+					Boolean flag = ((BaseDBManager) dbmanager).ExistById((DatabaseItem)child);
+					
 					//If child ID is not null but not already filled in DTB					
-					if (((BaseDBManager)dbmanager).getById((DatabaseItem)child) == null) {
-						System.out.println("rentrée 2");
+					if (!flag) {
+
 						//Insert this child at the selected ID (User have to be careful with this part)
 						((BaseDBManager)dbmanager).insert((DatabaseItem)child);
 						
+					//If child ID is not null and is already filled in DTB
 					} else {
-						System.out.println("rentrée 3");						
+
 						//Create empty query to update our child
 						String query = "";
 						
@@ -524,6 +531,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 						
 						//Add the child ID to the update query
 						query += " WHERE id = " + ((DatabaseItem)child).getId();
+						
+						System.out.println(query);
 						
 						//launch update query in dTB
 						MySQLAccess.getInstance().updateQuery(query);
@@ -746,4 +755,25 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 		return query;
 	}
+	
+	
+	public Boolean ExistById (T item){
+		//Flag to see if item already exist in DTB (false =  don't exist)
+		Boolean flag = false;
+		
+		//Query DTB to ask if item already exist 
+		ResultSet queryTest = MySQLAccess.getInstance().resultQuery("SELECT * FROM " 
+						+ item.table + " WHERE " + item.table + ".id = " + item.getId());
+		
+		//try to see if the item exist (set flag to true if yes)
+		try {
+			if (queryTest.next()) {
+				flag = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+	
 }

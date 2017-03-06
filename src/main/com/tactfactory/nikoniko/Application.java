@@ -395,9 +395,9 @@ public class Application {
 		NikoNikoDBManager nikoManager = new NikoNikoDBManager();
 				
 		User item = new User();
-		item.setId(1);
-		item.setFirstname("Felix");
-		item.setLastname("Le chat");
+		//item.setId(5);
+		item.setFirstname("Felo336666");
+		item.setLastname("Le chite");
 		item.setRegistration_cgi("yolo 201130");
 		item.setLogin("miaou");
 		item.setPassword("jtGEgzG");
@@ -409,13 +409,13 @@ public class Application {
 		
 		nikoniko.setId(391);
 		nikoniko.setSatisfaction(1);
-		nikoniko.setComment("MErga pouet323");
+		nikoniko.setComment("MErga pouet333333");
 		nikoniko.setIsAnonymous(false);
 		nikoniko.setUser(item);
 		
-//		nikoniko2.setId(215);
+		nikoniko2.setId(215);
 		nikoniko2.setSatisfaction(1);
-		nikoniko2.setComment("Super pouet pouet56885");
+		nikoniko2.setComment("Super pouet pouet562521jgcv 85");
 		nikoniko2.setIsAnonymous(false);
 	
 		Team team = new Team();
@@ -424,7 +424,8 @@ public class Application {
 		
 		item.getNikoNikos().add(nikoniko);
 		item.getNikoNikos().add(nikoniko2);
-		item.getTeams().add(team);	
+		item.getTeams().add(team);
+		
 		
 //		Team child = team;
 		NikoNiko child = nikoniko2;

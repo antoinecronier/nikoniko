@@ -141,4 +141,11 @@ public interface IDBManagerBase<T> {
 	 */
 	public <O> void deleteChildren(T item);
 	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
+	public Boolean ExistById (T item);
+	
 }
