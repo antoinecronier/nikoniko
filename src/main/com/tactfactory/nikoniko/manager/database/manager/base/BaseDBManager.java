@@ -205,20 +205,16 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 	@Override
 	public void update(T item) {
-		String query;
-		Map<String, Object> map;
-
-		map = DumpFields.fielder(item);
 		String fieldsValues = getValues(item);
 		String[] list = fieldsValues.split(",");
-
-		query = "UPDATE " + item.table + " SET ";
+		String query = "UPDATE " + item.table + " SET ";
 		int index = 0;
 		for (String elem : list) {
 			if(elem.length()==0) {
 				continue;
 			}
 			if(index==0) {
+				// do not update primary key id
 				index++;
 				continue;
 			}
@@ -518,6 +514,31 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 						}
 				}
 			}
+		}
+	}
+
+	public void updateWithChildren(T item) {	
+//		if(item.getClass().getAnnotation(MySQLAnnotation.class)==null) {
+//			// todo : throw exception
+//			System.out.println("todo : throw exception");
+//			return;
+//		}
+		update(item);
+		for(Field field : DumpFields.getFields(item.getClass())) {
+			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+				//String table = field.getAnnotation(MySQLAnnotation.class).associationTable();
+				//String field_into_table = field.getAnnotation(MySQLAnnotation.class).fieldName();
+				ArrayList<T> list = (ArrayList<T>) DumpFields.runGetter(field, item);
+				for (T elem : list) {
+					mapRelation(item, elem);
+				}
+			}
+			else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+				DatabaseItem dbItem = (DatabaseItem) DumpFields.runGetter(field, item);
+				if(dbItem!=null) {
+					update((T) dbItem);
+				}
+			}		
 		}
 	}
 
