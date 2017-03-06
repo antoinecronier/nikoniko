@@ -548,25 +548,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			}
 		}
 
-		// Case where it's a 1-N relationship (item-children)
-		if (fieldItem.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-			query = "SELECT * FROM " + fieldChild.getAnnotation(MySQLAnnotation.class).associationTable() + " WHERE "
-					+ fieldItem.getAnnotation(MySQLAnnotation.class).fieldName() + "=" + item.getId();
-			ResultSet select = MySQLAccess.getInstance().resultQuery(query);
 
-			try {
-				while (select.next()) {
-					Long id = select.getLong(fieldItem.getAnnotation(MySQLAnnotation.class).fieldName());
-					child.setId(id);
-					// find the right DBManager...
-					array.add(DBManager.getById(child));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		// Case where it's a N-N relationship (item-children)
-		else if (fieldItem.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
 			query = "SELECT * FROM " + fieldChild.getAnnotation(MySQLAnnotation.class).associationTable() + " WHERE "
 					+ fieldChild.getAnnotation(MySQLAnnotation.class).fieldName() + "=" + item.getId();
 			ResultSet select = MySQLAccess.getInstance().resultQuery(query);
@@ -581,7 +563,6 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
 
 		return array;
 	}
