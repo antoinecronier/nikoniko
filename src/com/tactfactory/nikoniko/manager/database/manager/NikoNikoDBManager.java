@@ -115,11 +115,11 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	 * @param item
 	 * @return
 	 */
-	@Override
-	public NikoNiko getById(NikoNiko item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public NikoNiko getById(NikoNiko item) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	// Fonction qui permet d'obtenir tous les nikoniko de la table
 	// niko niko dans la BDD
@@ -162,16 +162,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
 	@Override
 	public void updateWithChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void deleteWithChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public <O> void deleteChildren(NikoNiko item) {
 		// TODO Auto-generated method stub
 	}
 

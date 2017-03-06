@@ -3,7 +3,6 @@ package com.tactfactory.nikoniko.manager.database.manager;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
-import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.Team;
 
 public class TeamDBManager extends BaseDBManager<Team> {
@@ -32,11 +31,11 @@ public class TeamDBManager extends BaseDBManager<Team> {
 		return null;
 	}
 
-	@Override
-	public void getAssociateObject(Team item) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void getAssociateObject(Team item) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	@Override
 	public void update(Team item) {
@@ -64,18 +63,6 @@ public class TeamDBManager extends BaseDBManager<Team> {
 
 	@Override
 	public <O> void updateChildren(Team item) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteWithChildren(Team item) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public <O> void deleteChildren(Team item) {
 		// TODO Auto-generated method stub
 
 	}

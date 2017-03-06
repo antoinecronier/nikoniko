@@ -9,8 +9,8 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 public class User extends SecurityUser {
 
 	public static final String TABLE = "user";
-	public static final String[] FIELDS = { "id", "login", "password", "sex",
-			"lastname", "firstname", "registration_cgi" };
+	public static final String[] FIELDS = { "id", "login", "password", "sex", "lastname", "firstname",
+			"registration_cgi" };
 
 	@MySQLAnnotation(fieldName = "lastname", mysqlType = MySQLTypes.VARCHAR)
 	private String lastname;
@@ -21,10 +21,13 @@ public class User extends SecurityUser {
 	@MySQLAnnotation(fieldName = "registration_cgi", mysqlType = MySQLTypes.VARCHAR)
 	private String registration_cgi;
 
-	@MySQLAnnotation(fieldName = "id", mysqlType = MySQLTypes.ASSOCIATION, nullable = true, associationTable= "nikoniko")
+	@MySQLAnnotation(fieldName = "id_User", mysqlType = MySQLTypes.ASSOCIATION,
+			associationTable = "nikoniko", nullable = true)
 	private ArrayList<NikoNiko> nikoNikos;
 
-	@MySQLAnnotation(fieldName = "id_team",mysqlType = MySQLTypes.ASSOCIATION, nullable = true, associationTable= "user_team")
+	@MySQLAnnotation(fieldName = "id_User", mysqlType = MySQLTypes.ASSOCIATION,
+			associationTable = "user_team", nullable = true)
+
 	private ArrayList<Team> teams;
 
 	@MySQLAnnotation(fieldName = "sex", mysqlType = MySQLTypes.VARCHAR)
@@ -120,8 +123,7 @@ public class User extends SecurityUser {
 		this.teams = teams;
 	}
 
-	public User(String login, String password, String lastname,
-			String firstname, String registration_cgi) {
+	public User(String login, String password, String lastname, String firstname, String registration_cgi) {
 		super(User.TABLE, User.FIELDS, login, password);
 		this.lastname = lastname;
 		this.firstname = firstname;

@@ -66,36 +66,28 @@ public class DumpFields {
 		return attributs;
 	}
 
-	public static <T extends DatabaseItem> Object runGetter(Field field, T o)
-	{
-	    // MZ: Find the correct method
-	    for (Method method : DumpFields.getGetter(o.getClass()))
-	    {
-	        if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3)))
-	        {
-	            if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase()))
-	            {
-	                // MZ: Method found, run it
-	                try
-	                {
-	                	Object result = method.invoke(o);
-	                    return result;
-	                }
-	                catch (IllegalAccessException e) {
-	                	e.printStackTrace();
-	                }
-	                catch (InvocationTargetException e) {
-	                	e.printStackTrace();
-	                }
+	public static <T extends DatabaseItem> Object runGetter(Field field, T o) {
+		// MZ: Find the correct method
+		for (Method method : DumpFields.getGetter(o.getClass())) {
+			if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))) {
+				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+					// MZ: Method found, run it
+					try {
+						Object result = method.invoke(o);
+						return result;
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
 
-	            }
-	        }
-	    }
+				}
+			}
+		}
 
-
-	    return null;
+		return null;
 	}
-	
+
 	public static <T> ArrayList<String> inspectGetter(Class<T> klazz) {
 		ArrayList<String> result = new ArrayList<String>();
 		try {
@@ -352,6 +344,38 @@ public class DumpFields {
 			}
 		}
 		return null;
+	}
+
+
+	public static Method getGetter(Field field) {
+		// MZ: Find the correct method
+		for (Method method : DumpFields.getGetter(field.getDeclaringClass())) {
+			if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))) {
+				if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+					return method;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static <O extends DatabaseItem> Class<?> getAssociatedDB(O item) {
+
+		String classSimpleName = item.getClass().getSimpleName();
+
+		String className = "com.tactfactory.nikoniko.manager.database.manager.";
+		className += classSimpleName;
+		className += "DBManager";
+
+		Class DBManagerClass = null;
+
+		try {
+			DBManagerClass = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return DBManagerClass;
 	}
 
 }
