@@ -46,7 +46,7 @@ CREATE TABLE nikoniko(
         change_Date      Date ,
         satisfaction     Int NOT NULL ,
         nikoniko_comment Text ,
-        isannonymous     Bool ,
+        isanonymous     Bool ,
         id_Project       Int ,
         id_User          Int ,
         PRIMARY KEY (id )
@@ -87,17 +87,9 @@ CREATE TABLE team_project(
         PRIMARY KEY (id_Team ,id_Project )
 )ENGINE=InnoDB;
 
-<<<<<<< HEAD
-ALTER TABLE nikoniko ADD CONSTRAINT FK_NikoNiko_id_User FOREIGN KEY (id_User) REFERENCES user(id);
-ALTER TABLE nikoniko ADD CONSTRAINT FK_NikoNiko_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id FOREIGN KEY (id_User) REFERENCES user(id);
-ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES team(id);
-ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id FOREIGN KEY (id_Team) REFERENCES team(id);
-=======
 ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);
 ALTER TABLE nikoniko ADD CONSTRAINT FK_nikoniko_id_User FOREIGN KEY (id_User) REFERENCES user(id);
 ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_User FOREIGN KEY (id_User) REFERENCES user(id);
 ALTER TABLE user_team ADD CONSTRAINT FK_user_team_id_Team FOREIGN KEY (id_Team) REFERENCES team(id);
 ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Team FOREIGN KEY (id_Team) REFERENCES team(id);
->>>>>>> master
 ALTER TABLE team_project ADD CONSTRAINT FK_team_project_id_Project FOREIGN KEY (id_Project) REFERENCES project(id);

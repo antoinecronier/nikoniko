@@ -8,7 +8,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class Project extends DatabaseItem {
-	
+
 	public static final String TABLE = "project";
 	public static final String[] FIELDS = { "id", "name", "start_Date", "end_Date" };
 
@@ -21,10 +21,12 @@ public class Project extends DatabaseItem {
 	@MySQLAnnotation(fieldName = "end_Date", mysqlType = MySQLTypes.DATETIME, nullable = true)
 	private Date end_date;
 
-	@MySQLAnnotation(fieldName = "id_Project", associationTable = "nikoniko", mysqlType = MySQLTypes.ASSOCIATION)
+	@MySQLAnnotation(fieldName = "id_Project", mysqlType = MySQLTypes.ASSOCIATION,
+			associationTable = "nikoniko", nullable = true)
 	private ArrayList<NikoNiko> nikoNikos;
 
-	@MySQLAnnotation(fieldName = "id_Project", associationTable = "team_project", mysqlType = MySQLTypes.ASSOCIATION)
+	@MySQLAnnotation(fieldName = "id_Project", mysqlType = MySQLTypes.ASSOCIATION,
+			associationTable = "team_project", nullable = true)
 	private ArrayList<Team> teams;
 
 	/**

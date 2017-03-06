@@ -76,36 +76,13 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
 	/*@Override
 	public <O> void mapRelation(NikoNiko item, O relation) {
-		String query = "";
 
-		if (relation.getClass().getSimpleName().equals("User")) {
-			User usr = (User) relation;
-			query = "UPDATE " + item.table + " SET id_user = " + usr.getId() + " WHERE id = " + item.getId();
-			MySQLAccess.getInstance().updateQuery(query);
-		} else if (relation.getClass().getSimpleName().equals("Project")) {
-			Project prj = (Project) relation;
-			query = "UPDATE " + item.table + " SET id_project = " + prj.getId() + " WHERE id = " + item.getId();
-			MySQLAccess.getInstance().updateQuery(query);
-		} else {
-			System.err.println(
-					"mapRelation for NikoNiko, inconsistent relation with " + relation.getClass().getSimpleName());
-		}
 	}*/
 
-	@Override
-	public void updateWithChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void deleteWithChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public <O> void deleteChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
+//	@Override
+//	public void updateWithChildren(NikoNiko item) {
+//		// TODO Auto-generated method stub
+//	}
 
 	@Override
 	public <O> void updateChildren(NikoNiko item) {
@@ -114,6 +91,12 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 
 	@Override
 	public <O> void mapRelation(NikoNiko item, O relation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWithChildren(NikoNiko item) {
 		// TODO Auto-generated method stub
 		
 	}
