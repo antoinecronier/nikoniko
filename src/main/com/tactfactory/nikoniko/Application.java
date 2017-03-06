@@ -33,7 +33,7 @@ public class Application {
 		//niko.setProject(project);
 		project.getNikoNikos().add(niko);
 		//user.getNikoNikos().add(niko);
-		userManager.getAssociatedObject(user);
+		//userManager.getAssociatedObject(user);
 		nikoManager.getAssociatedObject(niko);
 		
 		}
