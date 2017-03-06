@@ -233,10 +233,23 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-			} else if (field.getType() == char.class || field.getType() == String.class) {
+			} else if (field.getType() == String.class) {
 				try {
 					DumpFields.getSetter(field).invoke(item,
 							resultSet.getString(field.getAnnotation(MySQLAnnotation.class).fieldName()));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else if (field.getType() == char.class) {
+				try {
+					DumpFields.getSetter(field).invoke(item,
+							resultSet.getString(field.getAnnotation(MySQLAnnotation.class).fieldName()).charAt(0));
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
