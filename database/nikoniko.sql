@@ -46,7 +46,7 @@ CREATE TABLE nikoniko(
         change_Date      Date ,
         satisfaction     Int NOT NULL ,
         nikoniko_comment Text ,
-        isannonymous     Bool ,
+        isanonymous     Bool ,
         id_Project       Int ,
         id_User          Int ,
         PRIMARY KEY (id )

@@ -37,11 +37,11 @@ public class UserDBManager extends BaseDBManager<User> {
 
 	}
 
-	@Override
-	public void delete(User item) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void delete(User item) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	// @Override
 	// public void delete(User item) {
@@ -92,11 +92,11 @@ public class UserDBManager extends BaseDBManager<User> {
 		}
 	}*/
 
-	@Override
-	public void updateWithChildren(User item) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void updateWithChildren(User item) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	@Override
 	public <O> void updateChildren(User item) {

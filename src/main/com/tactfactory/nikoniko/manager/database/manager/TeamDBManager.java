@@ -37,11 +37,11 @@ public class TeamDBManager extends BaseDBManager<Team> {
 
 	}
 
-	@Override
-	public void delete(Team item) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void delete(Team item) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	// @Override
 	// public void delete(Team item) {
@@ -113,11 +113,11 @@ public class TeamDBManager extends BaseDBManager<Team> {
 		}
 	}*/
 
-	@Override
-	public void updateWithChildren(Team item) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void updateWithChildren(Team item) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	@Override
 	public <O> void updateChildren(Team item) {
