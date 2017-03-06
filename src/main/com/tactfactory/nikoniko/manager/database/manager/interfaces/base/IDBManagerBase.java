@@ -26,6 +26,15 @@ public interface IDBManagerBase<T> {
 
 	// 1
 	public T setObjectFromResultSet(ResultSet resultSet, T item);
+	
+	/**
+	 * Retrieve values of item to be set as a string to build queries 
+	 * to update tables.
+	 * @param item
+	 * @return
+	 */
+	// Erwan&Felix
+	public String getValuesForUpdate(T item);
 
 	// Database management
 	/**
@@ -118,7 +127,7 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 */
 	//Denis
-	public <O> void updateChildren(T item);
+	public <O> void updateChildren(T item, O child);
 
 	/**
 	 * Delete current java object to DB. With children.
@@ -133,4 +142,13 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 */
 	public <O extends DatabaseItem> void deleteChildren(T item, O child);
+
+	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
+	public Boolean existById (T item);
+	
 }

@@ -65,6 +65,7 @@ public class DumpFields {
 		return attributs;
 	}
 
+<<<<<<< HEAD:src/main/com/tactfactory/nikoniko/utils/DumpFields.java
 	public static <T extends DatabaseItem> Object runGetter(Field field, T o) {
 		// MZ: Find the correct method
 		for (Method method : DumpFields.getGetter(o.getClass())) {
@@ -87,6 +88,38 @@ public class DumpFields {
 		return null;
 	}
 
+=======
+	public static <T extends DatabaseItem> Object runGetter(Field field, T o)
+	{
+	    // MZ: Find the correct method
+	    for (Method method : DumpFields.getGetter(o.getClass()))
+	    {
+	        if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3)))
+	        {
+	            if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase()))
+	            {
+	                // MZ: Method found, run it
+	                try
+	                {
+	                	Object result = method.invoke(o);
+	                    return result;
+	                }
+	                catch (IllegalAccessException e) {
+	                	e.printStackTrace();
+	                }
+	                catch (InvocationTargetException e) {
+	                	e.printStackTrace();
+	                }
+
+	            }
+	        }
+	    }
+
+
+	    return null;
+	}
+	
+>>>>>>> Erwan:src/main/com/tactfactory/nikoniko/utils/DumpFields.java
 	public static <T> ArrayList<String> inspectGetter(Class<T> klazz) {
 		ArrayList<String> result = new ArrayList<String>();
 		try {
@@ -284,7 +317,10 @@ public class DumpFields {
 	}
 
 	public static boolean isSetter(Method method) {
+<<<<<<< HEAD:src/main/com/tactfactory/nikoniko/utils/DumpFields.java
 
+=======
+>>>>>>> Erwan:src/main/com/tactfactory/nikoniko/utils/DumpFields.java
 		return Modifier.isPublic(method.getModifiers()) && method.getReturnType().equals(void.class)
 				&& method.getParameterTypes().length == 1 && method.getName().matches("^set[A-Z].*");
 	}
@@ -327,7 +363,11 @@ public class DumpFields {
 
 		return null;
 	}
+<<<<<<< HEAD:src/main/com/tactfactory/nikoniko/utils/DumpFields.java
 
+=======
+	
+>>>>>>> Erwan:src/main/com/tactfactory/nikoniko/utils/DumpFields.java
 	public static Method getGetter(Field field) {
 		// MZ: Find the correct method
 		for (Method method : DumpFields.getGetter(field.getDeclaringClass())) {

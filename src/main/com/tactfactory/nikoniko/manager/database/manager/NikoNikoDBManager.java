@@ -25,30 +25,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * Fonction qui permet d'obtenir toutes les informations d'un nikoniko en
-	 * fonction de l'id renseigné
-	 * 
-<<<<<<< HEAD
-	 * @param id
-=======
-	 * @param item
->>>>>>> master
-	 * @return
-	 */
-	@Override
-	public NikoNiko getById(NikoNiko item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// Fonction qui permet d'obtenir tous les nikoniko de la table
-	// niko niko dans la BDD
-//	@Override
-//	public ArrayList<NikoNiko> getAll(Class<NikoNiko> clazz) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	public ArrayList<NikoNiko> getAll() {
 		// TODO Auto-generated method stub
@@ -61,14 +37,7 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// TODO Auto-generated method stub
 	}
 
-	// Fonction qui permet l'ajout des attributs d'un nikoniko dans la BDD
-	// en utilisant la fonction getNikoNikoValues().
-
-	/*
-	 * @Override public void delete(NikoNiko item) { // TODO Auto-generated
-	 * method stub }
-	 */
-
+	
 	@Override
 	public void update(NikoNiko item) {
 		// TODO Auto-generated method stub
@@ -84,10 +53,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 //		// TODO Auto-generated method stub
 //	}
 
-	@Override
-	public <O> void updateChildren(NikoNiko item) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public <O> void mapRelation(NikoNiko item, O relation) {
@@ -96,8 +61,10 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 	}
 
 	@Override
-	public void updateWithChildren(NikoNiko item) {
+	public <O> void updateChildren(NikoNiko item, O child) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 }
