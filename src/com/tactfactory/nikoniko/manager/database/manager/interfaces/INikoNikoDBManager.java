@@ -5,5 +5,5 @@ import com.tactfactory.nikoniko.models.NikoNiko;
 
 public interface INikoNikoDBManager extends IDBManagerBase<NikoNiko> {
 
-	public NikoNiko getById(long id);
+	
 }

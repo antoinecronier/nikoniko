@@ -15,7 +15,7 @@ public class Application {
 	public static void main(String[] args) {
 		
 		User user1 = new User();
-		user1.setId(1);
+		user1.setId(2);
 		
 		Team team1 = new Team();
 		team1.setId(3);
@@ -31,7 +31,13 @@ public class Application {
 		ProjectDBManager projectManager = new ProjectDBManager();
 		TeamDBManager teamManager = new TeamDBManager();
 		
-		nikoManager.deleteWithChildren(niko1);
+		nikoManager.getAssociateObject(niko1);
+		
+			System.out.println(niko1.getUser().getId());
+		
+		
+			System.out.println(niko1.getProject().getId());
+		
 		
 
 	}

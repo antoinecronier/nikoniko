@@ -3,7 +3,6 @@ package com.tactfactory.nikoniko.manager.database.manager;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
-import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 
 public class ProjectDBManager extends BaseDBManager<Project> {
@@ -32,11 +31,11 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 		return null;
 	}
 
-	@Override
-	public void getAssociateObject(Project item) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void getAssociateObject(Project item) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	@Override
 	public void update(Project item) {
