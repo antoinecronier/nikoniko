@@ -415,11 +415,13 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					Object dbmanager = new Object();
 					
 					try {
+						
 						//Instantiate DBManager
 						Class ObjetClas = Class.forName(classPath);
 						dbmanager = DumpFields.createContentsEmpty(ObjetClas);
 						
 					} catch (ClassNotFoundException e) {
+						
 						//If DBManager doesn't exist, do nothing (break)
 						//Used to improve performance by preventing execution of the whole code in the try catch
 						e.printStackTrace();
@@ -438,10 +440,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 						} else {
 							
 							//Flag to see if the child already exist in DTB (false =  don't exist)
-							Boolean flag = ((BaseDBManager) dbmanager).ExistById((DatabaseItem)childrenList.get(i));
+							Boolean flag = ((BaseDBManager) dbmanager).existById((DatabaseItem)childrenList.get(i));
 							
 							//If child ID is not null but not already filled in DTB					
-							if (!flag) {
+							if (flag) {
 
 								//Insert this child at the selected ID (User have to be careful with this part)
 								((BaseDBManager)dbmanager).insert((DatabaseItem)childrenList.get(i));
@@ -509,10 +511,10 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 				} else {
 					
 					//Flag to see if the child already exist in DTB (false =  don't exist)
-					Boolean flag = ((BaseDBManager) dbmanager).ExistById((DatabaseItem)child);
+					Boolean flag = ((BaseDBManager) dbmanager).existById((DatabaseItem)child);
 					
 					//If child ID is not null but not already filled in DTB					
-					if (!flag) {
+					if (flag) {
 
 						//Insert this child at the selected ID (User have to be careful with this part)
 						((BaseDBManager)dbmanager).insert((DatabaseItem)child);
@@ -757,19 +759,18 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 	
 	
-	public Boolean ExistById (T item){
+	public Boolean existById (T item){
 		//Flag to see if item already exist in DTB (false =  don't exist)
 		Boolean flag = false;
 		
 		//Query DTB to ask if item already exist 
-		ResultSet queryTest = MySQLAccess.getInstance().resultQuery("SELECT * FROM " 
+		ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " 
 						+ item.table + " WHERE " + item.table + ".id = " + item.getId());
 		
 		//try to see if the item exist (set flag to true if yes)
 		try {
-			if (queryTest.next()) {
-				flag = true;
-			}
+			//there is no data for this resulset
+			flag=!query.first();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

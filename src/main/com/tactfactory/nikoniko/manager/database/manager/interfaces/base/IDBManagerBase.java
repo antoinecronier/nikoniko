@@ -146,6 +146,6 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 * @return
 	 */
-	public Boolean ExistById (T item);
+	public Boolean existById (T item);
 	
 }

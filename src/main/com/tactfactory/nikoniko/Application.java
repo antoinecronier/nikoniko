@@ -407,9 +407,9 @@ public class Application {
 		NikoNiko nikoniko = new NikoNiko ();
 		NikoNiko nikoniko2 = new NikoNiko ();
 		
-		nikoniko.setId(391);
+		nikoniko.setId(3);
 		nikoniko.setSatisfaction(1);
-		nikoniko.setComment("MErga pouet333333");
+		nikoniko.setComment("MErga pouet958253");
 		nikoniko.setIsAnonymous(false);
 		nikoniko.setUser(item);
 		
