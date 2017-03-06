@@ -125,11 +125,6 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		return niko.getAll(NikoNiko.class);
 	}
 
-//	@Override
-//	public void getAssociateObject(NikoNiko item) {
-//		// TODO Auto-generated method stub
-//	}
-
 	// Fonction qui permet l'ajout des attributs d'un nikoniko dans la BDD
 	// en utilisant la fonction getNikoNikoValues().
 

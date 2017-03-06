@@ -31,12 +31,6 @@ public class ProjectDBManager extends BaseDBManager<Project> {
 		return null;
 	}
 
-//	@Override
-//	public void getAssociateObject(Project item) {
-//		// TODO Auto-generated method stub
-//
-//	}
-
 	@Override
 	public void update(Project item) {
 		// TODO Auto-generated method stub

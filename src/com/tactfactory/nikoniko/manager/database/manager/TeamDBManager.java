@@ -31,12 +31,6 @@ public class TeamDBManager extends BaseDBManager<Team> {
 		return null;
 	}
 
-//	@Override
-//	public void getAssociateObject(Team item) {
-//		// TODO Auto-generated method stub
-//
-//	}
-
 	@Override
 	public void update(Team item) {
 		// TODO Auto-generated method stub
