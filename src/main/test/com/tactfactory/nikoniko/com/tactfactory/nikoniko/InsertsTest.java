@@ -1,6 +1,6 @@
 package com.tactfactory.nikoniko;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -36,7 +36,7 @@ public class InsertsTest {
 	@Test
 	public void test() {
 		NikoNikoDBManager manager = new NikoNikoDBManager();
-		manager.insert(niko);
+		manager.insert(niko); // FIXME Doesn't works.
 		assertNotEquals(0, niko.getId());
 	}
 

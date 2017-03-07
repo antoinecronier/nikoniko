@@ -1,4 +1,3 @@
-
 package com.tactfactory.nikoniko.models;
 
 import java.util.Date;
