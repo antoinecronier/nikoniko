@@ -532,19 +532,13 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	}
 
 	public void updateWithChildren(T item) {	
-//		if(item.getClass().getAnnotation(MySQLAnnotation.class)==null) {
-//			// todo : throw exception
-//			System.out.println("todo : throw exception");
-//			return;
-//		}
 		update(item);
 		for(Field field : DumpFields.getFields(item.getClass())) {
 			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-				//String table = field.getAnnotation(MySQLAnnotation.class).associationTable();
-				//String field_into_table = field.getAnnotation(MySQLAnnotation.class).fieldName();
 				ArrayList<T> list = (ArrayList<T>) DumpFields.runGetter(field, item);
 				for (T elem : list) {
 					mapRelation(item, elem);
+					update(elem);
 				}
 			}
 			else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
@@ -905,7 +899,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 								&& !field.getAnnotation(MySQLAnnotation.class).nullable()) {
 							// Default value of a not nullable boolean attribute : 0 (false)
 							// Concat operation is maintained in case of the use of a "defaultValue" method
-							System.out.println("not nullable + non renseigné");
+							System.out.println("not nullable + non renseignï¿½");
 							query += ","+ fieldItem + "=" + 0 ;
 						} else {
 							query += ","+ fieldItem + "=null";
