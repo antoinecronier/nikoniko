@@ -360,23 +360,23 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	@Override
 	public ArrayList<T> getAll(Class<T> clazz) {
 
-		// cr�ation d'un objet vide � partir d'une classe
+		// cr?ation d'un objet vide ? partir d'une classe
 		T item = DumpFields.createContentsEmpty(clazz);
 
-		// cr�ation d'une requete de s�lection totale de tout ce qu'il y a dans
-		// la table li�e � cet objet
+		// cr?ation d'une requete de s?lection totale de tout ce qu'il y a dans
+		// la table li?e ? cet objet
 		ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table);
 
-		// cr�ation d'une liste d'objets
+		// cr?ation d'une liste d'objets
 		ArrayList<T> malistedobjets = new ArrayList<T>();
 
 		try {
 			// tant que la requete a des resultats
 			while (query.next()) {
-				// cr�ation d'un objet vide � partir d'une classe
+				// cr?ation d'un objet vide ? partir d'une classe
 				T temp = DumpFields.createContentsEmpty(clazz);
 
-				// remplir la liste d'objets avec les r�sultats
+				// remplir la liste d'objets avec les r?sultats
 				malistedobjets.add(setObjectFromResultSet(query, temp));
 			}
 		} catch (SQLException e) {

@@ -1,3 +1,4 @@
+
 package com.tactfactory.nikoniko.models;
 
 import java.util.Date;
@@ -8,7 +9,7 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class NikoNiko extends DatabaseItem {
-	
+
 	public static final String TABLE = "nikoniko";
 	public static final String[] FIELDS = { "id", "log_Date", "change_Date", "satisfaction", "nikoniko_comment",
 			"isanonymous", "id_User", "id_Project" };

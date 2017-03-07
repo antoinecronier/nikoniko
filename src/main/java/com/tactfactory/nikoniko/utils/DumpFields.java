@@ -14,7 +14,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.tactfactory.nikoniko.models.modelbase.DatabaseItem;
