@@ -1,3 +1,4 @@
+
 package com.tactfactory.nikoniko.utils;
 
 import java.beans.IntrospectionException;

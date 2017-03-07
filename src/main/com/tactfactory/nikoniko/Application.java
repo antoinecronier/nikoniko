@@ -29,8 +29,21 @@ public class Application {
 		
 		NikoNikoDBManager nikoManager = new NikoNikoDBManager();
 		UserDBManager userManager = new UserDBManager();
-		ProjectDBManager projectManager = new ProjectDBManager();
-		TeamDBManager teamManager = new TeamDBManager();
+
+		NikoNiko niko = new NikoNiko();
+		Team team = new Team();
+		niko.setId(4);
+		User user = new  User();
+		user.setId(12);
+		niko.setUser(user);
+		Project project = new Project();
+		project.setId(15);
+		//niko.setProject(project);
+		project.getNikoNikos().add(niko);
+		//user.getNikoNikos().add(niko);
+		//userManager.getAssociatedObject(user);
+		nikoManager.getAssociateObject(niko);
+
 		
 		nikoManager.getAssociateObject(niko1);
 		
