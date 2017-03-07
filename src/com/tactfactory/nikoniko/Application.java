@@ -34,11 +34,7 @@ public class Application {
 		
 		nikoManager.getAssociateObject(niko1);
 		
-			System.out.println(niko1.getUser().getId());
-		
-		
-			System.out.println(niko1.getProject().getId());
-
+			System.out.println(niko1.getUser().getLastname());
 
 	
 }

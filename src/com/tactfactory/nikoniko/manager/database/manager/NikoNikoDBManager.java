@@ -170,9 +170,5 @@ public class NikoNikoDBManager extends BaseDBManager<NikoNiko> {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void getAssociateObject(NikoNiko item) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
