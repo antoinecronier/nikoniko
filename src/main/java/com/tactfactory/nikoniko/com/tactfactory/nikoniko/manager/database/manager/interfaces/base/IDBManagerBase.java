@@ -51,7 +51,7 @@ public interface IDBManagerBase<T> {
 	 * @return
 	 */
 	// Damien NOK
-	public T getByIdFull(long id);
+	public T getByIdFull(T item);
 
 	/**
 	 * Return all objects from selected table. Without relations.
@@ -118,7 +118,7 @@ public interface IDBManagerBase<T> {
 	 * @param item
 	 */
 	// Erwan Felix soon
-	public <O> void updateChildren(T item);
+	public <O> void updateChildren(T item, O sampleChild);
 
 	/**
 	 * Delete current java object to DB. With children.

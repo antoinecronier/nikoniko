@@ -3,15 +3,10 @@ package com.tactfactory.nikoniko.manager.database.manager;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.manager.database.manager.base.BaseDBManager;
+import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.User;
 
 public class UserDBManager extends BaseDBManager<User> {
-
-	@Override
-	public String getValues(User item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void purgeTable(String table) {
@@ -19,16 +14,9 @@ public class UserDBManager extends BaseDBManager<User> {
 
 	}
 
-	@Override
-	public User getByIdFull(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<User> getAll(Class<User> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<User> getAll() {
+		UserDBManager user = new UserDBManager();
+		return user.getAll(User.class);
 	}
 
 	@Override
@@ -56,7 +44,7 @@ public class UserDBManager extends BaseDBManager<User> {
 	}
 
 	@Override
-	public <O> void updateChildren(User item) {
+	public <O> void updateChildren(User item, O sampleChild) {
 		// TODO Auto-generated method stub
 
 	}

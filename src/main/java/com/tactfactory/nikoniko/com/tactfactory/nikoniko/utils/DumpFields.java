@@ -41,7 +41,7 @@ public class DumpFields {
 		return attributs;
 	}
 
-	// recupere tous les attributs et informations
+	// Recupere tous les attributs et informations
 	public static <T> ArrayList<Field> getFields(Class<T> klazz) {
 		ArrayList<Field> attributs = new ArrayList<Field>();
 		Field[] fields;
@@ -117,6 +117,11 @@ public class DumpFields {
 		return result;
 	}
 
+	/**
+	 * This method return an array of all the getters of the given class
+	 * @param klazz
+	 * @return
+	 */
 	public static <T> ArrayList<Method> getGetter(Class<T> klazz) {
 		ArrayList<Method> result = new ArrayList<Method>();
 		try {
@@ -132,6 +137,11 @@ public class DumpFields {
 		return result;
 	}
 
+	/**
+	 * This method return an array of all the setters of the given class
+	 * @param klazz
+	 * @return
+	 */
 	public static <T> ArrayList<Method> getSetter(Class<T> klazz) {
 		ArrayList<Method> result = new ArrayList<Method>();
 		try {
@@ -313,7 +323,12 @@ public class DumpFields {
 				list.add(method);
 		return list;
 	}
-
+	
+	/**
+	 * This method return the setter associated to the given field
+	 * @param field
+	 * @return
+	 */
 	public static Method getSetter(Field field) {
 		// MZ: Find the correct method
 		for (Method method : DumpFields.getSetter(field.getDeclaringClass())) {
@@ -327,6 +342,11 @@ public class DumpFields {
 		return null;
 	}
 
+	/**
+	 * This method return the getter associated to the given field
+	 * @param field
+	 * @return
+	 */
 	public static Method getGetter(Field field) {
 		// MZ: Find the correct method
 		for (Method method : DumpFields.getGetter(field.getDeclaringClass())) {

@@ -26,6 +26,8 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 	 * @return query
 	 */
 	@Override
+	
+	// 
 	public String getValues(T item) {
 
 		// Set empty string
@@ -193,86 +195,7 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		}
 		return query;
 	}
-
-	@Override
-	public void insert(T item) {
-
-		String query = "";
-
-		// Add list of each field name
-		// ---------------------------
-		query += "INSERT INTO " + item.table + "(";
-		int i = 0;
-		for (String fieldName : item.fields) {
-			if (i > 0)
-				query += ",";
-			query += fieldName;
-			i++;
-		}
-
-		// Add each values
-		// ----------------
-		query += ") VALUES (";
-		query += this.getValues(item);
-		query += ")";
-
-		MySQLAccess.getInstance().updateQuery(query);
-
-		if (item.getId() == 0) {
-			ResultSet result = MySQLAccess.getInstance().resultQuery("SELECT MAX(id) AS id FROM " + item.table);
-
-			try {
-				if (result.next()) {
-					item.setId(result.getLong(1));
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}
-
-	@Override
-	public void update(T item) {
-		String fieldsValues = getValues(item);
-		String[] list = fieldsValues.split(",");
-		String query = "UPDATE " + item.table + " SET ";
-		int index = 0;
-		for (String elem : list) {
-			if (elem.length() == 0) {
-				continue;
-			}
-			if (index == 0) {
-				// do not update primary key id
-				index++;
-				continue;
-			}
-			String field = item.fields[index];
-			query += "`" + field + "`=" + elem + ",";
-			index++;
-		}
-		query = query.substring(0, query.length() - 1);
-		query += " WHERE id=";
-		query += item.getId();
-		query += ";";
-
-		MySQLAccess.getInstance().updateQuery(query);
-	}
-
-	@Override
-	public T getById(T item) {
-
-		ResultSet query = MySQLAccess.getInstance()
-				.resultQuery("SELECT * FROM " + item.table + " WHERE " + item.table + ".id = " + item.getId());
-		try {
-			if (query.next()) {
-				item = this.setObjectFromResultSet(query, item);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return item;
-	}
-
+	
 	@Override
 	public T setObjectFromResultSet(ResultSet resultSet, T item) {
 
@@ -431,45 +354,414 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 
 		return item;
 	}
-
+	
 	@Override
-	public void updateWithChildren(T item) {
-		update(item);
-		for (Field field : DumpFields.getFields(item.getClass())) {
-			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-				ArrayList<T> list = (ArrayList<T>) DumpFields.runGetter(field, item);
-				for (T elem : list) {
-					mapRelation(item, elem);
-					update(elem);
+	public void purgeTable(String table) {
+		MySQLAccess.getInstance().updateQuery("DELETE FROM " + table);
+	}
+	
+	@Override
+	public T getById(T item) {
+
+		ResultSet query = MySQLAccess.getInstance()
+				.resultQuery("SELECT * FROM " + item.table + " WHERE " + item.table + ".id = " + item.getId());
+		try {
+			if (query.next()) {
+				item = this.setObjectFromResultSet(query, item);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return item;
+	}
+	
+	public T getByIdFull(T item){
+		
+		DatabaseItem retour = DumpFields.createContentsEmpty(item.getClass());
+		retour = getById(item);
+		
+		Object DBmanager = new Object();
+		DBmanager = DumpFields.createContentsEmpty(DumpFields.getAssociatedDB(item));
+		((BaseDBManager) DBmanager).getAssociateObject(retour);
+		return (T) retour;
+		
+	}
+	
+	// recuperation dans une liste d'objets tout ce qu'il y a dans une table
+		@Override
+		public ArrayList<T> getAll(Class<T> clazz) {
+
+			// cr?ation d'un objet vide ? partir d'une classe
+			T item = DumpFields.createContentsEmpty(clazz);
+
+			// cr?ation d'une requete de s?lection totale de tout ce qu'il y a dans
+			// la table li?e ? cet objet
+			ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table);
+
+			// cr?ation d'une liste d'objets
+			ArrayList<T> malistedobjets = new ArrayList<T>();
+
+			try {
+				// tant que la requete a des resultats
+				while (query.next()) {
+					// cr?ation d'un objet vide ? partir d'une classe
+					T temp = DumpFields.createContentsEmpty(clazz);
+
+					// remplir la liste d'objets avec les r?sultats
+					malistedobjets.add(setObjectFromResultSet(query, temp));
 				}
-			} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-				DatabaseItem dbItem = (DatabaseItem) DumpFields.runGetter(field, item);
-				if (dbItem != null) {
-					update((T) dbItem);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			// retourne la liste d'objets
+			return malistedobjets;
+		}
+		
+		@Override
+		public void getAssociateObject(T item) {
+
+			ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+
+			// This for loop allows you to find the children fields from item's
+			// class and delete the relations.
+			for (Field field : fields) {
+				if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+					ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
+					Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
+
+					try {
+						DumpFields.getSetter(field).invoke(item,
+								getAssociatedArray(item, (DatabaseItem) DumpFields.createContentsEmpty(containedClass)));
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
+
+				} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+
+					try {
+						DumpFields.getSetter(field).invoke(item,
+								getChild(item, (DatabaseItem) DumpFields.createContentsEmpty(field.getType())));
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-	}
+		
+		@Override
+		public void insert(T item) {
 
-	public <O extends DatabaseItem> void updateChildren(T item, O sampleChild) {
+			String query = "";
 
-		// For all fields of item
-		for (Field field : DumpFields.getFields(item.getClass())) {
+			// Add list of each field name
+			// ---------------------------
+			query += "INSERT INTO " + item.table + "(";
+			int i = 0;
+			for (String fieldName : item.fields) {
+				if (i > 0)
+					query += ",";
+				query += fieldName;
+				i++;
+			}
 
-			// Search the ones whith SQLType : ASSOCIATION (ArrayList<Objects>)
-			// or DATABASE_ITEM (simple object)
-			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+			// Add each values
+			// ----------------
+			query += ") VALUES (";
+			query += this.getValues(item);
+			query += ")";
 
-				// Script simplification variable (need two "if" because not all
-				// fields are ArrayLists)
-				ArrayList<DatabaseItem> childrenList = (ArrayList<DatabaseItem>) DumpFields.runGetter(field, item);
+			MySQLAccess.getInstance().updateQuery(query);
 
-				// Choose only the "ASSOCIATION" SQLType field with the same
-				// class as O
-				if (childrenList.get(0).getClass().equals(sampleChild.getClass())) {
+			if (item.getId() == 0) {
+				ResultSet result = MySQLAccess.getInstance().resultQuery("SELECT MAX(id) AS id FROM " + item.table);
+
+				try {
+					if (result.next()) {
+						item.setId(result.getLong(1));
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+		
+		@Override
+		public void update(T item) {
+			String fieldsValues = getValues(item);
+			String[] list = fieldsValues.split(",");
+			String query = "UPDATE " + item.table + " SET ";
+			int index = 0;
+			for (String elem : list) {
+				if (elem.length() == 0) {
+					continue;
+				}
+				if (index == 0) {
+					// do not update primary key id
+					index++;
+					continue;
+				}
+				String field = item.fields[index];
+				query += "`" + field + "`=" + elem + ",";
+				index++;
+			}
+			query = query.substring(0, query.length() - 1);
+			query += " WHERE id=";
+			query += item.getId();
+			query += ";";
+
+			MySQLAccess.getInstance().updateQuery(query);
+		}
+		
+		@Override
+		public void delete(T item) {
+			// In associations tables
+			// ----------------------
+			// for (Field itemField : DumpFields.getFields(item.getClass())) {
+			//
+			// if(itemField.getAnnotation(MySQLAnnotation.class).mysqlType() ==
+			// MySQLTypes.ASSOCIATION) {
+			// String relationTableName =
+			// itemField.getAnnotation(MySQLAnnotation.class).associationTable();
+			// String fieldName =
+			// itemField.getAnnotation(MySQLAnnotation.class).fieldName();
+			//
+			// String query = "DELETE FROM " + relationTableName + " WHERE " +
+			// fieldName + " = " + item.getId();
+			// MySQLAccess.getInstance().updateQuery(query);
+			// }
+			// }
+
+			// Delete In item.table
+			// --------------------
+			String query = "DELETE FROM " + item.table + " WHERE id = " + item.getId();
+			MySQLAccess.getInstance().updateQuery(query);
+		}
+		
+		
+		
+		public <O extends DatabaseItem> void mapRelation(T item, O relation) {
+			for (Field itemField : DumpFields.getFields(item.getClass())) {
+
+				// case if item have a ASSOCIATION type
+				// ------------------------------------
+				if (itemField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+
+					// retrieve value (class) of Item Association ArrayList Type
+					// ----------------------------------------------------------
+					ParameterizedType stringListType = (ParameterizedType) itemField.getGenericType();
+					Class<?> stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+
+					// compare Association ArrayList Type with relation Class
+					// -------------------------------------------------------
+					if (stringListClass == relation.getClass()) {
+
+						String annotationTable = itemField.getAnnotation(MySQLAnnotation.class).associationTable();
+						String itemFieldName = itemField.getAnnotation(MySQLAnnotation.class).fieldName();
+
+						// find @MySQLAnnotation fieldName for object relation
+						// ----------------------------------------------------
+						for (Field relationField : DumpFields.getFields(relation.getClass()))
+
+							// case if relation have a ASSOCIATION type
+							// ----------------------------------------
+							if (relationField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+
+								// retrieve value (class) of Relation Association
+								// arrayList Type
+								// -------------------------------------------------------------
+								stringListType = (ParameterizedType) relationField.getGenericType();
+								stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+
+								// compare Association ArrayList Type with relation
+								// Class
+								// -------------------------------------------------------
+								if (stringListClass == item.getClass()) {
+									String relationFieldName = relationField.getAnnotation(MySQLAnnotation.class)
+											.fieldName();
+
+									// check existing relation in user_team table
+									// -----------------------------------------
+									String query = "";
+									query = "SELECT * FROM " + annotationTable + " WHERE " + relationFieldName + " = "
+											+ relation.getId() + " AND " + itemFieldName + " = " + item.getId();
+									ResultSet res = MySQLAccess.getInstance().resultQuery(query);
+
+									// insert relation
+									// ---------------
+									try {
+										if (!res.next()) {
+											query = "INSERT INTO " + annotationTable + " (" + itemFieldName + ","
+													+ relationFieldName + ")" + " VALUES (" + item.getId() + ","
+													+ relation.getId() + ")";
+											MySQLAccess.getInstance().updateQuery(query);
+										} else {
+											System.err.println("  Warning relation already exist between " + itemFieldName
+													+ "=" + item.getId() + " and " + relationFieldName + "="
+													+ relation.getId() + " in association table " + annotationTable);
+										}
+									} catch (SQLException e) {
+										e.printStackTrace();
+									}
+								}
+
+								// case if relation have a DATABASE_ITEM type
+								// ------------------------------------------
+							} else if (relationField.getAnnotation(MySQLAnnotation.class)
+									.mysqlType() == MySQLTypes.DATABASE_ITEM) {
+
+								if (relationField.getType() == item.getClass()) {
+									// insert relation
+									// ---------------
+									String fieldName = relationField.getAnnotation(MySQLAnnotation.class).fieldName();
+									String query = "UPDATE " + annotationTable + " SET " + fieldName + "=" + item.getId();
+									MySQLAccess.getInstance().updateQuery(query);
+								}
+							}
+					}
+
+					// case if item have a DATABASE_ITEM type
+					// --------------------------------------
+				} else if (itemField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+
+					// Find the appropriate field of DATABASE_ITEM
+					if (itemField.getType() == relation.getClass()) {
+						// insert relation
+						// ---------------
+						String fieldName = itemField.getAnnotation(MySQLAnnotation.class).fieldName();
+						String query = "UPDATE " + item.table + " SET " + fieldName + "=" + relation.getId();
+						MySQLAccess.getInstance().updateQuery(query);
+					}
+				}
+			}
+		}
+		
+		@Override
+		public void updateWithChildren(T item) {
+			update(item);
+			for (Field field : DumpFields.getFields(item.getClass())) {
+				if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+					ArrayList<T> list = (ArrayList<T>) DumpFields.runGetter(field, item);
+					for (T elem : list) {
+						mapRelation(item, elem);
+						update(elem);
+					}
+				} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+					DatabaseItem dbItem = (DatabaseItem) DumpFields.runGetter(field, item);
+					if (dbItem != null) {
+						update((T) dbItem);
+					}
+				}
+			}
+		}
+		
+		public <O extends DatabaseItem> void updateChildren(T item, O sampleChild) {
+
+			// For all fields of item
+			for (Field field : DumpFields.getFields(item.getClass())) {
+
+				// Search the ones whith SQLType : ASSOCIATION (ArrayList<Objects>)
+				// or DATABASE_ITEM (simple object)
+				if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+
+					// Script simplification variable (need two "if" because not all
+					// fields are ArrayLists)
+					ArrayList<DatabaseItem> childrenList = (ArrayList<DatabaseItem>) DumpFields.runGetter(field, item);
+
+					// Choose only the "ASSOCIATION" SQLType field with the same
+					// class as O
+					if (childrenList.get(0).getClass().equals(sampleChild.getClass())) {
+
+						// Get the className of objects in children list
+						String classSimpleName = "" + childrenList.get(0).getClass().getSimpleName();
+
+						// Fill the path of the associated DBManager
+						String classPath = "";
+						classPath += "com.tactfactory.nikoniko.manager.database.manager.";
+						classPath += classSimpleName;
+						classPath += "DBManager";
+
+						// Create an object which will become the associated
+						// DBManager
+						Object dbmanager = new Object();
+
+						try {
+
+							// Instantiate DBManager
+							Class ObjetClas = Class.forName(classPath);
+							dbmanager = DumpFields.createContentsEmpty(ObjetClas);
+
+						} catch (ClassNotFoundException e) {
+
+							// If DBManager doesn't exist, do nothing (break)
+							// Used to improve performance by preventing execution
+							// of the whole code in the try catch
+							e.printStackTrace();
+							break;
+						}
+
+						// Loop over all element of the ArrayList<children>
+						for (int i = 0; i < childrenList.size(); i++) {
+							System.out.println("child = " + childrenList.get(i).getClass());
+							// If child id is equal to 0 (i.e. : null)
+							if (childrenList.get(i).getId() == 0) {
+
+								// Insert child if not referenced in DTB
+								((BaseDBManager) dbmanager).insert(childrenList.get(i));
+
+							} else {
+
+								// Flag to see if the child already exist in DTB
+								// (false = don't exist)
+								Boolean flag = ((BaseDBManager) dbmanager).existById(childrenList.get(i));
+
+								// If child ID is not null but not already filled in
+								// DTB
+								if (flag) {
+
+									// Insert this child at the selected ID (User
+									// have to be careful with this part)
+									((BaseDBManager) dbmanager).insert(childrenList.get(i));
+
+								} else {
+
+									// Create empty query to update our child
+									String query = "";
+
+									// Enter child_table_name in the update query
+									query += "UPDATE " + childrenList.get(i).table + " SET ";
+
+									// Add all "Field = value" to the update query
+									query += ((BaseDBManager) dbmanager).getValuesForUpdate(childrenList.get(i));
+
+									// Add the child ID to the update query
+									query += " WHERE id = " + childrenList.get(i).getId();
+
+									// launch update query in dTB
+									MySQLAccess.getInstance().updateQuery(query);
+								}
+							}
+						}
+					}
+
+				} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM
+						&& field.getType().equals(sampleChild.getClass())) {
+
+					System.out.println("on rentre dans un niko");
+
+					// Script simplification variable
+					DatabaseItem child = (DatabaseItem) DumpFields.runGetter(field, item);
 
 					// Get the className of objects in children list
-					String classSimpleName = "" + childrenList.get(0).getClass().getSimpleName();
+					String classSimpleName = "" + child.getClass().getSimpleName();
 
 					// Fill the path of the associated DBManager
 					String classPath = "";
@@ -477,145 +769,194 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 					classPath += classSimpleName;
 					classPath += "DBManager";
 
-					// Create an object which will become the associated
-					// DBManager
+					// Create an object which will become the associated DBManager
 					Object dbmanager = new Object();
-
+					System.out.println("pb?");
 					try {
-
 						// Instantiate DBManager
 						Class ObjetClas = Class.forName(classPath);
 						dbmanager = DumpFields.createContentsEmpty(ObjetClas);
 
 					} catch (ClassNotFoundException e) {
-
 						// If DBManager doesn't exist, do nothing (break)
-						// Used to improve performance by preventing execution
-						// of the whole code in the try catch
+						// Used to improve performance by preventing execution of
+						// the whole code in the try catch
 						e.printStackTrace();
 						break;
 					}
 
-					// Loop over all element of the ArrayList<children>
-					for (int i = 0; i < childrenList.size(); i++) {
-						System.out.println("child = " + childrenList.get(i).getClass());
-						// If child id is equal to 0 (i.e. : null)
-						if (childrenList.get(i).getId() == 0) {
+					// If child id is equal to 0 (i.e. : null)
+					if (child.getId() == 0) {
 
-							// Insert child if not referenced in DTB
-							((BaseDBManager) dbmanager).insert(childrenList.get(i));
-
-						} else {
-
-							// Flag to see if the child already exist in DTB
-							// (false = don't exist)
-							Boolean flag = ((BaseDBManager) dbmanager).existById(childrenList.get(i));
-
-							// If child ID is not null but not already filled in
-							// DTB
-							if (flag) {
-
-								// Insert this child at the selected ID (User
-								// have to be careful with this part)
-								((BaseDBManager) dbmanager).insert(childrenList.get(i));
-
-							} else {
-
-								// Create empty query to update our child
-								String query = "";
-
-								// Enter child_table_name in the update query
-								query += "UPDATE " + childrenList.get(i).table + " SET ";
-
-								// Add all "Field = value" to the update query
-								query += ((BaseDBManager) dbmanager).getValuesForUpdate(childrenList.get(i));
-
-								// Add the child ID to the update query
-								query += " WHERE id = " + childrenList.get(i).getId();
-
-								// launch update query in dTB
-								MySQLAccess.getInstance().updateQuery(query);
-							}
-						}
-					}
-				}
-
-			} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM
-					&& field.getType().equals(sampleChild.getClass())) {
-
-				System.out.println("on rentre dans un niko");
-
-				// Script simplification variable
-				DatabaseItem child = (DatabaseItem) DumpFields.runGetter(field, item);
-
-				// Get the className of objects in children list
-				String classSimpleName = "" + child.getClass().getSimpleName();
-
-				// Fill the path of the associated DBManager
-				String classPath = "";
-				classPath += "com.tactfactory.nikoniko.manager.database.manager.";
-				classPath += classSimpleName;
-				classPath += "DBManager";
-
-				// Create an object which will become the associated DBManager
-				Object dbmanager = new Object();
-				System.out.println("pb?");
-				try {
-					// Instantiate DBManager
-					Class ObjetClas = Class.forName(classPath);
-					dbmanager = DumpFields.createContentsEmpty(ObjetClas);
-
-				} catch (ClassNotFoundException e) {
-					// If DBManager doesn't exist, do nothing (break)
-					// Used to improve performance by preventing execution of
-					// the whole code in the try catch
-					e.printStackTrace();
-					break;
-				}
-
-				// If child id is equal to 0 (i.e. : null)
-				if (child.getId() == 0) {
-
-					// Insert child if not referenced in DTB
-					((BaseDBManager) dbmanager).insert(child);
-
-				} else {
-
-					// Flag to see if the child already exist in DTB (false =
-					// don't exist)
-					Boolean flag = ((BaseDBManager) dbmanager).existById(child);
-
-					// If child ID is not null but not already filled in DTB
-					if (flag) {
-
-						// Insert this child at the selected ID (User have to be
-						// careful with this part)
+						// Insert child if not referenced in DTB
 						((BaseDBManager) dbmanager).insert(child);
 
-						// If child ID is not null and is already filled in DTB
 					} else {
 
-						// Create empty query to update our child
-						String query = "";
+						// Flag to see if the child already exist in DTB (false =
+						// don't exist)
+						Boolean flag = ((BaseDBManager) dbmanager).existById(child);
 
-						// Enter child_table_name in the update query
-						query += "UPDATE " + child.table + " SET ";
+						// If child ID is not null but not already filled in DTB
+						if (flag) {
 
-						// Add all "Field = value" to the update query
-						query += ((BaseDBManager) dbmanager).getValuesForUpdate(child);
+							// Insert this child at the selected ID (User have to be
+							// careful with this part)
+							((BaseDBManager) dbmanager).insert(child);
 
-						// Add the child ID to the update query
-						query += " WHERE id = " + child.getId();
+							// If child ID is not null and is already filled in DTB
+						} else {
 
-						System.out.println(query);
+							// Create empty query to update our child
+							String query = "";
 
-						// launch update query in dTB
-						MySQLAccess.getInstance().updateQuery(query);
+							// Enter child_table_name in the update query
+							query += "UPDATE " + child.table + " SET ";
+
+							// Add all "Field = value" to the update query
+							query += ((BaseDBManager) dbmanager).getValuesForUpdate(child);
+
+							// Add the child ID to the update query
+							query += " WHERE id = " + child.getId();
+
+							System.out.println(query);
+
+							// launch update query in dTB
+							MySQLAccess.getInstance().updateQuery(query);
+						}
 					}
 				}
 			}
 		}
-	}
+		
+
+		@Override
+		public void deleteWithChildren(T item) {
+
+			ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+
+			// This for loop allows you to find the children fields from item's
+			// class and delete the relations.
+			for (Field field : fields) {
+				if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+					ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
+					Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
+
+					deleteChildren(item, (DatabaseItem) DumpFields.createContentsEmpty(containedClass));
+
+				} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+
+					deleteChildren(item, (DatabaseItem) DumpFields.createContentsEmpty(field.getType()));
+				}
+			}
+
+			delete(item);
+		}
+		
+		
+		@Override
+		public <O extends DatabaseItem> void deleteChildren(T item, O child) {
+
+			String query = "";
+			Field fieldChild = null;
+			ArrayList<Field> fields = DumpFields.getFields(item.getClass());
+
+			// This for loop allows you to find the right field from item's class
+			// where the wanted children are
+			for (Field field : fields) {
+				if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+					ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
+					Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
+					if (containedClass == child.getClass()) {
+						fieldChild = field;
+					}
+
+				} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+					if (field.getType() == child.getClass()) {
+						fieldChild = field;
+					}
+				}
+			}
+
+			if (fieldChild.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+
+				Field fieldItem = null;
+				ArrayList<Field> fieldsItem = DumpFields.getFields(child.getClass());
+
+				// This for loop allows you to find the right field from child's
+				// class where the item is
+				for (Field field : fieldsItem) {
+					if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+						ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
+						Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
+						if (containedClass == item.getClass()) {
+							fieldItem = field;
+						}
+
+					} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+						if (field.getType() == item.getClass()) {
+							fieldItem = field;
+						}
+					}
+				}
+
+				// Case where it's a 1-N relationship (item-children)
+				if (fieldItem.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+					query = "UPDATE " + fieldChild.getAnnotation(MySQLAnnotation.class).associationTable() + " SET "
+							+ fieldItem.getAnnotation(MySQLAnnotation.class).fieldName() + "=NULL WHERE "
+							+ fieldItem.getAnnotation(MySQLAnnotation.class).fieldName() + "=" + item.getId();
+
+				}
+				// Case where it's a N-N relationship (item-children)
+				else if (fieldItem.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
+					query = "DELETE FROM " + fieldChild.getAnnotation(MySQLAnnotation.class).associationTable() + " WHERE "
+							+ fieldChild.getAnnotation(MySQLAnnotation.class).fieldName() + "=" + item.getId();
+
+				}
+
+			}
+			// Case where it's a 1-N relationship (item-child)
+			else if (fieldChild.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
+				query = "UPDATE " + item.table + " SET " + fieldChild.getAnnotation(MySQLAnnotation.class).fieldName()
+						+ "=NULL WHERE " + item.fields[0] + "=" + item.getId();
+
+			}
+
+			if (!query.equals("")) {
+				MySQLAccess.getInstance().updateQuery(query);
+			}
+		}
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	public String getValuesForUpdate(T item) {
 
@@ -785,297 +1126,17 @@ public abstract class BaseDBManager<T extends DatabaseItem> implements IDBManage
 		return query;
 	}
 
-	// recuperation dans une liste d'objets tout ce qu'il y a dans une table
-	@Override
-	public ArrayList<T> getAll(Class<T> clazz) {
+	
 
-		// cr?ation d'un objet vide ? partir d'une classe
-		T item = DumpFields.createContentsEmpty(clazz);
 
-		// cr?ation d'une requete de s?lection totale de tout ce qu'il y a dans
-		// la table li?e ? cet objet
-		ResultSet query = MySQLAccess.getInstance().resultQuery("SELECT * FROM " + item.table);
+	
 
-		// cr?ation d'une liste d'objets
-		ArrayList<T> malistedobjets = new ArrayList<T>();
+	
 
-		try {
-			// tant que la requete a des resultats
-			while (query.next()) {
-				// cr?ation d'un objet vide ? partir d'une classe
-				T temp = DumpFields.createContentsEmpty(clazz);
+	
 
-				// remplir la liste d'objets avec les r?sultats
-				malistedobjets.add(setObjectFromResultSet(query, temp));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		// retourne la liste d'objets
-		return malistedobjets;
-	}
-
-	@Override
-	public void deleteWithChildren(T item) {
-
-		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
-
-		// This for loop allows you to find the children fields from item's
-		// class and delete the relations.
-		for (Field field : fields) {
-			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-				ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
-				Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
-
-				deleteChildren(item, (DatabaseItem) DumpFields.createContentsEmpty(containedClass));
-
-			} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-
-				deleteChildren(item, (DatabaseItem) DumpFields.createContentsEmpty(field.getType()));
-			}
-		}
-
-		delete(item);
-	}
-
-	@Override
-	public void delete(T item) {
-		// In associations tables
-		// ----------------------
-		// for (Field itemField : DumpFields.getFields(item.getClass())) {
-		//
-		// if(itemField.getAnnotation(MySQLAnnotation.class).mysqlType() ==
-		// MySQLTypes.ASSOCIATION) {
-		// String relationTableName =
-		// itemField.getAnnotation(MySQLAnnotation.class).associationTable();
-		// String fieldName =
-		// itemField.getAnnotation(MySQLAnnotation.class).fieldName();
-		//
-		// String query = "DELETE FROM " + relationTableName + " WHERE " +
-		// fieldName + " = " + item.getId();
-		// MySQLAccess.getInstance().updateQuery(query);
-		// }
-		// }
-
-		// Delete In item.table
-		// --------------------
-		String query = "DELETE FROM " + item.table + " WHERE id = " + item.getId();
-		MySQLAccess.getInstance().updateQuery(query);
-	}
-
-	@Override
-	public void purgeTable(String table) {
-		MySQLAccess.getInstance().updateQuery("DELETE FROM " + table);
-	}
-
-	public <O extends DatabaseItem> void mapRelation(T item, O relation) {
-		for (Field itemField : DumpFields.getFields(item.getClass())) {
-
-			// case if item have a ASSOCIATION type
-			// ------------------------------------
-			if (itemField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-
-				// retrieve value (class) of Item Association ArrayList Type
-				// ----------------------------------------------------------
-				ParameterizedType stringListType = (ParameterizedType) itemField.getGenericType();
-				Class<?> stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
-
-				// compare Association ArrayList Type with relation Class
-				// -------------------------------------------------------
-				if (stringListClass == relation.getClass()) {
-
-					String annotationTable = itemField.getAnnotation(MySQLAnnotation.class).associationTable();
-					String itemFieldName = itemField.getAnnotation(MySQLAnnotation.class).fieldName();
-
-					// find @MySQLAnnotation fieldName for object relation
-					// ----------------------------------------------------
-					for (Field relationField : DumpFields.getFields(relation.getClass()))
-
-						// case if relation have a ASSOCIATION type
-						// ----------------------------------------
-						if (relationField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-
-							// retrieve value (class) of Relation Association
-							// arrayList Type
-							// -------------------------------------------------------------
-							stringListType = (ParameterizedType) relationField.getGenericType();
-							stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
-
-							// compare Association ArrayList Type with relation
-							// Class
-							// -------------------------------------------------------
-							if (stringListClass == item.getClass()) {
-								String relationFieldName = relationField.getAnnotation(MySQLAnnotation.class)
-										.fieldName();
-
-								// check existing relation in user_team table
-								// -----------------------------------------
-								String query = "";
-								query = "SELECT * FROM " + annotationTable + " WHERE " + relationFieldName + " = "
-										+ relation.getId() + " AND " + itemFieldName + " = " + item.getId();
-								ResultSet res = MySQLAccess.getInstance().resultQuery(query);
-
-								// insert relation
-								// ---------------
-								try {
-									if (!res.next()) {
-										query = "INSERT INTO " + annotationTable + " (" + itemFieldName + ","
-												+ relationFieldName + ")" + " VALUES (" + item.getId() + ","
-												+ relation.getId() + ")";
-										MySQLAccess.getInstance().updateQuery(query);
-									} else {
-										System.err.println("  Warning relation already exist between " + itemFieldName
-												+ "=" + item.getId() + " and " + relationFieldName + "="
-												+ relation.getId() + " in association table " + annotationTable);
-									}
-								} catch (SQLException e) {
-									e.printStackTrace();
-								}
-							}
-
-							// case if relation have a DATABASE_ITEM type
-							// ------------------------------------------
-						} else if (relationField.getAnnotation(MySQLAnnotation.class)
-								.mysqlType() == MySQLTypes.DATABASE_ITEM) {
-
-							if (relationField.getType() == item.getClass()) {
-								// insert relation
-								// ---------------
-								String fieldName = relationField.getAnnotation(MySQLAnnotation.class).fieldName();
-								String query = "UPDATE " + annotationTable + " SET " + fieldName + "=" + item.getId();
-								MySQLAccess.getInstance().updateQuery(query);
-							}
-						}
-				}
-
-				// case if item have a DATABASE_ITEM type
-				// --------------------------------------
-			} else if (itemField.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-
-				// Find the appropriate field of DATABASE_ITEM
-				if (itemField.getType() == relation.getClass()) {
-					// insert relation
-					// ---------------
-					String fieldName = itemField.getAnnotation(MySQLAnnotation.class).fieldName();
-					String query = "UPDATE " + item.table + " SET " + fieldName + "=" + relation.getId();
-					MySQLAccess.getInstance().updateQuery(query);
-				}
-			}
-		}
-	}
-
-	@Override
-	public <O extends DatabaseItem> void deleteChildren(T item, O child) {
-
-		String query = "";
-		Field fieldChild = null;
-		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
-
-		// This for loop allows you to find the right field from item's class
-		// where the wanted children are
-		for (Field field : fields) {
-			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-				ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
-				Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
-				if (containedClass == child.getClass()) {
-					fieldChild = field;
-				}
-
-			} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-				if (field.getType() == child.getClass()) {
-					fieldChild = field;
-				}
-			}
-		}
-
-		if (fieldChild.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-
-			Field fieldItem = null;
-			ArrayList<Field> fieldsItem = DumpFields.getFields(child.getClass());
-
-			// This for loop allows you to find the right field from child's
-			// class where the item is
-			for (Field field : fieldsItem) {
-				if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-					ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
-					Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
-					if (containedClass == item.getClass()) {
-						fieldItem = field;
-					}
-
-				} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-					if (field.getType() == item.getClass()) {
-						fieldItem = field;
-					}
-				}
-			}
-
-			// Case where it's a 1-N relationship (item-children)
-			if (fieldItem.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-				query = "UPDATE " + fieldChild.getAnnotation(MySQLAnnotation.class).associationTable() + " SET "
-						+ fieldItem.getAnnotation(MySQLAnnotation.class).fieldName() + "=NULL WHERE "
-						+ fieldItem.getAnnotation(MySQLAnnotation.class).fieldName() + "=" + item.getId();
-
-			}
-			// Case where it's a N-N relationship (item-children)
-			else if (fieldItem.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-				query = "DELETE FROM " + fieldChild.getAnnotation(MySQLAnnotation.class).associationTable() + " WHERE "
-						+ fieldChild.getAnnotation(MySQLAnnotation.class).fieldName() + "=" + item.getId();
-
-			}
-
-		}
-		// Case where it's a 1-N relationship (item-child)
-		else if (fieldChild.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-			query = "UPDATE " + item.table + " SET " + fieldChild.getAnnotation(MySQLAnnotation.class).fieldName()
-					+ "=NULL WHERE " + item.fields[0] + "=" + item.getId();
-
-		}
-
-		if (!query.equals("")) {
-			MySQLAccess.getInstance().updateQuery(query);
-		}
-	}
-
-	@Override
-	public void getAssociateObject(T item) {
-
-		ArrayList<Field> fields = DumpFields.getFields(item.getClass());
-
-		// This for loop allows you to find the children fields from item's
-		// class and delete the relations.
-		for (Field field : fields) {
-			if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.ASSOCIATION) {
-				ParameterizedType arrayTypes = (ParameterizedType) field.getGenericType();
-				Class<?> containedClass = (Class<?>) arrayTypes.getActualTypeArguments()[0];
-
-				try {
-					DumpFields.getSetter(field).invoke(item,
-							getAssociatedArray(item, (DatabaseItem) DumpFields.createContentsEmpty(containedClass)));
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
-
-			} else if (field.getAnnotation(MySQLAnnotation.class).mysqlType() == MySQLTypes.DATABASE_ITEM) {
-
-				try {
-					DumpFields.getSetter(field).invoke(item,
-							getChild(item, (DatabaseItem) DumpFields.createContentsEmpty(field.getType())));
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	
+	
 
 	public <O extends DatabaseItem> ArrayList<O> getAssociatedArray(T item, O child) {
 
