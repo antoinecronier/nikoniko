@@ -186,14 +186,14 @@ public class Application {
 			Project prj = new Project();
 			prj.setName("projet"+(i+1));
 			BaseDBManager<Project> dbmanager = new ProjectDBManager();
-			dbmanager.insert(prj);
+			//dbmanager.insert(prj);
 		}
 		
 		for(int i=0; i<2; i++) {
 			Team team = new Team();
 			team.setName("projet"+(i+1));
 			BaseDBManager<Team> dbmanager = new TeamDBManager();
-			dbmanager.insert(team);
+			//dbmanager.insert(team);
 		}
 
 		
@@ -220,25 +220,25 @@ public class Application {
 		niko.setProject(prj);
 		
 		BaseDBManager<NikoNiko> dbmanager = new NikoNikoDBManager();
-		dbmanager.insert(niko);
+		//dbmanager.insert(niko);
 		
 		BaseDBManager<NikoNiko> nikodbmanager = new NikoNikoDBManager();
 		//nikodbmanager.mapRelation(newNiko1, prj);
 		//nikodbmanager.mapRelation(newNiko1, usr);
 
 		BaseDBManager<Project> projectdbmanager = new ProjectDBManager();
-		projectdbmanager.mapRelation(prj, tm);
+		//projectdbmanager.mapRelation(prj, tm);
 		//projectdbmanager.mapRelation(prj, newNiko1);
 
 		BaseDBManager<User> userdbmanager = new UserDBManager();
-		userdbmanager.mapRelation(usr, tm);
+		//userdbmanager.mapRelation(usr, tm);
 		//userdbmanager.mapRelation(usr, newNiko1);
 
 		BaseDBManager<Team> teamdbmanager = new TeamDBManager();
-		teamdbmanager.mapRelation(tm, usr);
-		teamdbmanager.mapRelation(tm, prj);
+		//teamdbmanager.mapRelation(tm, usr);
+		//teamdbmanager.mapRelation(tm, prj);
 		
-System.out.println(niko.getLog_date());		
+//System.out.println(niko.getLog_date());		
 		//nikodbmanager.updateWithChildren(niko);
 		
 		//projectdbmanager.delete(prj);
