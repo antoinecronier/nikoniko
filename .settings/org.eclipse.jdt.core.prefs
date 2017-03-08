@@ -1,5 +1,9 @@
 #
+<<<<<<< HEAD
 #Wed Mar 08 14:13:51 CET 2017
+=======
+#Wed Mar 08 13:35:34 CET 2017
+>>>>>>> origin/devModif1
 org.eclipse.jdt.core.compiler.debug.localVariable=generate
 org.eclipse.jdt.core.compiler.compliance=1.8
 org.eclipse.jdt.core.compiler.codegen.unusedLocal=preserve
