@@ -123,4 +123,5 @@ public class UserTest {
 		assertTrue(model.getSex()=='M'||model.getSex()=='F'||model.getSex()=='I');
 		
 	}
+
 }
