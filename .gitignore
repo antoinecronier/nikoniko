@@ -74,3 +74,4 @@ proguard/
 .gradle/*/*
 build/
 bin/
+.settings/
