@@ -4,13 +4,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Map;
+
+import com.tactfactory.nikoniko.config.Configuration;
 
 public class MySQLAccess {
 	private Connection connect = null;
 	public static final String DATABASE = "nikoniko";
 
+	private Configuration config;
+	
 	/** Constructeur priv� */
 	private MySQLAccess() {
+		this.config = new Configuration();
 		try {
 			connectDataBase();
 		} catch (Exception e) {
@@ -31,8 +37,17 @@ public class MySQLAccess {
 		// This will load the MySQL driver, each DB has its own driver
 		Class.forName("com.mysql.jdbc.Driver");
 		// Setup the connection with the DB
+		Map<String, String> map = config.getMap();
+		String user = map.get("user");
+		if(user==null) {
+				user = "root";
+		}
+		String password = map.get("password");
+		if(password==null) {
+			password = "password";
+		}
 		connect = DriverManager
-				.getConnection("jdbc:mysql://localhost/" + DATABASE + "?" + "user=root&password=toor");
+				.getConnection("jdbc:mysql://localhost/" + DATABASE + "?" + "user="+user+"&password="+password);
 
 	}
 
