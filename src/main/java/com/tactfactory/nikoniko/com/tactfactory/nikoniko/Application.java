@@ -19,9 +19,6 @@ public class Application {
 		nikoManager.getAssociateObject(niko);
 		
 		System.out.println(niko.getProject().getName());
-		
-		
-
 	}
 
 }

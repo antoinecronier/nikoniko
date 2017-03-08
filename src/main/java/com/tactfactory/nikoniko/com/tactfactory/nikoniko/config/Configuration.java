@@ -43,8 +43,5 @@ public class Configuration {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for(String key : map.keySet()) {
-			System.out.println("key="+key + ", value=" + map.get(key));
-		}
 	}
 }

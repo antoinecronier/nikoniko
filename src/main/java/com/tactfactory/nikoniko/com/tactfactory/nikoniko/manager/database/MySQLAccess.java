@@ -44,7 +44,7 @@ public class MySQLAccess {
 		}
 		String password = map.get("password");
 		if(password==null) {
-			password = "password";
+			password = "";
 		}
 		connect = DriverManager
 				.getConnection("jdbc:mysql://localhost/" + DATABASE + "?" + "user="+user+"&password="+password);
