@@ -14,7 +14,7 @@ public class Application {
 		NikoNiko niko = new NikoNiko();
 		NikoNikoDBManager nikoManager = new NikoNikoDBManager();
 		
-		niko.setId(6);
+		niko.setId(1);
 		
 		nikoManager.getAssociateObject(niko);
 		

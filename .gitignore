@@ -1,5 +1,9 @@
 ### Custom  ###
 
+.gradle
+.project
+.classpath
+.gradle/
 
 ###  Java  ###
 
