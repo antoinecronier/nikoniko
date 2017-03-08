@@ -23,7 +23,12 @@ public abstract class DatabaseItem {
 	 *            the id to set
 	 */
 	public void setId(long id) {
-		this.id = id;
+		if (id>0){
+			this.id = id;
+		}else {
+			this.id = 0;
+		}
+		
 	}
 
 	public DatabaseItem(String table, String[] fields) {
