@@ -36,7 +36,7 @@ public class InsertsTest {
 	@Test
 	public void test() {
 		NikoNikoDBManager manager = new NikoNikoDBManager();
-		manager.insert(niko); // FIXME Doesn't works.
+		manager.insert(niko);
 		assertNotEquals(0, niko.getId());
 	}
 
