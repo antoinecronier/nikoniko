@@ -1,5 +1,6 @@
 package com.tactfactory.nikoniko.models;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.models.security.SecurityUser;
@@ -7,6 +8,10 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class User extends SecurityUser {
+
+    public static final char SEX_MALE = 'M';
+    public static final char SEX_FEMALE = 'F';
+    public static final char SEX_UNDEFINNED = 'U';
 
 	public static final String TABLE = "user";
 	public static final String[] FIELDS = { "id", "login", "password", "sex", "lastname", "firstname",
@@ -51,7 +56,15 @@ public class User extends SecurityUser {
 	 *            the sex to set
 	 */
 	public void setSex(char sex) {
-		this.sex = sex;
+	    switch (sex) {
+	    case User.SEX_MALE:
+	    case User.SEX_FEMALE:
+	    case User.SEX_UNDEFINNED:
+	        this.sex = sex;
+	        break;
+        default:
+            throw new InvalidParameterException();
+	    }
 	}
 
 	/**
