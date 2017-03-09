@@ -43,6 +43,7 @@ public class Configuration {
 		String workingDir = System.getProperty("user.dir");
 		String path = workingDir +"/"+ confFile;
 		String regex = new String("([\\w_]+)\\s*=(?:\\s*([\\w_.]+)(?:\\s*#.*)?)?");//permet les espace avant et après les =
+
 		String thisLine = null;
 		Pattern p = Pattern.compile(regex);
 
