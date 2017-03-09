@@ -29,6 +29,7 @@ public class Application {
 		manager.insert(niko);
 		System.out.println("id = "+ niko.getId());
 		
+		
 	}
 
 }
