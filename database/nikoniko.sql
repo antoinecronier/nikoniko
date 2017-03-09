@@ -1,11 +1,11 @@
 #------------------------------------------------------------
 #        Script MySQL.
 #------------------------------------------------------------
-DROP DATABASE IF EXISTS nikoniko;
+DROP DATABASE IF EXISTS nikoniko_db_name;
 
-CREATE DATABASE nikoniko;
+CREATE DATABASE nikoniko_db_name;
 
-USE nikoniko;
+USE nikoniko_db_name;
 
 
 #------------------------------------------------------------

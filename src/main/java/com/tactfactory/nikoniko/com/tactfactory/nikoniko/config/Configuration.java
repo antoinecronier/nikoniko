@@ -15,6 +15,8 @@ public class Configuration {
 
 	public static final String FILE_DEV  = "local.properties";
 	public static final String FILE_TEST = "test.properties";
+	private static final String PROPERTY_DB_NAME = "db_name";
+	private String environment = null;
 
 	public static Configuration getInstance() {
 	    return getInstance("dev");
@@ -40,6 +42,7 @@ public class Configuration {
 	    // TODO Verification du fichier de propriete (local.properties <-> local.properties.dist).
 	    // TODO Peut etre une gestion de valeur par defaut (si clef mais pas de valeur)
 	    String confFile = (environment == "test" ? FILE_TEST : FILE_DEV);
+	    this.environment = environment;
 		String workingDir = System.getProperty("user.dir");
 		String path = workingDir +"/"+ confFile;
 		String regex = new String("([\\w_]+)\\s*=(?:\\s*([\\w_.]+)(?:\\s*#.*)?)?");//permet les espace avant et après les =
@@ -65,5 +68,14 @@ public class Configuration {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getDBName() {
+		return this.getMap().get(PROPERTY_DB_NAME);
+	}
+	
+	public Boolean isTesting() {
+		
+		return this.environment == "test";
 	}
 }
