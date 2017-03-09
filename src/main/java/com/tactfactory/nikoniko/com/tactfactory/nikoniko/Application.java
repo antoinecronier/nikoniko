@@ -2,7 +2,11 @@ package com.tactfactory.nikoniko;
 
 import static org.junit.Assert.assertNotEquals;
 
+import java.sql.ResultSet;
+
+import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
+import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.User;
@@ -23,12 +27,19 @@ public class Application {
 //		nikoManager.getAssociateObject(niko);
 //		
 //		System.out.println(niko.getProject().getName());
+		char M = 'M';
+		User user = new User("titi","grominet","toto","tutu","CGI42");
+		user.setSex(M);
+		UserDBManager manager = new UserDBManager();
+		manager.insert(user);
+		System.out.println(user);
+		System.out.println(manager.getById(user));
 		
-		NikoNiko niko = new NikoNiko(new User(), new Project(), 2);
-		NikoNikoDBManager manager = new NikoNikoDBManager();
-		manager.insert(niko);
-		System.out.println("id = "+ niko.getId());
-		
+		String query = "";
+		query = "SELECT * FROM user WHERE id = 1";
+		ResultSet result = MySQLAccess.getInstance().resultQuery(query);
+		manager.setObjectFromResultSet(result, user);
+		System.out.println(user);
 	}
 
 }
