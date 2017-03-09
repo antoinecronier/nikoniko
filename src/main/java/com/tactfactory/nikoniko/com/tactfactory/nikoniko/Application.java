@@ -1,32 +1,44 @@
 package com.tactfactory.nikoniko;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
+import static org.junit.Assert.assertNotEquals;
+
 
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
+import com.tactfactory.nikoniko.models.Project;
+import com.tactfactory.nikoniko.models.User;
 
 public class Application {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Hello !");
+//		System.out.println("Hello !");
+//		
+//		// Test de getAssociateObject
+//		
+//		NikoNiko niko = new NikoNiko();
+//		NikoNikoDBManager nikoManager = new NikoNikoDBManager();
+//		
+//		niko.setId(6);
+//		
+//		nikoManager.getAssociateObject(niko);
+//		
+//		System.out.println(niko.getProject().getName());
 		
-		// Test de getAssociateObject
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 		
-		NikoNiko niko = new NikoNiko();
-		NikoNikoDBManager nikoManager = new NikoNikoDBManager();
 		
-		niko.setId(6);
 		
-		nikoManager.getAssociateObject(niko);
 		
-		System.out.println(niko.getProject().getName());
 		
-		String dateString = "1992-08-02";
-		
-		Date date = new Date(dateString);
-		
-		System.out.println(date.getDate());
 	}
 
 }

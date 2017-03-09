@@ -1,5 +1,8 @@
 package com.tactfactory.nikoniko.manager.database;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,6 +13,8 @@ import com.tactfactory.nikoniko.config.Configuration;
 
 public class MySQLAccess {
 	private Connection connect = null;
+	private static final String DB_GENERATOR_PATH = "database/nikoniko.sql";
+
 
 	/** Constructeur prive */
 	private MySQLAccess() {
@@ -82,5 +87,37 @@ public class MySQLAccess {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+	
+	public void createDatabase() {
+
+		// ouvrir fichier sql
+		String thisLine = null;
+		String query = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(MySQLAccess.DB_GENERATOR_PATH))) {
+			while ((thisLine = br.readLine()) != null) {
+				if(!thisLine.trim().startsWith("#"))
+					query += thisLine;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//while (query.indexOf("  ")>0)
+			query.replace("  ", " ");
+		System.out.println(query);		
+
+		//executer
+		Statement statement = null;
+		try {
+
+			// Statements allow to issue SQL queries to the database
+			statement = connect.createStatement();
+			// Result set get the result of the SQL query
+			statement.execute(query);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 	}
 }
