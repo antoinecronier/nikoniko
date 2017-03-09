@@ -9,7 +9,12 @@ import java.util.GregorianCalendar;
 import static org.junit.Assert.assertNotEquals;
 
 
+import java.sql.ResultSet;
+
+import com.tactfactory.nikoniko.manager.database.MySQLAccess;
+
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
+import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.User;
@@ -17,6 +22,7 @@ import com.tactfactory.nikoniko.models.User;
 public class Application {
 
 	public static void main(String[] args) {
+
 		
 //		System.out.println("Hello !");
 //		
@@ -35,10 +41,7 @@ public class Application {
 		Date date = new Date();
 		System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 		
-		
-		
-		
-		
+	
 	}
 
 }
