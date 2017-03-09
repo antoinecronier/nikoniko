@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tactfactory.nikoniko.config.Configuration;
+
 /**
  *
  */
@@ -27,6 +29,7 @@ public class NikoNikoTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        Configuration.getInstance("test");
     }
 
     /**
@@ -53,7 +56,7 @@ public class NikoNikoTest {
 
     @Test
     public void testId() throws Throwable {
-    	
+
         NikoNiko model = new NikoNiko();
         long id = 10l;
 
@@ -70,9 +73,9 @@ public class NikoNikoTest {
 
         assertEquals(id, model.getId());
         assertNotEquals(id + 1, model.getId());
-        
+
         //Third try.
-		
+
         id = -6l;
 
         model.setId(id);
@@ -83,7 +86,7 @@ public class NikoNikoTest {
 
     @Test
     public void testLogDate() {
-    	
+
         NikoNiko model = new NikoNiko();
 
         Date date = new Date(1488967948000l); // 08 mars 2017 11:12:28.
@@ -102,10 +105,10 @@ public class NikoNikoTest {
         assertEquals(12, test.get(Calendar.MINUTE));
         assertEquals(28, test.get(Calendar.SECOND));
     }
-    
+
     @Test
     public void testChangeDate() {
-    	
+
         NikoNiko model = new NikoNiko();
 
         Date date = new Date(1488967948000l); // 08 mars 2017 11:12:28.
@@ -127,7 +130,7 @@ public class NikoNikoTest {
 
     @Test
     public void testSatisfaction() {
-    	
+
         NikoNiko model = new NikoNiko();
 
         model.setSatisfaction(1);
@@ -153,29 +156,29 @@ public class NikoNikoTest {
         model.setSatisfaction(42);
         assertEquals(0, model.getSatisfaction());
     }
-    
+
     @Test
 	public void testComment() {
-		
+
 		String comment = "Mon commentaire très très intéressant";
 		model.setComment(comment);
-		
+
 		assertEquals(comment, model.getComment());
 		assertNotEquals(comment+ " ou pas...", model.getComment());
-		
+
 		//Second test.
-		
+
 		comment = "Mon commentaire très très pas intéressant";
 		model.setComment(comment);
-		
+
 		assertEquals(comment, model.getComment());
 		assertNotEquals(comment+ " ou peut être que oui", model.getComment());
-		
+
 	}
 
     @Test
     public void testIsAnonymous() {
-    	
+
         // On utilise enfin l'attribut :D.
         assertTrue(this.model.getIsAnonymous());
         assertFalse(!this.model.getIsAnonymous());
@@ -186,78 +189,78 @@ public class NikoNikoTest {
         this.model.setIsAnonymous(true);
         assertTrue(this.model.getIsAnonymous());
     }
-    
+
     @Test
     public void testUser() {
-    	
+
     	User user = new User();
     	user.setId(1);
-    	
+
     	model.setUser(user);
     	assertEquals(user, model.getUser());
-    	
+
     	User user2 = new User();
     	user2.setId(40);
     	assertNotEquals(user2, model.getUser());
-    	
+
     	model.setUser(user2);
     	assertEquals(user2, model.getUser());
     }
-    
+
     @Test
     public void testProject() {
-    	
+
     	Project project = new Project();
     	project.setId(1);
-    	
+
     	model.setProject(project);
     	assertEquals(project, model.getProject());
-    	
+
     	Project project2 = new Project();
     	project2.setId(40);
     	assertNotEquals(project2, model.getProject());
-    	
+
     	model.setProject(project2);
     	assertEquals(project2, model.getProject());
-    	
+
     }
-    
+
     @Test
     public void testSatisNikoNiko() {
-    	
+
     	User user = new User();
     	user.setId(1);
-    	
+
     	Project project = new Project();
     	project.setId(2);
-    	
+
     	int satis = 3;
-    	
+
     	NikoNiko test = new NikoNiko(user, project, satis);
-    	
+
     	assertEquals(user, test.getUser());
     	assertNotEquals(project, test.getUser());
     	assertEquals(project, test.getProject());
     	assertNotEquals(user, test.getProject());
     	assertEquals(satis, test.getSatisfaction());
     	assertNotEquals(satis-1, test.getSatisfaction());
-    	
+
     }
-    
+
     @Test
     public void testSatisComNikoNiko() {
-    	
+
     	User user = new User();
     	user.setId(1);
-    	
+
     	Project project = new Project();
     	project.setId(2);
-    	
+
     	int satis = 3;
     	String com = "Mon nouveau commentaire";
-    	
+
     	NikoNiko test = new NikoNiko(user, project, satis, com);
-    	
+
     	assertEquals(user, test.getUser());
     	assertNotEquals(project, test.getUser());
     	assertEquals(project, test.getProject());
@@ -266,23 +269,23 @@ public class NikoNikoTest {
     	assertNotEquals(satis-1, test.getSatisfaction());
     	assertEquals(com, test.getComment());
     	assertNotEquals(com+" qui est super cool!", test.getComment());
-    	
-    	
+
+
     }
-    
+
     @Test
     public void testSatisIsANikoNiko() {
     	User user = new User();
     	user.setId(1);
-    	
+
     	Project project = new Project();
     	project.setId(2);
-    	
+
     	int satis = 3;
     	boolean isA = false;
-    	
+
     	NikoNiko test = new NikoNiko(user, project, satis, isA);
-    	
+
     	assertEquals(user, test.getUser());
     	assertNotEquals(project, test.getUser());
     	assertEquals(project, test.getProject());
@@ -292,22 +295,22 @@ public class NikoNikoTest {
     	assertFalse(test.getIsAnonymous());
     	assertTrue(!test.getIsAnonymous());
     }
-    
+
     @Test
     public void testSatisComIsANikoNiko() {
-    
+
     	User user = new User();
     	user.setId(1);
-    	
+
     	Project project = new Project();
     	project.setId(2);
-    	
+
     	int satis = 3;
     	String com = "Mon nouveau commentaire";
     	boolean isA = false;
-    	
+
     	NikoNiko test = new NikoNiko(user, project, satis, com, isA);
-    	
+
     	assertEquals(user, test.getUser());
     	assertNotEquals(project, test.getUser());
     	assertEquals(project, test.getProject());
@@ -318,6 +321,6 @@ public class NikoNikoTest {
     	assertNotEquals(com+" qui est super cool!", test.getComment());
     	assertFalse(test.getIsAnonymous());
     	assertTrue(!test.getIsAnonymous());
-    	
+
     }
 }

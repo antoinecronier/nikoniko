@@ -10,13 +10,9 @@ import com.tactfactory.nikoniko.config.Configuration;
 
 public class MySQLAccess {
 	private Connection connect = null;
-	public static final String DATABASE = "nikoniko";
 
-	private Configuration config;
-
-	/** Constructeur priv� */
+	/** Constructeur prive */
 	private MySQLAccess() {
-		this.config = new Configuration();
 		try {
 			connectDataBase();
 		} catch (Exception e) {
@@ -25,10 +21,10 @@ public class MySQLAccess {
 		}
 	}
 
-	/** Instance unique pr�-initialis�e */
+	/** Instance unique pre-initialisee */
 	private static MySQLAccess INSTANCE = new MySQLAccess();
 
-	/** Point d'acc�s pour l'instance unique du singleton */
+	/** Point d'acces pour l'instance unique du singleton */
 	public static MySQLAccess getInstance() {
 		return INSTANCE;
 	}
@@ -37,12 +33,19 @@ public class MySQLAccess {
 		// This will load the MySQL driver, each DB has its own driver
 		Class.forName("com.mysql.jdbc.Driver");
 		// Setup the connection with the DB
-		Map<String, String> map = config.getMap();
+		Map<String, String> map = Configuration.getInstance().getMap();
 		String user = map.get("user");
 		String password = map.get("password");
+		String driver = map.get("db_driver");
+		String host = map.get("db_host");
+		String database = map.get("db_name");
 
-		connect = DriverManager
-				.getConnection("jdbc:mysql://localhost/" + DATABASE + "?" + "user="+user+"&password="+password);
+		String url = String.format(
+		        "jdbc:%s://%s/%s?user=%s&password=%s",
+		        driver, host, database, user, password
+        );
+
+		connect = DriverManager.getConnection(url);
 	}
 
 	public ResultSet resultQuery(String query) {

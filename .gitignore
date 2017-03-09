@@ -75,3 +75,4 @@ proguard/
 build/
 bin/
 .settings/
+test.properties

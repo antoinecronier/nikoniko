@@ -1,9 +1,11 @@
 /**
- * 
+ *
  */
 package com.tactfactory.nikoniko.models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,8 +18,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tactfactory.nikoniko.config.Configuration;
+
 public class ProjectTest {
-	
+
 	private Project model = null;
 
 	/**
@@ -25,6 +29,7 @@ public class ProjectTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+	    Configuration.getInstance("test");
 	}
 
 	/**
@@ -51,7 +56,7 @@ public class ProjectTest {
 
 	@Test
 	public void testId() throws Throwable {
-		
+
 		long id = 10l;
 
 		model.setId(id);
@@ -67,9 +72,9 @@ public class ProjectTest {
 
 		assertEquals(id, model.getId());
 		assertNotEquals(id + 1, model.getId());
-		
+
 		//Third try.
-		
+
 		id = -6l;
 
 		model.setId(id);
@@ -77,24 +82,24 @@ public class ProjectTest {
 		assertEquals(0, model.getId());
 		assertNotEquals(id, model.getId());
 	}
-	
+
 	@Test
 	public void testName() {
-		
+
 		String name = "Antoine";
 		model.setName(name);
-		
+
 		assertEquals(name, model.getName());
 		assertNotEquals("Pas_"+name, model.getName());
-		
+
 		//Second test.
-		
+
 		name = "Jonathan";
 		model.setName(name);
-		
+
 		assertEquals(name, model.getName());
 		assertNotEquals("Pas_"+name, model.getName());
-		
+
 	}
 
 	@Test
@@ -116,7 +121,7 @@ public class ProjectTest {
 		assertEquals(12, test.get(Calendar.MINUTE));
 		assertEquals(28, test.get(Calendar.SECOND));
 	}
-	
+
 	@Test
 	public void testEndDate() {
 
@@ -136,30 +141,30 @@ public class ProjectTest {
 		assertEquals(12, test.get(Calendar.MINUTE));
 		assertEquals(28, test.get(Calendar.SECOND));
 	}
-	
+
 	@Test
 	public void testNikoNikos() {
-		
+
 		ArrayList<NikoNiko> nikos = new ArrayList<NikoNiko>();
 		for (int i=0 ; i<10 ; i++){
 			NikoNiko niko = new NikoNiko();
 			niko.setId(i);
 			nikos.add(niko);
 		}
-		
+
 		model.setNikoNikos(nikos);
-		
+
 		assertArrayEquals(nikos.toArray(), model.getNikoNikos().toArray());
-		
+
 		for(int i=0 ; i<10 ; i++){
 			assertEquals(nikos.get(i), model.getNikoNikos().get(i));
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testTeams() {
-		
+
 		ArrayList<Team> teams = new ArrayList<Team>();
 		for (int i=0 ; i<10 ; i++){
 			Team team = new Team();
@@ -170,33 +175,33 @@ public class ProjectTest {
 		model.setTeams(teams);
 
 		assertArrayEquals(teams.toArray(), model.getTeams().toArray());
-		
+
 		for(int i=0 ; i<10 ; i++){
 			assertEquals(teams.get(i), model.getTeams().get(i));
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testNameStartProject(){
-		
+
 		String name = "Lucie";
 		Date startDate = new Date(1488967948000l); // 08 mars 2017 11:12:28.
-		
+
 		Project test = new Project(name, startDate);
 
 		assertEquals(startDate, test.getStart_date());
 		assertEquals(name, test.getName());
 		assertNotEquals("Pas_"+name, test.getName());
 	}
-	
+
 	@Test
 	public void testNameStartEndProject(){
-		
+
 		String name = "Félix";
 		Date startDate = new Date(1488967948000l); // 08 mars 2017 11:12:28.
 		Date endDate = new Date(1489579200000l); // 15 mars 2017 12:00:00.
-		
+
 		Project test = new Project(name, startDate,endDate);
 
 		assertEquals(startDate, test.getStart_date());
@@ -205,7 +210,7 @@ public class ProjectTest {
 		assertNotEquals(startDate, test.getEnd_date());
 		assertEquals(name, test.getName());
 		assertNotEquals("Pas_"+name, test.getName());
-		
+
 	}
 
 }
