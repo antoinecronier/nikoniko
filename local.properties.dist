@@ -1,5 +1,5 @@
 user=root
 password=toor
-database=localhost
-dbname=nikoniko
-
+db_host=localhost
+db_name=nikoniko
+db_driver=mysql

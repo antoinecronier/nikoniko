@@ -11,6 +11,23 @@ import java.util.regex.Pattern;
 public class Configuration {
 	private Map<String,String> map = new HashMap<String,String>();
 
+	private static Configuration INSTANCE = null;
+
+	public static final String FILE_DEV  = "local.properties";
+	public static final String FILE_TEST = "test.properties";
+
+	public static Configuration getInstance() {
+	    return getInstance("dev");
+    }
+
+	public static Configuration getInstance(String environment) {
+	    if (INSTANCE == null) {
+	        INSTANCE = new Configuration(environment);
+	    }
+
+	    return INSTANCE;
+	}
+
 	public Map<String, String> getMap() {
 		if (this.getMap().size() == 0) {
 			throw new InvalidParameterException("No parameters (see local.properties.dist for example).");
@@ -19,9 +36,12 @@ public class Configuration {
 		return map;
 	}
 
-	public Configuration() {
+	private Configuration(String environment) {
+	    // TODO Verification du fichier de propriete (local.properties <-> local.properties.dist).
+	    // TODO Peut etre une gestion de valeur par defaut (si clef mais pas de valeur)
+	    String confFile = (environment == "test" ? FILE_TEST : FILE_DEV);
 		String workingDir = System.getProperty("user.dir");
-		String path = workingDir+"/local.properties";
+		String path = workingDir + confFile;
 		String regex = new String("([\\w_]+)\\s*=\\s*([\\w_.]+)(?:\\s*#.*)?");//permet les espace avant et après les =
 		String thisLine = null;
 		Pattern p = Pattern.compile(regex);

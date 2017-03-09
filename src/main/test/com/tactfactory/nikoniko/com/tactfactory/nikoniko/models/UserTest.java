@@ -14,12 +14,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tactfactory.nikoniko.config.Configuration;
+
 public class UserTest {
 
 	private User model = null;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+	    Configuration.getInstance("test");
 	}
 
 	@AfterClass
