@@ -4,6 +4,8 @@
 .project
 .classpath
 .gradle/
+local.properties
+test.properties
 
 ###  Java  ###
 
