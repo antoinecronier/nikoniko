@@ -29,7 +29,7 @@ public class Configuration {
 	}
 
 	public Map<String, String> getMap() {
-		if (this.getMap().size() == 0) {
+		if (this.map != null && this.map.size() == 0) {
 			throw new InvalidParameterException("No parameters (see local.properties.dist for example).");
 		}
 
@@ -41,8 +41,8 @@ public class Configuration {
 	    // TODO Peut etre une gestion de valeur par defaut (si clef mais pas de valeur)
 	    String confFile = (environment == "test" ? FILE_TEST : FILE_DEV);
 		String workingDir = System.getProperty("user.dir");
-		String path = workingDir + confFile;
-		String regex = new String("([\\w_]+)\\s*=\\s*([\\w_.]+)(?:\\s*#.*)?");//permet les espace avant et après les =
+		String path = workingDir +"/"+ confFile;
+		String regex = new String("([\\w_]+)\\s*=(?:\\s*([\\w_.]+)(?:\\s*#.*)?)?");//permet les espace avant et après les =
 		String thisLine = null;
 		Pattern p = Pattern.compile(regex);
 
@@ -53,7 +53,13 @@ public class Configuration {
 
 				if (m.matches()) {
 					// pour chaque groupe
-					map.put(m.group(1), m.group(2));
+					String value = m.group(2);
+					
+					if (value == null) {
+						value = "";
+					}
+					
+					map.put(m.group(1), value);
 				}
 			}
 		} catch (Exception e) {
