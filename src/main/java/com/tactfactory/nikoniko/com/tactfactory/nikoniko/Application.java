@@ -19,6 +19,8 @@ import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
 import com.tactfactory.nikoniko.models.User;
 
+import generation.GenerateModels;
+
 public class Application {
 
 	public static void main(String[] args) {
@@ -37,9 +39,17 @@ public class Application {
 //		
 //		System.out.println(niko.getProject().getName());
 		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-		System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+//		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		Date date = new Date();
+//		System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+//		
+//		GenerateModels.insertUsers();
+//		GenerateModels.insertProjects();
+//		GenerateModels.insertNikoNikos();
+//		
+//		System.out.println(GenerateModels.listProjects.get(3).getStart_date());
+//		System.out.println(GenerateModels.listUsers.get(5).getLastname());
+//		System.out.println(GenerateModels.listNikoNikos.get(8).getComment());
 		
 	
 	}
