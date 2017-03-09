@@ -25,7 +25,77 @@ public class BaseDBManagerTest {
 	}
 
 	@Test
-	public void test() {
+	public void getValuesTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void setObjectFromResultSetTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void purgeTableTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void getByIdTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void getByIdFullTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void getAllTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void insertTest() {
+//		fail("Not yet implemented");
+	}
+
+	@Test
+	public void updateTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void deleteTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void mapRelationTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void getAssociateObjectTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void updateWithChildrenTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void updateChildrenTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void deleteWithChildrenTest() {
+//		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void deleteChildrenTest() {
 //		fail("Not yet implemented");
 	}
 
