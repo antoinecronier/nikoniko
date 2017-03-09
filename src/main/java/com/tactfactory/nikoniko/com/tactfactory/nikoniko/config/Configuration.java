@@ -15,6 +15,7 @@ public class Configuration {
 
 	public static final String FILE_DEV  = "local.properties";
 	public static final String FILE_TEST = "test.properties";
+	private static final String PROPERTY_DB_NAME = "db_name";
 
 	public static Configuration getInstance() {
 	    return getInstance("dev");
@@ -32,7 +33,6 @@ public class Configuration {
 		if (this.map != null && this.map.size() == 0) {
 			throw new InvalidParameterException("No parameters (see local.properties.dist for example).");
 		}
-
 		return map;
 	}
 
@@ -65,5 +65,9 @@ public class Configuration {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getDBName() {
+		return this.getMap().get(PROPERTY_DB_NAME);
 	}
 }

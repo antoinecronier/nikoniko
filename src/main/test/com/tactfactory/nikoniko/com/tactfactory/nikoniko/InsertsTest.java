@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tactfactory.nikoniko.config.Configuration;
+import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.NikoNikoDBManager;
 import com.tactfactory.nikoniko.models.NikoNiko;
 import com.tactfactory.nikoniko.models.Project;
@@ -18,6 +20,9 @@ public class InsertsTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		Configuration.getInstance("test");
+		System.out.println("database=" + Configuration.getInstance("test").getDBName());
+		MySQLAccess.getInstance().createDatabase();
 	}
 
 	@AfterClass
@@ -35,6 +40,8 @@ public class InsertsTest {
 
 	@Test
 	public void test() {
+		MySQLAccess.getInstance().createDatabase();
+		System.exit(1);
 		NikoNikoDBManager manager = new NikoNikoDBManager();
 		manager.insert(niko);
 		assertNotEquals(0, niko.getId());
