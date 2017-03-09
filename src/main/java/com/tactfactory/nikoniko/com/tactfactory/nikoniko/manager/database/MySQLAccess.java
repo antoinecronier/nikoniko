@@ -13,7 +13,7 @@ public class MySQLAccess {
 	public static final String DATABASE = "nikoniko";
 
 	private Configuration config;
-	
+
 	/** Constructeur priv� */
 	private MySQLAccess() {
 		this.config = new Configuration();
@@ -39,13 +39,8 @@ public class MySQLAccess {
 		// Setup the connection with the DB
 		Map<String, String> map = config.getMap();
 		String user = map.get("user");
-		if(user==null) {
-				user = "root";
-		}
 		String password = map.get("password");
-		if(password==null) {
-			password = "password";
-		}
+
 		connect = DriverManager
 				.getConnection("jdbc:mysql://localhost/" + DATABASE + "?" + "user="+user+"&password="+password);
 	}

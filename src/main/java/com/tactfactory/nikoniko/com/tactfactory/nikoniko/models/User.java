@@ -1,5 +1,7 @@
 package com.tactfactory.nikoniko.models;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
 import com.tactfactory.nikoniko.models.security.SecurityUser;
@@ -7,7 +9,10 @@ import com.tactfactory.nikoniko.utils.mysql.MySQLAnnotation;
 import com.tactfactory.nikoniko.utils.mysql.MySQLTypes;
 
 public class User extends SecurityUser {
-
+    public final static char SEX_UNDEFINNED='U';
+    public final static char SEX_MALE='M';
+    public final static char SEX_FEMALE='F';
+	
 	public static final String TABLE = "user";
 	public static final String[] FIELDS = { "id", "login", "password", "sex", "lastname", "firstname",
 			"registration_cgi" };

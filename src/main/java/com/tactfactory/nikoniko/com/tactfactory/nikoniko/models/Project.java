@@ -117,6 +117,8 @@ public class Project extends DatabaseItem {
 		this.name = name;
 		this.start_date = start_date;
 		this.end_date = end_date;
+		this.teams = new ArrayList<Team>();
+		this.nikoNikos = new ArrayList<NikoNiko>();
 	}
 
 	public Project() {
