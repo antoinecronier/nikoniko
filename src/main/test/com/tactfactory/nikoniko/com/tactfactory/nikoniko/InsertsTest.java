@@ -20,9 +20,10 @@ public class InsertsTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Configuration.getInstance("test");
-		System.out.println("database=" + Configuration.getInstance("test").getDBName());
-		MySQLAccess.getInstance().createDatabase();
+		//Configuration.getInstance("test");
+		//System.out.println("database=" + Configuration.getInstance("test").getDBName());
+		
+		//MySQLAccess.getInstance().createDatabase();
 	}
 
 	@AfterClass

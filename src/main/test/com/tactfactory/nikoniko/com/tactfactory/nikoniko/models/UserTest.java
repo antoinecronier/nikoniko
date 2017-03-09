@@ -22,7 +22,7 @@ public class UserTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-	    Configuration.getInstance("test");
+	    //Configuration.getInstance("test");
 	}
 
 	@AfterClass

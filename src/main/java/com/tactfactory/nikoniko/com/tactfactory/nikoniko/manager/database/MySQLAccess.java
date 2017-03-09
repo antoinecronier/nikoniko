@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
+import java.util.Properties;
 
 import com.tactfactory.nikoniko.config.Configuration;
 
@@ -49,15 +51,21 @@ public class MySQLAccess {
 		        "jdbc:%s://%s/%s?user=%s&password=%s",
 		        driver, host, database, user, password
         );
+		
+		Properties props = new Properties();
+		props.setProperty("allowMultiQueries", "true");
 
-		connect = DriverManager.getConnection(url);
+		connect = DriverManager.getConnection(url,props);
 	}
+	
+	
 
 	public ResultSet resultQuery(String query) {
 		ResultSet resultSet = null;
 		Statement statement = null;
 		try {
 
+			
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 			// Result set get the result of the SQL query
@@ -88,7 +96,7 @@ public class MySQLAccess {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createDatabase() {
 
 		// ouvrir fichier sql
@@ -103,21 +111,70 @@ public class MySQLAccess {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//while (query.indexOf("  ")>0)
-			query.replace("  ", " ");
-		System.out.println(query);		
+		query = query.replaceAll("nikoniko_db_name", "test_nikoniko");
+		while(query.indexOf("  ")>0)
+			query = query.replaceAll("  ", " ");
+		query = query.replaceAll(";", ";\n");
+		
+		
+		query = query.replaceAll("USE test_nikoniko;", "");
+		query = query.replaceAll("DROP DATABASE IF EXISTS test_nikoniko;", "");
+		query = query.replaceAll("CREATE DATABASE test_nikoniko;", "");
+		
+		Connection connection = null;
+		System.out.println("test de connection");
 
-		//executer
-		Statement statement = null;
+		  Properties props = new Properties();
+		  props.setProperty("allowMultiQueries", "true");
+		
+		
 		try {
-
+			connection = DriverManager.getConnection("jdbc:mysql://localhost?user=root&password",props);
+			System.out.println("connection test réussie");
+		} catch (SQLException e1) {
+			System.out.println("pas de connection test");
+			e1.printStackTrace();
+		}
+		try {
+			Statement statement = connection.createStatement();
 			// Statements allow to issue SQL queries to the database
-			statement = connect.createStatement();
+			//statement = connection.createStatement();
 			// Result set get the result of the SQL query
-			statement.execute(query);
+			System.out.println("->"+ query);		
+			statement.execute("DROP DATABASE IF EXISTS test_nikoniko; CREATE DATABASE test_nikoniko;");
+			connection.close();
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+
+		connection = null;
+		
+		//MySQLAccess.getInstance().updateQuery(query);
+		
+		try {
+			System.out.println("test de connection2");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/test_nikoniko?user=root&password=",props);
+			System.out.println("connection test réussie");
+		} catch (SQLException e1) {
+			System.out.println("pas de connection test");
+			e1.printStackTrace();
+		}
+		try {
+			Statement statement = connection.createStatement();
+			
+			// Statements allow to issue SQL queries to the database
+			//statement = connection.createStatement();
+			// Result set get the result of the SQL query
+			System.out.println(query);		
+			statement.execute(query);
+			connection.close();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
 
 	}
 }
