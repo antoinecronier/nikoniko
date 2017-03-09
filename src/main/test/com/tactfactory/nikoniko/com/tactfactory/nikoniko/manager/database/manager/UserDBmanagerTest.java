@@ -1,4 +1,4 @@
-package com.tactfactory.nikoniko.models;
+package com.tactfactory.nikoniko.manager.database.manager;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.tactfactory.nikoniko.manager.database.MySQLAccess;
 import com.tactfactory.nikoniko.manager.database.manager.UserDBManager;
+import com.tactfactory.nikoniko.models.User;
 import com.tactfactory.nikoniko.utils.DumpFields;
 
 public class UserDBmanagerTest {
