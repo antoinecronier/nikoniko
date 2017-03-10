@@ -94,12 +94,12 @@ public class MySQLAccess {
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 			// open input stream test.txt for reading purpose.
 			while ((thisLine = br.readLine()) != null && !thisLine.trim().startsWith("USE ")) {
-				//condition pour supprimer les commentaires de la query (!!! uniqument # ici)
+				//condition pour supprimer les commentaires de la query (!!! uniqument des # ici)
 				if (!thisLine.trim().startsWith("#") && !thisLine.trim().startsWith("USE ")) {
+					
 					createQuery += thisLine;
 				}
 			}
-			
 			while ((thisLine = br.readLine()) != null) {
 				//condition pour supprimer les commentaires de la query (!!! uniqument # ici)
 				if (!thisLine.trim().startsWith("#")) {
@@ -112,22 +112,22 @@ public class MySQLAccess {
 				
 		String dbName = Configuration.getInstance().getDBName();
 		createQuery = createQuery.replaceAll("nikoniko_db_name;",dbName+";");
-//		createQuery = createQuery.replaceAll(";", ";\n");
-		sqlTables = sqlTables.replaceAll(";", ";\n");
-		
-System.out.println(createQuery);
-		//Test is running
+				
+		//A test is running
 		if (Configuration.getInstance().isTesting()) {
 			try (Connection connection = this.createDBConnexion(false)) {
 				if (this.connect != null) {
 					this.connect.close();
 					this.connect = null;
 				}
+
 				Statement statement = connection.createStatement();
-				statement.executeUpdate(createQuery); // drop & create DTB
+				for (String query : createQuery.split(";")) {
+					statement.executeUpdate(query); // drop & create DTB
+				}
 				statement.close();
 				
-			} catch (ClassNotFoundException | SQLException e) {
+			} catch (SQLException e) {
 				
 				e.printStackTrace();
 				
@@ -135,34 +135,26 @@ System.out.println(createQuery);
 				this.connectDataBase();
 				
 				Statement statement = this.connect.createStatement();
-				statement.execute(createQuery);
+				for (String query : sqlTables.split(";")) {
+					statement.addBatch(query);
+				}
+				statement.executeBatch();
 				statement.close();
 			}
 		}
-		
-		//#################################################################
-		
-//		//executer en faisant le remplacement (chercher db_name pour cela)
-//		try {
-//			// Statements allow to issue SQL queries to the database
-//			statement = connect.createStatement();
-//			// Result set get the result of the SQL query
-//			result = statement.execute(query);
-//		}
-//
-//		catch (Exception e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//		}
-		
 	}
 	
 	
-	private Connection createDBConnexion(Boolean onDatabase) throws ClassNotFoundException, SQLException {
-		Connection connection;
+	private Connection createDBConnexion(Boolean onDatabase) {
+		Connection connection = null;
 		
 		// This will load the MySQL driver, each DB has its own driver
-		Class.forName("com.mysql.jdbc.Driver");
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// Setup the connection with the DB
 		Map<String, String> map = Configuration.getInstance().getMap();
 		String user = map.get("user");
@@ -173,15 +165,23 @@ System.out.println(createQuery);
 		String url = null;
 		
 		if (onDatabase) {
+			
 			String database = map.get("db_name");
 			url = String.format("jdbc:%s://%s/%s?user=%s&password=%s",
 			        driver, host, database, user, password);
 		} else {
+			
 			url = String.format("jdbc:%s://%s?user=%s&password=%s",
 			        driver, host, user, password);
 		}
 		
-		connection = DriverManager.getConnection(url);
+		try {
+			connection = DriverManager.getConnection(url);
+						
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
 		
 		return connection;
 	}
