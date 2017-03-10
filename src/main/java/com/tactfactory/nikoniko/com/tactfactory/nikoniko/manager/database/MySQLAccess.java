@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Matcher;
 
 import com.tactfactory.nikoniko.config.Configuration;
@@ -122,9 +123,7 @@ public class MySQLAccess {
 				}
 
 				Statement statement = connection.createStatement();
-				for (String query : createQuery.split(";")) {
-					statement.executeUpdate(query); // drop & create DTB
-				}
+				statement.executeUpdate(createQuery); // drop & create DTB
 				statement.close();
 				
 			} catch (SQLException e) {
@@ -135,10 +134,7 @@ public class MySQLAccess {
 				this.connectDataBase();
 				
 				Statement statement = this.connect.createStatement();
-				for (String query : sqlTables.split(";")) {
-					statement.addBatch(query);
-				}
-				statement.executeBatch();
+				statement.execute(sqlTables); //create tables
 				statement.close();
 			}
 		}
@@ -175,8 +171,11 @@ public class MySQLAccess {
 			        driver, host, user, password);
 		}
 		
+		Properties props = new Properties();
+		props.setProperty("allowMultiQueries", "true");
+		
 		try {
-			connection = DriverManager.getConnection(url);
+			connection = DriverManager.getConnection(url, props);
 						
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
