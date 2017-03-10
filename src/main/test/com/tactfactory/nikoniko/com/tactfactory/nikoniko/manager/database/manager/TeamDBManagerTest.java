@@ -206,7 +206,7 @@ public class TeamDBManagerTest {
 
 		manager.mapRelation(item, user);
 		ResultSet query = MySQLAccess.getInstance()
-				.resultQuery("SELECT * FROM user_team WHERE User_id = " + user.getId() + "AND Team_id=" + item.getId());
+				.resultQuery("SELECT * FROM user_team WHERE id_user = " + user.getId() + " AND id_team = " + item.getId());
 
 		try {
 			assertTrue(query.first());
@@ -220,9 +220,9 @@ public class TeamDBManagerTest {
 
 		pManager.insert(project);
 
-		manager.mapRelation(item, user);
+		manager.mapRelation(item, project);
 		query = MySQLAccess.getInstance().resultQuery(
-				"SELECT * FROM team_project WHERE Project_id = " + project.getId() + "AND Team_id=" + item.getId());
+				"SELECT * FROM team_project WHERE id_project = " + project.getId() + " AND id_team = " + item.getId());
 
 		try {
 			assertTrue(query.first());

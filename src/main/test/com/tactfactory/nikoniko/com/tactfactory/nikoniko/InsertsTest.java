@@ -45,7 +45,7 @@ public class InsertsTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.exit(1);
+
 		NikoNikoDBManager manager = new NikoNikoDBManager();
 		manager.insert(niko);
 		assertNotEquals(0, niko.getId());

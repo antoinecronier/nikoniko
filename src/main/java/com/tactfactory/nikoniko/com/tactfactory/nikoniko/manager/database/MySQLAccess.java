@@ -17,16 +17,16 @@ import com.tactfactory.nikoniko.config.Configuration;
 public class MySQLAccess {
 	private Connection connect = null;
 
-	private static final String DB_GENERATOR_PATH = "database/nikoniko.sql";
+	private static final String DB_GENERATOR_PATH = "/database/nikoniko.sql";
 
 	/** Constructeur prive */
 	private MySQLAccess() {
 		try {
 			if (Configuration.getInstance().isTesting()) {
-				
+
 				createDatabase();
 			}
-			
+
 			connectDataBase();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -46,7 +46,7 @@ public class MySQLAccess {
 		if (this.connect == null) {
 			this.connect = this.createDBConnexion(true);
 		}
-		
+
 	}
 
 	public ResultSet resultQuery(String query) {
@@ -84,7 +84,7 @@ public class MySQLAccess {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	public void createDatabase() throws Exception{
 		String sqlTables = "";
@@ -93,14 +93,14 @@ public class MySQLAccess {
 		String workingDir = System.getProperty("user.dir");
 		String path = workingDir + MySQLAccess.DB_GENERATOR_PATH;
 		int result = 0;
-		
+
 		//Store query from text file to string "query"
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 			// open input stream test.txt for reading purpose.
 			while ((thisLine = br.readLine()) != null && !thisLine.trim().startsWith("USE ")) {
 				//condition pour supprimer les commentaires de la query (!!! uniqument des # ici)
 				if (!thisLine.trim().startsWith("#") && !thisLine.trim().startsWith("USE ")) {
-					
+
 					createQuery += thisLine;
 				}
 			}
@@ -113,10 +113,10 @@ public class MySQLAccess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				
+
 		String dbName = Configuration.getInstance().getDBName();
 		createQuery = createQuery.replaceAll("nikoniko_db_name;",dbName+";");
-				
+
 		//A test is running
 		if (Configuration.getInstance().isTesting()) {
 			try (Connection connection = this.createDBConnexion(false)) {
@@ -128,25 +128,25 @@ public class MySQLAccess {
 				Statement statement = connection.createStatement();
 				statement.executeUpdate(createQuery); // drop & create DTB
 				statement.close();
-				
+
 			} catch (SQLException e) {
-				
+
 				e.printStackTrace();
-				
+
 			} finally {
 				this.connectDataBase();
-				
+
 				Statement statement = this.connect.createStatement();
 				statement.execute(sqlTables); //create tables
 				statement.close();
 			}
 		}
 	}
-	
-	
+
+
 	private Connection createDBConnexion(Boolean onDatabase) {
 		Connection connection = null;
-		
+
 		// This will load the MySQL driver, each DB has its own driver
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -162,29 +162,29 @@ public class MySQLAccess {
 		String host = map.get("db_host");
 
 		String url = null;
-		
+
 		if (onDatabase) {
-			
+
 			String database = map.get("db_name");
 			url = String.format("jdbc:%s://%s/%s?user=%s&password=%s",
 			        driver, host, database, user, password);
 		} else {
-			
+
 			url = String.format("jdbc:%s://%s?user=%s&password=%s",
 			        driver, host, user, password);
 		}
-		
+
 		Properties props = new Properties();
 		props.setProperty("allowMultiQueries", "true");
-		
+
 		try {
 			connection = DriverManager.getConnection(url, props);
-						
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
-		
+
 		return connection;
 	}
 }
