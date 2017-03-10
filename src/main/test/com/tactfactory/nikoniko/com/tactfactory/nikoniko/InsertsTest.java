@@ -21,7 +21,6 @@ public class InsertsTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Configuration.getInstance("test");
-		System.out.println("database=" + Configuration.getInstance("test").getDBName());
 		MySQLAccess.getInstance().createDatabase();
 	}
 
@@ -40,7 +39,12 @@ public class InsertsTest {
 
 	@Test
 	public void test() {
-		MySQLAccess.getInstance().createDatabase();
+		try {
+			MySQLAccess.getInstance().createDatabase();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.exit(1);
 		NikoNikoDBManager manager = new NikoNikoDBManager();
 		manager.insert(niko);
